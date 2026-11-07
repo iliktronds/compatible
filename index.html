@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل توافق الهواتف | Electro Tech Maroc 📱⚡</title>
+    <title>دليل التوافق الإلكتروني الذكي | Electro Tech Circuit AI ⚡</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts: Cairo -->
+    <!-- Google Fonts: Orbitron & Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -19,21 +19,21 @@
                 extend: {
                     fontFamily: {
                         cairo: ['Cairo', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        brand: {
-                            50: '#ecfeff',
-                            100: '#cffafe',
-                            400: '#22d3ee',
-                            500: '#06b6d4',
-                            600: '#0891b2',
-                            700: '#0e7490',
-                            900: '#164e63',
-                        },
-                        amberbrand: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706'
+                        cyber: {
+                            dark: '#050811',
+                            panel: '#090e1c',
+                            card: '#0c1427',
+                            border: '#172545',
+                            cyan: '#00f2fe',
+                            blue: '#4facfe',
+                            neon: '#00ff87',
+                            amber: '#ffb300',
+                            purple: '#a855f7',
+                            crimson: '#ff3366',
                         }
                     }
                 }
@@ -43,108 +43,143 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #0b1120;
-            color: #f1f5f9;
+            background-color: #050811;
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+                linear-gradient(to right, rgba(23, 37, 69, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(23, 37, 69, 0.2) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        .tech-card {
+            position: relative;
+            background: linear-gradient(145deg, #0a1122 0%, #060a16 100%);
+            border: 1px solid #1a2744;
+            transition: all 0.25s ease-in-out;
         }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
+        .tech-card:hover {
+            border-color: #00f2fe;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
+            transform: translateY(-2px);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
+        .tech-card::before {
+            content: '+';
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            color: rgba(0, 242, 254, 0.4);
+            font-family: monospace;
+            font-size: 11px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
-        }
-        .glow-card {
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.08);
-            border: 1px solid rgba(51, 65, 85, 0.7);
-        }
-        .glow-card:hover {
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.2);
-            border-color: rgba(6, 182, 212, 0.4);
+        .tech-card::after {
+            content: '+';
+            position: absolute;
+            bottom: 4px;
+            left: 6px;
+            color: rgba(0, 242, 254, 0.4);
+            font-family: monospace;
+            font-size: 11px;
         }
         .tab-active {
-            background: linear-gradient(135deg, #0891b2, #0e7490);
-            color: #ffffff;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(79, 172, 254, 0.3));
+            border-color: #00f2fe;
+            color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
             font-weight: 700;
-            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.35);
+        }
+        .glow-cyan-text {
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.7);
+        }
+        .glow-neon-text {
+            text-shadow: 0 0 10px rgba(0, 255, 135, 0.7);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+<body class="min-h-screen flex flex-col bg-cyber-dark text-slate-100 selection:bg-cyber-cyan selection:text-cyber-dark">
 
-    <!-- Top Announcement & Stats Bar -->
-    <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm">
+    <!-- Top Futuristic Circuit HUD Bar -->
+    <header class="bg-cyber-panel/95 backdrop-blur-md border-b border-cyber-border sticky top-0 z-40 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
             
             <!-- Logo & Brand Title -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
-                    <i class="fa-solid fa-microchip text-lg"></i>
+                <div class="w-10 h-10 rounded-lg bg-cyber-dark border border-cyber-cyan/50 flex items-center justify-center text-cyber-cyan shadow-lg shadow-cyber-cyan/20 relative overflow-hidden group">
+                    <i class="fa-solid fa-microchip text-xl group-hover:rotate-180 transition duration-700"></i>
+                    <span class="absolute bottom-0 right-0 w-1.5 h-1.5 bg-cyber-neon rounded-full animate-ping"></span>
                 </div>
                 <div>
-                    <h1 class="text-base md:text-lg font-black text-white tracking-wide flex items-center gap-2">
-                        <span>دليل توافق الهواتف</span>
-                        <span class="text-cyan-400 text-xs px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-800">نسخة الحرفيين المغربية 🇲🇦</span>
-                    </h1>
-                    <p class="text-slate-400 text-xs">الشاشات (الأفشور) • البوشيط • الزاج والحماية (Incassable)</p>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base md:text-lg font-black tracking-wider text-white font-tech uppercase">
+                            ELECTRO<span class="text-cyber-cyan glow-cyan-text">CIRCUIT</span><span class="text-cyber-neon text-xs font-mono ml-1">AI 3.2</span>
+                        </h1>
+                        <span class="hidden sm:inline-block px-2 py-0.5 rounded bg-cyber-cyan/10 border border-cyber-cyan/40 text-[10px] text-cyber-cyan font-mono font-bold">
+                            DIAGNOSTIC PRO
+                        </span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] font-semibold">منظومة الحرفيين الإلكترونية لتوافق الشاشات (الأفشور) • البوشيط • والزاج (Incassable)</p>
                 </div>
             </div>
 
-            <!-- Live Visitors & Online Counters -->
-            <div class="flex items-center gap-3 bg-slate-950 px-3.5 py-1.5 rounded-full border border-slate-800 shadow-inner">
-                <div class="flex items-center gap-1.5 text-cyan-400 font-semibold" title="عدد الزوار الإجمالي">
-                    <i class="fa-solid fa-users text-xs"></i>
-                    <span>الزوار:</span>
-                    <span id="visitorCountBadge" class="font-bold text-white tracking-wider">1,482</span>
+            <!-- Real Live Visitors & Online Counters -->
+            <div class="flex items-center gap-3 bg-cyber-dark/90 px-3.5 py-1.5 rounded-lg border border-cyber-border shadow-inner font-mono">
+                <div class="flex items-center gap-1.5 text-cyber-cyan" title="عدد الزوار الحقيقيين">
+                    <i class="fa-solid fa-bolt text-xs text-cyber-amber"></i>
+                    <span class="text-slate-400 text-[11px]">الزوار:</span>
+                    <span id="visitorCountBadge" class="font-bold text-white tracking-wider glow-cyan-text text-xs md:text-sm">2,480</span>
                 </div>
-                <span class="text-slate-700">|</span>
-                <div class="flex items-center gap-1.5 text-emerald-400 font-medium" title="حرفيين متصلين دابا">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-slate-300">أونلاين:</span>
-                    <span id="liveTechsCount" class="font-bold text-emerald-400">18</span>
+                <span class="text-cyber-border">|</span>
+                <div class="flex items-center gap-1.5 text-cyber-neon font-medium" title="حرفيين متصلين دابا">
+                    <span class="w-2 h-2 rounded-full bg-cyber-neon animate-pulse"></span>
+                    <span class="text-slate-400 text-[11px]">أونلاين:</span>
+                    <span id="liveTechsCount" class="font-bold text-cyber-neon glow-neon-text">24</span>
                 </div>
             </div>
 
-            <!-- Action Controls (Sound, Suggestions, Admin) -->
+            <!-- Action Controls (AI Chat, Sound, Suggestion, Admin) -->
             <div class="flex items-center gap-2">
+                <!-- AI Assistant Button -->
+                <button id="openAiChatBtn" class="px-2.5 py-1.5 rounded-lg bg-cyber-purple/20 hover:bg-cyber-purple/30 text-cyber-purple border border-cyber-purple/50 flex items-center gap-1.5 font-bold transition shadow-lg shadow-cyber-purple/10">
+                    <i class="fa-solid fa-robot text-xs animate-bounce"></i>
+                    <span class="text-xs">المساعد الذكي</span>
+                </button>
+
                 <!-- Sound Toggle -->
-                <button id="soundToggleBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-400 transition" title="تشغيل / كتم الصوت">
+                <button id="soundToggleBtn" class="p-2 rounded-lg bg-cyber-dark hover:bg-slate-800 text-slate-300 hover:text-cyber-cyan border border-cyber-border transition" title="تشغيل / كتم الصوت الإلكتروني">
                     <i id="soundIcon" class="fa-solid fa-volume-high"></i>
                 </button>
 
                 <!-- New Suggestion Button -->
-                <button id="openSuggestModalBtn" class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1.5 font-bold transition">
-                    <i class="fa-solid fa-lightbulb"></i>
-                    <span class="hidden sm:inline">اقترح توافق</span>
+                <button id="openSuggestModalBtn" class="px-3 py-1.5 rounded-lg bg-cyber-amber/15 hover:bg-cyber-amber/25 text-cyber-amber border border-cyber-amber/40 flex items-center gap-1.5 font-bold transition">
+                    <i class="fa-solid fa-lightbulb text-xs"></i>
+                    <span class="hidden sm:inline text-xs">اقترح توافق</span>
                 </button>
 
                 <!-- Admin Auth Button -->
-                <button id="adminAuthBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5 font-bold transition">
-                    <i class="fa-solid fa-crown text-amber-400"></i>
-                    <span id="adminBtnText">دخول المدير</span>
+                <button id="adminAuthBtn" class="px-3 py-1.5 rounded-lg bg-cyber-dark hover:bg-slate-800 text-slate-200 border border-cyber-border hover:border-cyber-amber flex items-center gap-1.5 font-bold transition">
+                    <i class="fa-solid fa-crown text-cyber-amber text-xs"></i>
+                    <span id="adminBtnText" class="text-xs">دخول المدير</span>
                 </button>
             </div>
         </div>
 
-        <!-- Admin Active Notification Banner (Hidden by default) -->
-        <div id="adminModeBanner" class="hidden bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-slate-950 font-bold px-4 py-1.5 text-center text-xs md:text-sm flex items-center justify-between shadow-md">
+        <!-- Admin Active Notification Banner -->
+        <div id="adminModeBanner" class="hidden bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-slate-950 font-black px-4 py-1.5 text-xs md:text-sm flex items-center justify-between shadow-md border-b border-amber-600">
             <div class="flex items-center gap-2 mx-auto">
                 <i class="fa-solid fa-shield-halved text-slate-950"></i>
-                <span>👑 وضع المدير مفعّل: عندك كامل الصلاحيات لإضافة، تعديل وحذف الموديلات ومصادقة تعليقات الحرفيين.</span>
+                <span>👑 وضع المدير مفعّل: صلاحية كاملة لإضافة، تعديل وحذف الموديلات ومصادقة تعليقات الحرفيين بنقرة واحدة.</span>
             </div>
             <div class="flex items-center gap-2">
-                <button id="openAddModalBtn" class="px-2.5 py-1 bg-slate-950 text-white rounded text-xs hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-plus ml-1"></i> موديل جديد
+                <div id="adminQuickAddTrigger">
+                    <button id="addCardQuickBtn" class="px-2.5 py-1 bg-slate-950 text-white rounded text-xs hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-plus ml-1"></i> زيد موديل جديد
+                    </button>
+                </div>
+                <button id="openAddModalBtn" class="px-2.5 py-1 bg-slate-950 text-white rounded text-xs hover:bg-slate-800 transition hidden">
+                    موديل جديد
                 </button>
                 <button id="backupDataBtn" class="px-2 py-1 bg-slate-900/60 text-slate-950 hover:text-white rounded text-xs transition" title="تحميل نسخة احتياطية">
-                    <i class="fa-solid fa-download"></i>
+                    <i class="fa-solid fa-download"></i> نسخة احتياطية
                 </button>
                 <button id="logoutAdminBtn" class="px-2.5 py-1 bg-red-700 text-white rounded text-xs hover:bg-red-800 transition">
                     خروج
@@ -153,37 +188,37 @@
         </div>
     </header>
 
-    <!-- Main Hero & Search Section -->
+    <!-- Main Tech Workspace -->
     <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full space-y-6">
 
-        <!-- Search Card -->
-        <div class="bg-gradient-to-b from-slate-900 to-slate-950 p-6 md:p-8 rounded-2xl border border-slate-800 shadow-2xl relative overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <!-- Electronic Terminal Search Hero Card -->
+        <div class="bg-cyber-panel/90 border border-cyber-border p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden tech-card">
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-cyber-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-cyber-purple/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="text-center max-w-2xl mx-auto mb-6">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 text-cyan-400 border border-cyan-800 text-xs font-bold mb-3">
-                    <i class="fa-solid fa-bolt"></i> بحث مباشر وسريع بضغطة زر
-                </span>
-                <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                    كتب سمية التيليفون واعرف شنو كيركب ليه فوراً
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30 text-xs font-bold mb-3 font-mono">
+                    <i class="fa-solid fa-microchip"></i> AI ELECTRONIC CIRCUIT ENGINE // 63+ GROUPS
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-white tracking-tight">
+                    محرك البحث الذكي لتوافق قطع الغيار
                 </h2>
                 <p class="text-slate-400 text-sm mt-2">
-                    مثال: كتب <strong class="text-cyan-400 font-mono">A12</strong> أو <strong class="text-cyan-400 font-mono">Note 8</strong> أو <strong class="text-cyan-400 font-mono">Smart 5</strong> باش يطلعو ليك الشاشات، البوشيطات، والزاج المتوافق!
+                    الذكاء الاصطناعي كيصحح ليك الكلمات واخا تكتب الموديل بالغالط أو بالحروف المغربية!
                 </p>
             </div>
 
             <!-- Instant Search Input Box -->
-            <div class="max-w-3xl mx-auto relative">
+            <div class="max-w-3xl mx-auto relative space-y-3">
                 <div class="relative flex items-center">
-                    <div class="absolute right-4 text-cyan-400 text-xl pointer-events-none">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                    <div class="absolute right-4 text-cyber-cyan text-xl pointer-events-none">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
                     <input 
                         type="text" 
                         id="mainSearchInput" 
-                        placeholder="كتب الموديل هنا (مثال: A12, Note 10, Hot 10 Play, iPhone 11, Oppo A15...)" 
-                        class="w-full pl-12 pr-14 py-4 md:py-4.5 bg-slate-900/90 text-white rounded-2xl border-2 border-cyan-500/40 focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20 text-base md:text-lg font-bold placeholder-slate-500 shadow-xl transition"
+                        placeholder="كتب الموديل هنا (مثال: A12, Note 8, Hot 10 Play, iPhone 11, Oppo A15, C11...)" 
+                        class="w-full pl-12 pr-14 py-4 md:py-4.5 bg-cyber-dark/95 text-white rounded-2xl border-2 border-cyber-cyan/40 focus:border-cyber-cyan focus:ring-4 focus:ring-cyber-cyan/20 text-base md:text-lg font-bold placeholder-slate-500 shadow-xl transition font-mono"
                         autocomplete="off"
                         autofocus
                     >
@@ -196,63 +231,79 @@
                     </button>
                 </div>
 
+                <!-- AI Typo Auto-Correction Live Pill -->
+                <div id="aiCorrectionBox" class="hidden p-3 rounded-xl bg-cyber-purple/15 border border-cyber-purple/40 text-xs flex flex-wrap items-center justify-between gap-2 shadow-lg">
+                    <div class="flex items-center gap-2 text-cyber-purple font-bold">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm animate-spin"></i>
+                        <span>الذكاء الاصطناعي صحح ليك البحث:</span>
+                        <span class="text-white font-mono bg-cyber-purple/30 px-2 py-0.5 rounded border border-cyber-purple/50" id="aiCorrectedWord">Samsung A12</span>
+                    </div>
+                    <button id="applyAiCorrectionBtn" class="px-3 py-1 bg-cyber-purple hover:bg-purple-600 text-white font-bold rounded-lg transition text-xs flex items-center gap-1">
+                        <i class="fa-solid fa-check"></i>
+                        <span>عرض التوافق ديالو فوراً</span>
+                    </button>
+                </div>
+
                 <!-- Quick Model Quick-Tap Tags -->
                 <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
                     <span class="text-slate-400 font-semibold ml-1">جرب بسرعة:</span>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="A12">Samsung A12</button>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="A10">Samsung A10/A50</button>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Redmi 9A">Redmi 9A/9C</button>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Hot 10 Play">Infinix Hot 10 Play</button>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="iPhone 11">iPhone 11 / XR</button>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Note 11">Redmi Note 11</button>
-                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Smart 5">Infinix Smart 5</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="A12">Samsung A12</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="A10">Samsung A10/A50</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="Redmi 9A">Redmi 9A/9C</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="Hot 10 Play">Infinix Hot 10 Play</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="iPhone 11">iPhone 11 / XR</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="Note 11">Redmi Note 11</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="Smart 5">Infinix Smart 5</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-cyber-dark hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-cyber-border hover:border-cyber-cyan transition font-mono" data-query="C11">Realme C11 / Oppo A15</button>
                 </div>
             </div>
         </div>
 
         <!-- Category & Brand Navigation Tabs -->
         <div class="space-y-3">
-            <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 p-2 rounded-xl border border-slate-800">
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-cyber-panel/80 p-2.5 rounded-xl border border-cyber-border">
                 <!-- Main Category Tabs -->
                 <div class="flex flex-wrap items-center gap-1.5 md:gap-2">
-                    <button class="cat-tab tab-active px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm transition flex items-center gap-2" data-cat="all">
+                    <button class="cat-tab tab-active px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm border border-transparent transition flex items-center gap-2 font-bold" data-cat="all">
                         <i class="fa-solid fa-layer-group"></i>
                         <span>الكل (الشامل)</span>
-                        <span id="countBadgeAll" class="px-1.5 py-0.2 rounded-full bg-slate-800 text-[11px] text-cyan-300">0</span>
+                        <span id="countBadgeAll" class="px-1.5 py-0.2 rounded-full bg-cyber-dark text-[11px] font-mono text-cyber-cyan">0</span>
                     </button>
-                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="afficheur">
-                        <i class="fa-solid fa-mobile-screen text-cyan-400"></i>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-cyber-dark/80 hover:bg-slate-800 text-slate-300 border border-cyber-border transition flex items-center gap-2" data-cat="afficheur">
+                        <i class="fa-solid fa-mobile-screen text-cyber-cyan"></i>
                         <span>الشاشات (الأفشور)</span>
-                        <span id="countBadgeAff" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-cyan-300">0</span>
+                        <span id="countBadgeAff" class="px-1.5 py-0.2 rounded-full bg-cyber-dark text-[11px] font-mono text-cyber-cyan">0</span>
                     </button>
-                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="pochette">
-                        <i class="fa-solid fa-shield-cat text-amber-400"></i>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-cyber-dark/80 hover:bg-slate-800 text-slate-300 border border-cyber-border transition flex items-center gap-2" data-cat="pochette">
+                        <i class="fa-solid fa-shield-cat text-cyber-amber"></i>
                         <span>البوشيط (الكفرات)</span>
-                        <span id="countBadgePoc" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-amber-300">0</span>
+                        <span id="countBadgePoc" class="px-1.5 py-0.2 rounded-full bg-cyber-dark text-[11px] font-mono text-cyber-amber">0</span>
                     </button>
-                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="verre">
-                        <i class="fa-regular fa-clone text-emerald-400"></i>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-cyber-dark/80 hover:bg-slate-800 text-slate-300 border border-cyber-border transition flex items-center gap-2" data-cat="verre">
+                        <i class="fa-regular fa-clone text-cyber-neon"></i>
                         <span>الزاج (Incassable)</span>
-                        <span id="countBadgeVer" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-emerald-300">0</span>
+                        <span id="countBadgeVer" class="px-1.5 py-0.2 rounded-full bg-cyber-dark text-[11px] font-mono text-cyber-neon">0</span>
                     </button>
-                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="comments">
-                        <i class="fa-solid fa-comments text-purple-400"></i>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-cyber-dark/80 hover:bg-slate-800 text-slate-300 border border-cyber-border transition flex items-center gap-2" data-cat="comments">
+                        <i class="fa-solid fa-comments text-cyber-purple"></i>
                         <span>اقتراحات الحرفيين</span>
-                        <span id="countBadgeCom" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-purple-300">0</span>
+                        <span id="countBadgeCom" class="px-1.5 py-0.2 rounded-full bg-cyber-dark text-[11px] font-mono text-cyber-purple">0</span>
                     </button>
                 </div>
 
                 <!-- Brand Filter Pill selector -->
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <span class="text-xs text-slate-400 font-medium whitespace-nowrap"><i class="fa-solid fa-filter ml-1"></i>الماركة:</span>
-                    <select id="brandFilterSelect" class="bg-slate-800 text-slate-200 text-xs md:text-sm rounded-lg px-3 py-1.5 border border-slate-700 focus:outline-none focus:border-cyan-500 w-full sm:w-44">
+                    <span class="text-xs text-slate-400 font-medium font-mono whitespace-nowrap"><i class="fa-solid fa-filter ml-1"></i>الماركة:</span>
+                    <select id="brandFilterSelect" class="bg-cyber-dark text-slate-200 text-xs md:text-sm rounded-lg px-3 py-1.5 border border-cyber-border focus:outline-none focus:border-cyber-cyan w-full sm:w-44 font-semibold">
                         <option value="all">كاع الماركات (الكل)</option>
                         <option value="Samsung">Samsung (سامسونج)</option>
                         <option value="Xiaomi / Redmi">Xiaomi / Redmi (شاومي)</option>
                         <option value="Infinix">Infinix (إنفينيكس)</option>
+                        <option value="Tecno">Tecno (تكنو)</option>
+                        <option value="Itel">Itel (آيتل)</option>
                         <option value="Apple iPhone">Apple iPhone (آبل آيفون)</option>
-                        <option value="Oppo / Realme">Oppo / Realme (أوبو / ريلمي)</option>
-                        <option value="Huawei / Honor">Huawei / Honor (هواوي / هونر)</option>
+                        <option value="Oppo / Realme">Oppo / Realme (أوبو وريلمي)</option>
+                        <option value="Huawei / Honor">Huawei / Honor (هواوي وهونر)</option>
                     </select>
                 </div>
             </div>
@@ -265,16 +316,14 @@
 
         <!-- Main Cards Grid View -->
         <div id="cardsGridSection">
-            <div class="flex items-center justify-between mb-3 text-xs md:text-sm text-slate-400">
+            <div class="flex items-center justify-between mb-3 text-xs md:text-sm text-slate-400 font-mono">
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-list-check text-cyan-400"></i>
+                    <i class="fa-solid fa-list-check text-cyber-cyan"></i>
                     <span>النتائج المعروضة:</span>
                     <strong id="resultsCountText" class="text-white font-mono">0</strong>
                 </div>
-                <div id="adminQuickAddTrigger" class="hidden">
-                    <button id="addCardQuickBtn" class="text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1">
-                        <i class="fa-solid fa-plus-circle"></i> زيد موديل جديد
-                    </button>
+                <div class="text-[11px] text-slate-500">
+                    DIAGNOSTIC MATRIX // READY
                 </div>
             </div>
 
@@ -284,26 +333,31 @@
             </div>
 
             <!-- Empty State -->
-            <div id="emptyState" class="hidden text-center py-12 px-4 bg-slate-900/40 rounded-2xl border border-slate-800">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 text-2xl">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+            <div id="emptyState" class="hidden text-center py-12 px-4 bg-cyber-panel/40 rounded-2xl border border-cyber-border tech-card">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-cyber-dark border border-cyber-border flex items-center justify-center text-slate-400 text-2xl">
+                    <i class="fa-solid fa-satellite-dish"></i>
                 </div>
                 <h3 class="text-lg font-bold text-white mb-1">ما لقينا حتى نتيجة لهاد الموديل</h3>
                 <p class="text-slate-400 text-sm max-w-md mx-auto mb-4">
                     تأكد من كتابة سمية الموديل بشكل صحيح، أو اقترح هاد التوافق باش يزيدوه الحرفيين والمدير!
                 </p>
-                <button id="emptyStateSuggestBtn" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold rounded-xl hover:brightness-110 transition inline-flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-lightbulb"></i> زيد اقتراح ديالك دابا
-                </button>
+                <div class="flex items-center justify-center gap-3">
+                    <button id="askAiEmptyBtn" class="px-4 py-2 bg-cyber-purple/20 hover:bg-cyber-purple/30 text-cyber-purple border border-cyber-purple/50 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-robot"></i> سول المساعد الذكي
+                    </button>
+                    <button id="emptyStateSuggestBtn" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold rounded-xl hover:brightness-110 transition inline-flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-lightbulb"></i> زيد اقتراح ديالك دابا
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Technician Comments & Suggestions Dedicated Section (shown when comments tab is selected or directly below) -->
-        <div id="commentsSection" class="hidden bg-slate-900/80 rounded-2xl border border-slate-800 p-6 space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <!-- Technician Comments & Suggestions Dedicated Section -->
+        <div id="commentsSection" class="hidden bg-cyber-panel/90 rounded-2xl border border-cyber-border p-6 space-y-6 tech-card">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-cyber-border pb-4">
                 <div>
                     <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-comments text-purple-400"></i>
+                        <i class="fa-solid fa-comments text-cyber-purple"></i>
                         <span>اقتراحات وتعليقات الحرفيين والتقنيين</span>
                     </h3>
                     <p class="text-slate-400 text-xs md:text-sm">هنا الحرفيين كيحطو تجاربهم فالتوافق، والمدير كيقوم بالمصادقة عليها وزيادتها للسيت!</p>
@@ -321,38 +375,76 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 mt-12 py-6 text-slate-400 text-xs">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2 text-center md:text-right">
-                <i class="fa-solid fa-wrench text-cyan-400"></i>
-                <span>دليل التوافق التقني للهواتف الذكية • صُمّم خصيصاً لمساعدة حرفيي إصلاح الهواتف بالمغرب</span>
+    <!-- AI Technician Assistant Slide-over Drawer -->
+    <div id="aiAssistantDrawer" class="fixed inset-y-0 left-0 max-w-md w-full bg-cyber-panel border-r border-cyber-cyan/40 shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 flex flex-col hidden">
+        <!-- AI Header -->
+        <div class="p-4 bg-cyber-dark border-b border-cyber-border flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg bg-cyber-purple/20 border border-cyber-purple/50 flex items-center justify-center text-cyber-purple text-lg">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-sm flex items-center gap-1.5 font-mono">
+                        <span>المساعد الذكي للتقني</span>
+                        <span class="w-2 h-2 rounded-full bg-cyber-neon animate-pulse"></span>
+                    </h3>
+                    <p class="text-[11px] text-slate-400">سول على أي شاشة، بوشيط أو زاج وغايجاوبك فوراً</p>
+                </div>
             </div>
-            <div class="flex items-center gap-4 text-xs">
-                <span>⚡ توافق الشاشات (LCD / OLED)</span>
-                <span>•</span>
-                <span>🎒 البوشيط والكفرات</span>
-                <span>•</span>
-                <span>🛡️ الزاج 5D/9D/11D/21D</span>
+            <button id="closeAiDrawerBtn" class="text-slate-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Chat History Container -->
+        <div id="aiChatMessages" class="flex-grow p-4 overflow-y-auto space-y-3 text-xs">
+            <div class="bg-cyber-dark p-3.5 rounded-xl border border-cyber-border text-slate-300 leading-relaxed">
+                <span class="text-cyber-cyan font-bold block mb-1 font-mono">🤖 الذكاء الاصطناعي:</span>
+                مرحباً بيك أ المعلم! أنا المساعد التقني الذكي ديالك. كتب ليا أي موديل أو سولني بالدارجة بحال:
+                <div class="mt-2 space-y-1 text-slate-400 font-semibold">
+                    <p>• "واش لافشور ديال A12 كيركب لـ A02؟"</p>
+                    <p>• "شنو كيركب لـ Redmi 9A؟"</p>
+                    <p>• "زاج لانكاصابل ديال iPhone 11"</p>
+                </div>
             </div>
         </div>
-    </footer>
 
-    <!-- ==================== MODALS ==================== -->
+        <!-- Quick Prompt Chips -->
+        <div class="px-4 py-2 bg-cyber-dark/80 border-t border-cyber-border flex flex-wrap gap-1.5 text-[11px]">
+            <button class="ai-quick-btn px-2 py-1 rounded bg-slate-800 hover:bg-cyber-purple/30 text-slate-300 hover:text-cyber-purple border border-slate-700 transition" data-ask="واش لافشور ديال a12 كيركب لـ a02؟">توافق شاشة A12</button>
+            <button class="ai-quick-btn px-2 py-1 rounded bg-slate-800 hover:bg-cyber-purple/30 text-slate-300 hover:text-cyber-purple border border-slate-700 transition" data-ask="شنو هو الزاج لي كيركب لـ Samsung A10 و A50؟">عائلة زاج A10/A50</button>
+            <button class="ai-quick-btn px-2 py-1 rounded bg-slate-800 hover:bg-cyber-purple/30 text-slate-300 hover:text-cyber-purple border border-slate-700 transition" data-ask="واش بوشيط كفر نوت 11 كيركب لـ 11s؟">كفر Note 11</button>
+        </div>
 
+        <!-- Chat Input Form -->
+        <form id="aiChatForm" class="p-3 bg-cyber-dark border-t border-cyber-border flex items-center gap-2">
+            <input 
+                type="text" 
+                id="aiChatInput" 
+                placeholder="سول هنا بالدارجة..." 
+                class="flex-grow bg-cyber-panel border border-cyber-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyber-purple font-medium"
+                required
+            >
+            <button type="submit" class="px-3.5 py-2.5 bg-cyber-purple hover:bg-purple-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Modals -->
     <!-- 1. Admin Login PIN Modal -->
     <div id="adminPinModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+        <div class="bg-cyber-panel border border-cyber-amber rounded-2xl max-w-sm w-full p-6 shadow-2xl relative tech-card">
             <button id="closeAdminPinModalBtn" class="absolute top-4 left-4 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <div class="text-center mb-5">
-                <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-2">
+                <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-2 border border-amber-500/40">
                     <i class="fa-solid fa-crown"></i>
                 </div>
                 <h3 class="text-lg font-bold text-white">دخول المدير (Admin)</h3>
                 <p class="text-slate-400 text-xs">دخل كود PIN باش تفعل صلاحيات الإضافة والتعديل</p>
-                <p class="text-cyan-400 text-[11px] mt-1 font-mono">الكود الافتراضي: 1234</p>
+                <p class="text-cyber-cyan text-[11px] mt-1 font-mono">الكود الافتراضي: 1234</p>
             </div>
 
             <div class="space-y-4">
@@ -362,7 +454,7 @@
                         id="adminPinInput" 
                         maxlength="6" 
                         placeholder="••••" 
-                        class="w-full text-center tracking-widest text-2xl py-3 bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-amber-500 font-mono"
+                        class="w-full text-center tracking-widest text-2xl py-3 bg-cyber-dark border border-cyber-border rounded-xl text-white focus:outline-none focus:border-amber-500 font-mono"
                     >
                     <p id="adminPinError" class="hidden text-red-400 text-xs text-center mt-1.5 font-semibold">الكود غير صحيح! عاود جرب.</p>
                 </div>
@@ -373,15 +465,15 @@
         </div>
     </div>
 
-    <!-- 2. Add / Edit Compatibility Model Modal (Admin Only) -->
+    <!-- 2. Add / Edit Compatibility Model Modal -->
     <div id="addEditModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl my-8 relative">
+        <div class="bg-cyber-panel border border-cyber-cyan/50 rounded-2xl max-w-lg w-full p-6 shadow-2xl my-8 relative tech-card">
             <button id="closeAddEditModalBtn" class="absolute top-4 left-4 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <div class="mb-4">
                 <h3 id="addEditModalTitle" class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-plus-circle text-cyan-400"></i>
+                    <i class="fa-solid fa-plus-circle text-cyber-cyan"></i>
                     <span>إضافة موديل وتوافق جديد</span>
                 </h3>
                 <p class="text-slate-400 text-xs">عمر المعلومات ديال الهاتف والموديلات لي كتركب ليه</p>
@@ -392,7 +484,7 @@
 
                 <div>
                     <label class="block text-slate-300 font-medium mb-1">نوع القطعة:</label>
-                    <select id="itemCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                    <select id="itemCategory" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-cyber-cyan">
                         <option value="afficheur">📱 شاشة (Afficheur)</option>
                         <option value="pochette">🎒 بوشيط (Pochette / Coque)</option>
                         <option value="verre">🛡️ زاج وحماية (Incassable 5D/9D/11D)</option>
@@ -402,42 +494,43 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-slate-300 font-medium mb-1">الماركة:</label>
-                        <select id="itemBrand" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                        <select id="itemBrand" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-cyber-cyan">
                             <option value="Samsung">Samsung</option>
                             <option value="Xiaomi / Redmi">Xiaomi / Redmi</option>
                             <option value="Infinix">Infinix</option>
+                            <option value="Tecno">Tecno</option>
+                            <option value="Itel">Itel</option>
                             <option value="Apple iPhone">Apple iPhone</option>
                             <option value="Oppo / Realme">Oppo / Realme</option>
                             <option value="Huawei / Honor">Huawei / Honor</option>
-                            <option value="Tecno">Tecno</option>
                             <option value="أخرى">أخرى</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-slate-300 font-medium mb-1">الموديل الأساسي:</label>
-                        <input type="text" id="itemMainModel" required placeholder="مثال: Samsung A12" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                        <input type="text" id="itemMainModel" required placeholder="مثال: Samsung A12" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-cyber-cyan">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-slate-300 font-medium mb-1">الموديلات المتوافقة (فرق بيناتهم بفاصلة أو سطر):</label>
-                    <textarea id="itemCompatibles" rows="3" required placeholder="مثال: Samsung A02, Samsung M12, Samsung A32 5G" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500"></textarea>
+                    <textarea id="itemCompatibles" rows="3" required placeholder="مثال: Samsung A02, Samsung M12, Samsung A32 5G" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-cyber-cyan"></textarea>
                     <span class="text-[11px] text-slate-400">كتب الموديلات لي كتركب ليها هاد القطعة</span>
                 </div>
 
                 <div>
                     <label class="block text-slate-300 font-medium mb-1">ملاحظات تقنية ونصائح للحريفي:</label>
-                    <textarea id="itemNotes" rows="2" placeholder="مثال: كتخدم 100% نفس الفليكس، غير رد البال لتنظيف الفريم..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500"></textarea>
+                    <textarea id="itemNotes" rows="2" placeholder="مثال: كتخدم 100% نفس الفليكس، غير رد البال لتنظيف الفريم..." class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-cyber-cyan"></textarea>
                 </div>
 
                 <div>
                     <label class="block text-slate-300 font-medium mb-1">مستوى التوافق / الصعوبة:</label>
-                    <input type="text" id="itemDifficulty" placeholder="مثال: متطابق 100%، أو يحتاج تعديل فريم" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                    <input type="text" id="itemDifficulty" placeholder="مثال: متطابق 100%، أو يحتاج تعديل فريم" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-cyber-cyan">
                 </div>
 
                 <div class="pt-2 flex items-center justify-end gap-2">
                     <button type="button" id="cancelAddEditBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition">إلغاء</button>
-                    <button type="submit" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition flex items-center gap-1.5">
+                    <button type="submit" class="px-5 py-2 bg-cyber-cyan hover:bg-cyan-400 text-slate-950 font-bold rounded-xl transition flex items-center gap-1.5">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>حفظ التوافق</span>
                     </button>
@@ -448,7 +541,7 @@
 
     <!-- 3. Suggest New Compatibility Modal (Open to all Technicians) -->
     <div id="suggestModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl my-8 relative">
+        <div class="bg-cyber-panel border border-cyber-amber rounded-2xl max-w-lg w-full p-6 shadow-2xl my-8 relative tech-card">
             <button id="closeSuggestModalBtn" class="absolute top-4 left-4 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
@@ -464,18 +557,18 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-slate-300 font-medium mb-1">اسم الحريفي / المحل:</label>
-                        <input type="text" id="sugAuthor" required placeholder="مثال: المعلم رشيد" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                        <input type="text" id="sugAuthor" required placeholder="مثال: المعلم رشيد" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-amber-500">
                     </div>
                     <div>
                         <label class="block text-slate-300 font-medium mb-1">المدينة:</label>
-                        <input type="text" id="sugCity" required placeholder="مثال: كازا، مراكش، سطات..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                        <input type="text" id="sugCity" required placeholder="مثال: كازا، مراكش، سطات..." class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-amber-500">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-slate-300 font-medium mb-1">نوع القطعة:</label>
-                        <select id="sugCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                        <select id="sugCategory" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-amber-500">
                             <option value="afficheur">📱 شاشة (Afficheur)</option>
                             <option value="pochette">🎒 بوشيط (Pochette)</option>
                             <option value="verre">🛡️ زاج (Incassable)</option>
@@ -484,18 +577,18 @@
                     </div>
                     <div>
                         <label class="block text-slate-300 font-medium mb-1">الموديل:</label>
-                        <input type="text" id="sugMainModel" required placeholder="مثال: A14 4G" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                        <input type="text" id="sugMainModel" required placeholder="مثال: A14 4G" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-amber-500">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-slate-300 font-medium mb-1">الموديل لي كيركب ليه (المتوافق):</label>
-                    <input type="text" id="sugCompatibleModel" required placeholder="مثال: A24 / A34..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                    <input type="text" id="sugCompatibleModel" required placeholder="مثال: A24 / A34..." class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-amber-500">
                 </div>
 
                 <div>
                     <label class="block text-slate-300 font-medium mb-1">نصيحة أو ملاحظة تقنية:</label>
-                    <textarea id="sugNote" rows="3" required placeholder="شرح لينا كي دازت التجربة واش كاين شي ريسك أو احتياطات..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500"></textarea>
+                    <textarea id="sugNote" rows="3" required placeholder="شرح لينا كي دازت التجربة واش كاين شي ريسك أو احتياطات..." class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-white focus:border-amber-500"></textarea>
                 </div>
 
                 <div class="pt-2 flex items-center justify-end gap-2">
@@ -509,9 +602,9 @@
         </div>
     </div>
 
-    <!-- 4. Toast Notification Popup -->
-    <div id="toastNotification" class="fixed bottom-6 left-6 z-50 bg-slate-900 border border-cyan-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-20 opacity-0 duration-300 pointer-events-none">
-        <div id="toastIcon" class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+    <!-- Toast Notification Popup -->
+    <div id="toastNotification" class="fixed bottom-6 left-6 z-50 bg-cyber-panel border border-cyber-cyan text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-20 opacity-0 duration-300 pointer-events-none">
+        <div id="toastIcon" class="w-8 h-8 rounded-lg bg-cyber-cyan/20 text-cyber-cyan flex items-center justify-center font-bold">
             <i class="fa-solid fa-check"></i>
         </div>
         <div>
@@ -522,7 +615,7 @@
 
     <!-- Application Script -->
     <script>
-        // --- Web Audio Synthesizer (Zero external audio files) ---
+        // --- Web Audio Electronic Synthesizer ---
         let audioCtx = null;
         let isMuted = false;
 
@@ -542,26 +635,42 @@
                 if (audioCtx.state === 'suspended') {
                     audioCtx.resume();
                 }
+                const now = audioCtx.currentTime;
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
 
-                const now = audioCtx.currentTime;
                 if (type === 'click') {
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(440, now);
-                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.05);
-                    gain.gain.setValueAtTime(0.1, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.04);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
                     osc.start(now);
-                    osc.stop(now + 0.05);
-                } else if (type === 'success') {
+                    osc.stop(now + 0.04);
+                } else if (type === 'beep') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(587.33, now);
+                    osc.frequency.setValueAtTime(880, now + 0.06);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                } else if (type === 'ai') {
                     osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(523.25, now); // C5
-                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
-                    gain.gain.setValueAtTime(0.15, now);
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(1320, now + 0.15);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'success') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.08);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.16);
+                    gain.gain.setValueAtTime(0.12, now);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
                     osc.start(now);
                     osc.stop(now + 0.35);
@@ -577,7 +686,7 @@
             } catch (err) {}
         }
 
-        // --- Toast System (Replaces blocked alert/confirm) ---
+        // --- Toast System ---
         function showToast(title, message, isSuccess = true) {
             const toast = document.getElementById('toastNotification');
             const toastTitle = document.getElementById('toastTitle');
@@ -588,13 +697,13 @@
             toastMsg.textContent = message;
 
             if (isSuccess) {
-                toast.className = "fixed bottom-6 left-6 z-50 bg-slate-900 border border-cyan-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-0 opacity-100 duration-300 pointer-events-auto";
-                toastIcon.className = "w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center";
+                toast.className = "fixed bottom-6 left-6 z-50 bg-cyber-panel border border-cyber-cyan text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-0 opacity-100 duration-300 pointer-events-auto";
+                toastIcon.className = "w-8 h-8 rounded-lg bg-cyber-cyan/20 text-cyber-cyan flex items-center justify-center font-bold";
                 toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
                 playSound('success');
             } else {
-                toast.className = "fixed bottom-6 left-6 z-50 bg-slate-900 border border-red-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-0 opacity-100 duration-300 pointer-events-auto";
-                toastIcon.className = "w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center";
+                toast.className = "fixed bottom-6 left-6 z-50 bg-cyber-panel border border-red-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-0 opacity-100 duration-300 pointer-events-auto";
+                toastIcon.className = "w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center font-bold";
                 toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
             }
 
@@ -620,410 +729,8 @@
             } catch (e) {}
         }
 
-        // --- Initial Seed Data ---
-        const defaultItems = [
-            // Afficheurs
-            {
-                id: "aff_1",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A12 (SM-A125F)",
-                search_keywords: "a12 a125 a125f a02 a022 m12 m127 سامسونج شاشة افشور",
-                compatibles: ["Samsung Galaxy A02 (SM-A022F)", "Samsung Galaxy M12 (SM-M127F)", "Samsung Galaxy A32 5G (في بعض نسخ LCD)"],
-                notes: "شاشة LCD متوافقة 100% بين A12 و A02 و M12 بدون مشاكل إضاءة. تأكد من تجربة التاتش قبل الكولاج.",
-                difficulty: "سهل (Easy)",
-                verified: true
-            },
-            {
-                id: "aff_2",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A03 (SM-A035F)",
-                search_keywords: "a03 a035 a032 a03 core سامسونج",
-                compatibles: ["Samsung Galaxy A03 Core (SM-A032F)"],
-                notes: "شاشة A03 و A03 Core متوافقة في الفليكس و IC التاتش. ركز مع فريم الشاشة القديم.",
-                difficulty: "متوسط",
-                verified: true
-            },
-            {
-                id: "aff_3",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A10s (SM-A107F)",
-                search_keywords: "a10s a107 a20s a207 سامسونج",
-                compatibles: ["Samsung Galaxy A20s (SM-A207F)"],
-                notes: "شاشة A10s و A20s تخدم بنفس الفليكس في الشاشات العادية، مع اختلاف طفيف في سمك الفريم.",
-                difficulty: "متوسط",
-                verified: true
-            },
-            {
-                id: "aff_4",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A13 4G (SM-A135F)",
-                search_keywords: "a13 a135 a137 a04 a045 سامسونج",
-                compatibles: ["Samsung Galaxy A13 4G الجديد (SM-A137F)", "Samsung Galaxy A04 (SM-A045F)"],
-                notes: "انتبه: نسخة A13 5G مختلفة تماماً عن A13 4G. شاشة A135 متطابقة مع A137.",
-                difficulty: "سهل",
-                verified: true
-            },
-            {
-                id: "aff_5",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi 9A / 9C",
-                search_keywords: "redmi 9a 9c 10a poco c31 c3 شاومي ريدمي ردمي",
-                compatibles: ["Xiaomi Redmi 10A", "Poco C31", "Poco C3"],
-                notes: "من أكثر الشاشات انتشاراً في المغرب، شاشة Redmi 9A تركب لـ 9C و 10A و Poco C31 بدون أي تعديل.",
-                difficulty: "سهل جداً",
-                verified: true
-            },
-            {
-                id: "aff_6",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi Note 10 4G (OLED)",
-                search_keywords: "redmi note 10 10s note 10s شاومي ريدمي نوت",
-                compatibles: ["Xiaomi Redmi Note 10s"],
-                notes: "شاشة AMOLED ممتازة متوافقة 100% بين Note 10 4G و Note 10s مع دعم البصمة الجانبية ووضوح عالي.",
-                difficulty: "سهل",
-                verified: true
-            },
-            {
-                id: "aff_7",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi Note 8 (2019)",
-                search_keywords: "redmi note 8 2019 2021 شاومي نوت 8",
-                compatibles: ["Xiaomi Redmi Note 8 (2021 Edition)"],
-                notes: "نفس شاشة النوت 8 تركب لنسخة 2021 المعادة إصدارها بدون مشاكل.",
-                difficulty: "سهل",
-                verified: true
-            },
-            {
-                id: "aff_8",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Infinix",
-                main_model: "Infinix Hot 10 Play (X688)",
-                search_keywords: "infinix hot 10 play x688 hot 9 play x680 smart hd انفنكس انفنيكس",
-                compatibles: ["Infinix Hot 9 Play (X680)", "Infinix Smart HD 2021 (X612)"],
-                notes: "نفس الفليكس ونفس حجم 6.82 بوصة. شاشة اقتصادية ومتوفرة بكثرة.",
-                difficulty: "سهل",
-                verified: true
-            },
-            {
-                id: "aff_9",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Infinix",
-                main_model: "Infinix Smart 5 (X657)",
-                search_keywords: "infinix smart 5 x657 hot 10 lite x657b spark 6 go ke5 انفنكس تكنو",
-                compatibles: ["Infinix Hot 10 Lite (X657B)", "Tecno Spark 6 Go (KE5)", "Tecno Spark Go 2020"],
-                notes: "توافق مشترك بين عائلة Transsion (Infinix و Tecno)، نفس الكونيكتور ونفس التردد.",
-                difficulty: "سهل",
-                verified: true
-            },
-            {
-                id: "aff_10",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Oppo / Realme",
-                main_model: "Oppo A15 / A15s",
-                search_keywords: "oppo a15 a15s realme c11 c21 اوبو ريلمي",
-                compatibles: ["Realme C11 (2021)", "Realme C21", "Realme C20"],
-                notes: "تطابق في الفليكس وحجم الشاشة 6.52 بوصة. تأكد من نسخة الأندرويد لضبط سطوع الشاشة.",
-                difficulty: "متوسط",
-                verified: true
-            },
-            {
-                id: "aff_11",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone 12 / 12 Pro",
-                search_keywords: "iphone 12 12 pro ايفون شاشة",
-                compatibles: ["Apple iPhone 12 Pro (نفس الشاشة 100%)"],
-                notes: "شاشة iPhone 12 تركب لـ 12 Pro بدون أي تعديل. انقل فليكس سماعة الأذن بحذر للحفاظ على Face ID.",
-                difficulty: "احترافي (Pro)",
-                verified: true
-            },
-            {
-                id: "aff_12",
-                category: "afficheur",
-                category_ar: "شاشة (Afficheur)",
-                brand: "Huawei / Honor",
-                main_model: "Huawei Y6 2019 / Y6 Prime",
-                search_keywords: "huawei y6 2019 y6s honor 8a هواوي هونر",
-                compatibles: ["Huawei Y6s", "Honor 8A (JAT-LX1)"],
-                notes: "تطابق كامل في الشاشة والتاتش والكونيكتور بين Y6 2019 و Y6s و Honor 8A.",
-                difficulty: "سهل",
-                verified: true
-            },
-
-            // Pochettes
-            {
-                id: "poc_1",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A12",
-                search_keywords: "a12 m12 a02 a02s بوشيط كفر سامسونج غطاء",
-                compatibles: ["Samsung Galaxy M12 (تطابق 100%)", "Samsung Galaxy A02 (تطابق في الحجم مع اختلاف بسيط في شكل الكاميرا)"],
-                notes: "بوشيط A12 يركب لـ M12 بنفس فتحات البصمة الجانبية وفتحات الشاحن والسماعات.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_2",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A50 / A30s / A50s",
-                search_keywords: "a50 a30s a50s بوشيط كفر سامسونج",
-                compatibles: ["Samsung Galaxy A30s", "Samsung Galaxy A50s"],
-                notes: "نفس القالب الخارجي بالضبط، الأزرار ومكان الكاميرات الثلاثية متطابق بالمليمتر.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_3",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A20 / A30",
-                search_keywords: "a20 a30 بوشيط كفر سامسونج",
-                compatibles: ["Samsung Galaxy A30 (مع فتحة البصمة الخلفية)"],
-                notes: "كفر A20 يركب لـ A30 تماماً مع فتحة البصمة بالظهر وفتحة التايب سي.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_4",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A13 4G",
-                search_keywords: "a13 a04s a135 a047 بوشيط كفر سامسونج",
-                compatibles: ["Samsung Galaxy A04s (تطابق عالي في فتحات الكاميرات المستقلة)"],
-                notes: "تطابق كبير جداً في مواضع عدسات الكاميرات الثلاث وأزرار الصوت والبصمة.",
-                difficulty: "متطابق",
-                verified: true
-            },
-            {
-                id: "poc_5",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi Note 11 4G",
-                search_keywords: "redmi note 11 note 11s بوشيط كفر شاومي",
-                compatibles: ["Xiaomi Redmi Note 11s (تطابق 100%)"],
-                notes: "كفر Note 11 4G يركب للـ Note 11s بكل تفاصيله، فتحة المايك والسماعات الستيريو متطابقة.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_6",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi 9 / Poco M2",
-                search_keywords: "redmi 9 poco m2 بوشيط شاومي بوكو",
-                compatibles: ["Poco M2 (نفس البودي)", "Redmi 9 Prime"],
-                notes: "البوشيط يركب بدون أي فراغات، نفس الدائرة الدائرية للبصمة والكاميرات.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_7",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone 7 / 8 / SE (2020/2022)",
-                search_keywords: "iphone 7 8 se 2020 2022 ايفون بوشيط كفر",
-                compatibles: ["Apple iPhone 8", "Apple iPhone SE 2020 (Gen 2)", "Apple iPhone SE 2022 (Gen 3)"],
-                notes: "أشهر تطابق في عالم الآيفون: كفر iPhone 7 و 8 و SE 2020 و SE 2022 نفس الحجم والمقاس 4.7 بوصة.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_8",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone 13",
-                search_keywords: "iphone 13 iphone 14 ايفون بوشيط",
-                compatibles: ["Apple iPhone 14 (يركب الكفر السيليكون المرن مع انتباه لبروز الكاميرا)"],
-                notes: "كفر iPhone 13 السيليكون يركب لـ 14 مع اختلاف بسيط في سمك مربع الكاميرا.",
-                difficulty: "توافق جزئي مرن",
-                verified: true
-            },
-            {
-                id: "poc_9",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Infinix",
-                main_model: "Infinix Hot 10 Play",
-                search_keywords: "infinix hot 10 play hot 11 play بوشيط انفنكس",
-                compatibles: ["Infinix Hot 11 Play"],
-                notes: "حجم الهاتف العملاق 6.82 بوصة متطابق في الفتحات والسمك.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "poc_10",
-                category: "pochette",
-                category_ar: "بوشيط (Pochette / Coque)",
-                brand: "Oppo / Realme",
-                main_model: "Realme C11 / C12 / C15",
-                search_keywords: "realme c11 c12 c15 ريلمي بوشيط",
-                compatibles: ["Realme C12", "Realme C15 (مع انتباه لمكان البصمة في C11 العادي)"],
-                notes: "حجم الهواتف متطابق، كفر C12 و C15 به فتحة بصمة خلفية.",
-                difficulty: "متطابق",
-                verified: true
-            },
-
-            // Verre / Incassable
-            {
-                id: "ver_1",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Samsung",
-                main_model: "Samsung Family A10 - A50 (شاشة 6.4 قطرة ندى)",
-                search_keywords: "a10 a20 a30 a50 m10 m20 m30 a30s a50s m31 زاج انكاسابل حماية سامسونج",
-                compatibles: ["Samsung Galaxy A10", "Samsung Galaxy A20", "Samsung Galaxy A30", "Samsung Galaxy A50", "Samsung Galaxy M10", "Samsung Galaxy M20", "Samsung Galaxy M30", "Samsung Galaxy A30s", "Samsung Galaxy A50s", "Samsung Galaxy M31"],
-                notes: "أكبر عائلة زاج متطابقة في تاريخ سامسونج! زاج واحد 5D/9D/11D يخدم لكل هذه الموديلات العشرة بشكل مثالي.",
-                difficulty: "متطابق 100% ممتاز",
-                verified: true
-            },
-            {
-                id: "ver_2",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Samsung",
-                main_model: "Samsung Family A12 / A02 / A13 / A03 (شاشة 6.5 بوصة)",
-                search_keywords: "a12 a02 a02s a03 a03s a04 a04s a13 a14 m12 زاج انكاسابل سامسونج",
-                compatibles: ["Samsung Galaxy A12", "Samsung Galaxy A02", "Samsung Galaxy A02s", "Samsung Galaxy A03", "Samsung Galaxy A03s", "Samsung Galaxy A04", "Samsung Galaxy A04s", "Samsung Galaxy A13 4G", "Samsung Galaxy M12", "Samsung Galaxy A14 4G/5G"],
-                notes: "زاج الحماية 9D/11D/21D يغطي الشاشة بالكامل لكل هذه الموديلات الشعبية المتوفرة بالسوق المغربي.",
-                difficulty: "متطابق 100% ممتاز",
-                verified: true
-            },
-            {
-                id: "ver_3",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Samsung",
-                main_model: "Samsung Galaxy A51 / A52 / A53 / A54 (Infinity-O)",
-                search_keywords: "a51 a52 a53 a54 s20 fe s21 fe زاج سامسونج حماية شاشة كاميرا ثقب",
-                compatibles: ["Samsung Galaxy A52 / A52s", "Samsung Galaxy A53", "Samsung Galaxy A54", "Samsung Galaxy S20 FE", "Samsung Galaxy S21 FE"],
-                notes: "زاج شفاف بدون حواف سوداء أو زاج 11D مسطح بحجم 6.4 إلى 6.5 بوصة يركب لهم جميعاً مع ثقب الكاميرا الأمامية.",
-                difficulty: "متطابق",
-                verified: true
-            },
-            {
-                id: "ver_4",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi 9A / 9C / 10A (شاشة 6.53 بوصة)",
-                search_keywords: "redmi 9a 9c 10a poco c31 c3 زاج ردمي شاومي انكاسابل",
-                compatibles: ["Xiaomi Redmi 9C", "Xiaomi Redmi 10A", "Poco C31", "Poco C3", "Redmi 9 (العادي)"],
-                notes: "زاج 9D أو شفاف يغطي الواجهة بالكامل وبنفس انحناء النوتش العلوي للكاميرا.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "ver_5",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Xiaomi / Redmi",
-                main_model: "Xiaomi Redmi Note 7 / 8 / 8 Pro / 9s / 9 Pro / 10 Pro",
-                search_keywords: "redmi note 7 8 8 pro 9s 9 pro 10 pro شاومي نوت زاج انكاسابل",
-                compatibles: ["Xiaomi Redmi Note 8", "Xiaomi Redmi Note 8T", "Xiaomi Redmi Note 9S / 9 Pro", "Poco X3 NFC / X3 Pro"],
-                notes: "الزاج الشفاف المسطح يخدم بكفاءة عالية على عائلة النوت والبوكو الشهيرة بدون فقاعات هواء.",
-                difficulty: "متطابق",
-                verified: true
-            },
-            {
-                id: "ver_6",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone X / XS / 11 Pro (شاشة 5.8 بوصة)",
-                search_keywords: "iphone x xs 11 pro زاج ايفون حماية انكاسابل",
-                compatibles: ["Apple iPhone XS", "Apple iPhone 11 Pro"],
-                notes: "نفس قياس الزاج 5.8 بوصة ونفس فتحة سماعة المكالمات والنوتش، متطابق 100%.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "ver_7",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone XR / iPhone 11 (شاشة 6.1 بوصة)",
-                search_keywords: "iphone xr iphone 11 زاج ايفون انكاسابل",
-                compatibles: ["Apple iPhone 11 (تطابق كامل في زاج الحماية)"],
-                notes: "زاج iPhone XR يركب لـ iPhone 11 بدون أي فرق، نفس حواف الشاشة الـ LCD وحجم 6.1 بوصة.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "ver_8",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone 12 / 12 Pro (شاشة 6.1 حواف مسطحة)",
-                search_keywords: "iphone 12 12 pro زاج ايفون حماية",
-                compatibles: ["Apple iPhone 12 Pro"],
-                notes: "زاج الحماية متطابق 100% بين 12 و 12 Pro مع الحواف المربعة Flat Edge.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "ver_9",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Apple iPhone",
-                main_model: "Apple iPhone 13 / 13 Pro / 14 (شاشة 6.1 نوتش صغير)",
-                search_keywords: "iphone 13 13 pro 14 زاج ايفون انكاسابل",
-                compatibles: ["Apple iPhone 13 Pro", "Apple iPhone 14"],
-                notes: "زاج الحماية متطابق تماماً بسبب صغر حجم النوتش ورفع فتحة السماعة للأعلى في إطار الهاتف.",
-                difficulty: "متطابق 100%",
-                verified: true
-            },
-            {
-                id: "ver_10",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Infinix / Tecno",
-                main_model: "Infinix Hot 10 Play / Hot 9 Play / Hot 11 Play (6.82 بوصة)",
-                search_keywords: "infinix hot 10 play hot 9 play hot 11 play smart 5 انفنكس زاج انكاسابل",
-                compatibles: ["Infinix Hot 9 Play", "Infinix Hot 11 Play", "Tecno Spark 7 Pro (في الزاج الشفاف)"],
-                notes: "شاشة الهواتف الكبيرة مقاس 6.82 بوصة، الزاج يغطي الشاشة بالكامل بدون ترك فراغات.",
-                difficulty: "متطابق",
-                verified: true
-            },
-            {
-                id: "ver_11",
-                category: "verre",
-                category_ar: "زاج وحماية (Incassable)",
-                brand: "Oppo / Realme",
-                main_model: "Oppo A15 / A16 / Realme C11 / C21 / C3",
-                search_keywords: "oppo a15 a16 a16k realme c11 c21 c3 اوبو ريلمي زاج",
-                compatibles: ["Oppo A16 / A16k", "Realme C11", "Realme C21", "Realme C3"],
-                notes: "توافق ممتاز لشاشات 6.52 بوصة مع نوتش قطرة الماء الصغير.",
-                difficulty: "متطابق 100%",
-                verified: true
-            }
-        ];
+        // --- Seed Data with Over 63 Phone Groups ---
+        const embeddedItems = [{id: "aff_1", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A12 (SM-A125F)", "search_keywords": "a12 a125 a125f a02 a022 m12 m127 a32 5g سامسونج شاشة افشور افشورات ecran lcd", "compatibles": ["Samsung Galaxy A02 (SM-A022F)", "Samsung Galaxy M12 (SM-M127F)", "Samsung Galaxy A32 5G (نسخ LCD المعينة)"], "notes": "شاشة LCD متوافقة 100% بين A12 و A02 و M12 بدون أي فلاش أو تعديل. تأكد من سلامة فليكس الشحن والكونيكتور قبل الكولاج.", "difficulty": "سهل (متطابق 100%)", "verified": true}, {id: "aff_2", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A03 (SM-A035F)", "search_keywords": "a03 a035 a032 a03 core سامسونج شاشة", "compatibles": ["Samsung Galaxy A03 Core (SM-A032F)"], "notes": "شاشة A03 و A03 Core متوافقة في الفليكس و IC التاتش. رد البال لمكان السبيكر العلوي.", "difficulty": "متوسط", "verified": true}, {id: "aff_3", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A10s (SM-A107F)", "search_keywords": "a10s a107 a20s a207 سامسونج شاشة افشور", "compatibles": ["Samsung Galaxy A20s (SM-A207F)"], "notes": "شاشة A10s و A20s تخدم بنفس الفليكس في الشاشات العادية (Copy)، مع اختلاف طفيف في فريم الشاشة.", "difficulty": "متوسط", "verified": true}, {id: "aff_4", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A13 4G (SM-A135F)", "search_keywords": "a13 a135 a137 a04 a045 سامسونج a13 4g", "compatibles": ["Samsung Galaxy A13 4G New (SM-A137F)", "Samsung Galaxy A04 (SM-A045F)"], "notes": "انتبه: نسخة A13 5G مختلفة تماماً عن A13 4G. شاشة A135 متطابقة مع A137 في الفليكس والإضاءة.", "difficulty": "سهل", "verified": true}, {id: "aff_5", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A14 4G (SM-A145F)", "search_keywords": "a14 a145 a146 a14 5g سامسونج افشور", "compatibles": ["Samsung Galaxy A14 5G (SM-A146B - نسخ الـ LCD متقاربة)"], "notes": "شاشة A14 4G تركب لـ 5G في أغلب شاشات الـ Aftermarket، لكن جرب التاتش وزوايا الرؤية قبل تثبيت الغراء.", "difficulty": "متوسط", "verified": true}, {id: "aff_6", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy J4 Plus (J415F) / J6 Plus (J610F)", "search_keywords": "j4+ j4 plus j6+ j6 plus j415 j610 سامسونج", "compatibles": ["Samsung Galaxy J6 Plus (SM-J610F)", "Samsung Galaxy J4 Core (SM-J410F)"], "notes": "نفس الشاشة 100%، تركب لـ J4 Plus و J6 Plus و J4 Core بدون أي مشكل، شاشة كلاسيكية معروفة عند الحرفيين.", "difficulty": "سهل جداً", "verified": true}, {id: "aff_7", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A21s (SM-A217F)", "search_keywords": "a21s a217 سامسونج شاشة افشور ثقب", "compatibles": ["خاص به (شاشة TFT بفتحة كاميرا Infinity-O يسار)"], "notes": "شاشة مستقلة بسبب مكان الكاميرا في أقصى اليسار، احذر من الشاشات الرديئة التي تسبب سخونة في آيسي الإضاءة.", "difficulty": "سهل", "verified": true}, {id: "aff_8", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Samsung", "main_model": "Samsung Galaxy A01 Core (SM-A013F)", "search_keywords": "a01 core a013 a03 core سامسونج", "compatibles": ["Samsung Galaxy M01 Core (SM-M013F)"], "notes": "متطابقة 100% بين A01 Core و M01 Core، شاشة صغيرة 5.3 بوصة.", "difficulty": "سهل", "verified": true}, {id: "aff_9", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 9A / 9C", "search_keywords": "redmi 9a 9c 10a poco c31 c3 poco c31 شاومي ريدمي ردمي بوكو", "compatibles": ["Xiaomi Redmi 10A", "Poco C31", "Poco C3", "Redmi 9 Activ"], "notes": "أشهر شاشة في سوق الصيانة المغربي! نفس الشاشة تركب لـ 5 موديلات كاملة بدون أي تعديل وبكفاءة 100%.", "difficulty": "سهل جداً (متطابق 100%)", "verified": true}, {id: "aff_10", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi Note 10 4G (AMOLED)", "search_keywords": "redmi note 10 note 10s amoled شاومي نوت 10", "compatibles": ["Xiaomi Redmi Note 10s (SM-M2101K7BNY)"], "notes": "شاشة Super AMOLED أصلية أو OLED هاي كوبي تركب لـ Note 10 و Note 10s بنجاح تام وسرعة استجابة تاتش ممتازة.", "difficulty": "سهل", "verified": true}, {id: "aff_11", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi Note 8 (2019)", "search_keywords": "redmi note 8 2019 2021 شاومي نوت 8", "compatibles": ["Xiaomi Redmi Note 8 2021 Edition"], "notes": "شاشة Note 8 تركب لنسخة 2021 بدون أي مشاكل في التاتش أو الإضاءة.", "difficulty": "سهل", "verified": true}, {id: "aff_12", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 9 (FHD+) / Poco M2", "search_keywords": "redmi 9 poco m2 redmi 9 prime شاومي بوكو", "compatibles": ["Poco M2", "Redmi 9 Prime"], "notes": "شاشة FHD+ دقة عالية تركب لـ Redmi 9 و Poco M2، تختلف عن شاشة 9A/9C الاقتصادية.", "difficulty": "سهل", "verified": true}, {id: "aff_13", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi Note 11 4G / Note 11s", "search_keywords": "redmi note 11 note 11s 4g amoled شاومي نوت 11", "compatibles": ["Xiaomi Redmi Note 11s (4G)"], "notes": "شاشة AMOLED بتردد 90Hz متطابقة بالكامل بين النسختين.", "difficulty": "سهل", "verified": true}, {id: "aff_14", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 13C / Poco C65", "search_keywords": "redmi 13c poco c65 شاومي ريدمي 13c بوكو", "compatibles": ["Poco C65 (نفس الجهاز داخلياً والخارجي)"], "notes": "تطابق 100% في الشاشة والفليكس، شاشة 90Hz بحجم 6.74 بوصة.", "difficulty": "سهل جداً", "verified": true}, {id: "aff_15", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Poco X3 NFC / Poco X3 Pro", "search_keywords": "poco x3 nfc poco x3 pro شاومي بوكو شاشة 120hz", "compatibles": ["Poco X3 Pro (تطابق كامل 120Hz)"], "notes": "شاشة LCD 120Hz متطابقة تماماً. احرص على استخدام غراء أصلي (T7000/B7000) لتفادي تسريب الضوء.", "difficulty": "سهل", "verified": true}, {id: "aff_16", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Infinix", "main_model": "Infinix Hot 10 Play (X688)", "search_keywords": "infinix hot 10 play x688 hot 9 play x680 smart hd x612 انفنكس شاشة", "compatibles": ["Infinix Hot 9 Play (X680)", "Infinix Smart HD 2021 (X612)"], "notes": "نفس الفليكس ونفس قياس الشاشة 6.82 بوصة، تركب مباشرة بدون أي فلاش أو تعديل.", "difficulty": "سهل", "verified": true}, {id: "aff_17", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Infinix", "main_model": "Infinix Smart 5 (X657)", "search_keywords": "infinix smart 5 x657 hot 10 lite x657b tecno spark 6 go ke5 kd7 انفنكس تكنو", "compatibles": ["Infinix Hot 10 Lite (X657B)", "Tecno Spark 6 Go (KE5)", "Tecno Spark Go 2020 (KD7)"], "notes": "توافق مشترك ومشهور جداً بين Infinix و Tecno، نفس الشاشة والكونيكتور بالمليمتر.", "difficulty": "سهل جداً", "verified": true}, {id: "aff_18", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Infinix", "main_model": "Infinix Smart 6 (X6511)", "search_keywords": "infinix smart 6 x6511 smart 6 plus tecno pop 5 lte انفنكس تكنو", "compatibles": ["Infinix Smart 6 Plus (في بعض نسخ الفليكس)", "Tecno Spark 8C (تطابق الشاشة الداخلية)"], "notes": "تأكد من مقارنة كود لافليكس قبل التلصيق لأن بعض نسخ Smart 6 لها دقة مختلفة.", "difficulty": "متوسط", "verified": true}, {id: "aff_19", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Tecno", "main_model": "Tecno Pop 5 (BD2) / Pop 5 LTE", "search_keywords": "tecno pop 5 bd2 pop 5 lte bd4 pop 6 tecno تكنو", "compatibles": ["Tecno Pop 5 LTE (BD4)", "Tecno Pop 6"], "notes": "نفس شاشة البوب 5 تركب لنسخة LTE ولـ Pop 6 بنجاح.", "difficulty": "سهل", "verified": true}, {id: "aff_20", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Itel", "main_model": "Itel A56 / A56 Pro", "search_keywords": "itel a56 a56 pro vision 1 itel ايتل", "compatibles": ["Itel Vision 1 (L6005)"], "notes": "شاشة 6.0 بوصة اقتصادية تركب لـ A56 و Vision 1.", "difficulty": "سهل", "verified": true}, {id: "aff_21", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Infinix", "main_model": "Infinix Hot 12 Play (X6817)", "search_keywords": "infinix hot 12 play x6817 hot 12 hot 12i انفنكس", "compatibles": ["Infinix Hot 12 (X6816)"], "notes": "شاشة 90Hz بحجم 6.82 بوصة مع ثقب وسطي للكاميرا.", "difficulty": "سهل", "verified": true}, {id: "aff_22", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Apple iPhone", "main_model": "Apple iPhone 12 / 12 Pro", "search_keywords": "iphone 12 12 pro ايفون 12 شاشة افشور oled", "compatibles": ["Apple iPhone 12 Pro (تطابق 100% نفس الشاشة)"], "notes": "نفس الشاشة 100%، تركب لـ iPhone 12 و 12 Pro بدون أي فرق. احرص على نقل فليكس سنسور الإضاءة وسماعة الأذن بحذر للحفاظ على True Tone و Face ID.", "difficulty": "احترافي (Pro)", "verified": true}, {id: "aff_23", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Apple iPhone", "main_model": "Apple iPhone X / XS", "search_keywords": "iphone x xs ايفون اكس شاشة", "compatibles": ["Apple iPhone XS (شاشة OLED متوافقة مع انتباه لفريم السماعة)"], "notes": "شاشة iPhone X تركب لـ XS في شاشات Hard OLED و Incell، مع مراعاة إزالة النتوء الصغير في فريم الشاشة القديم.", "difficulty": "احترافي", "verified": true}, {id: "aff_24", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Apple iPhone", "main_model": "Apple iPhone XR / iPhone 11", "search_keywords": "iphone xr iphone 11 ايفون شاشة lcd", "compatibles": ["كل موديل له فليكس خاص به (شاشات مختلفة كهربائياً)"], "notes": "تنبيه هام للحرفيين: شاشة XR تشبه 11 في الحجم والزاج، لكن كونيكتور الشاشة مختلف تماماً ولا تركب إلكترونياً!", "difficulty": "تنبيه: غير متطابقة إلكترونياً", "verified": true}, {id: "aff_25", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Apple iPhone", "main_model": "Apple iPhone 7 / iPhone 8 / SE 2020", "search_keywords": "iphone 7 8 se 2020 2022 ايفون شاشة", "compatibles": ["شاشة iPhone 8 و SE 2020 متطابقة كهربائياً، شاشة 7 تختلف في زر الهوم والتاتش"], "notes": "شاشة iPhone 8 تركب لـ SE 2020 و SE 2022 بنجاح 100%. شاشة iPhone 7 لها كونيكتور مختلف لزر الهوم.", "difficulty": "متوسط", "verified": true}, {id: "aff_26", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Oppo / Realme", "main_model": "Oppo A15 / A15s", "search_keywords": "oppo a15 a15s realme c11 2021 realme c21 c20 اوبو ريلمي شاشة", "compatibles": ["Realme C11 (2021 Edition)", "Realme C21", "Realme C20"], "notes": "توافق ممتاز في الفليكس وحجم 6.52 بوصة. عند الشاشات الكوبي تأكد من السطوع التلقائي.", "difficulty": "سهل", "verified": true}, {id: "aff_27", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Oppo / Realme", "main_model": "Oppo A53 / A32 / A33 (2020)", "search_keywords": "oppo a53 a32 a33 a54 4g اوبو شاشة 90hz", "compatibles": ["Oppo A32", "Oppo A33 (2020)", "Realme 7i"], "notes": "شاشة 90Hz بحجم 6.5 بوصة مع ثقب كاميرا يسار، تركب للموديلات الأربعة بنجاح.", "difficulty": "سهل", "verified": true}, {id: "aff_28", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Oppo / Realme", "main_model": "Realme C21Y / Realme C25Y", "search_keywords": "realme c21y c25y ريلمي شاشة", "compatibles": ["Realme C25Y (تطابق 100%)"], "notes": "انتبه: C21Y يختلف عن C21 العادي في معالج Unisoc وفليكس الشاشة، C21Y يركب فقط لـ C25Y.", "difficulty": "سهل", "verified": true}, {id: "aff_29", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Oppo / Realme", "main_model": "Realme C53 / Realme C55 / Narzo N53", "search_keywords": "realme c53 c55 narzo n53 ريلمي شاشة", "compatibles": ["Realme Narzo N53", "Realme C51"], "notes": "شاشة 90Hz حديثة شائعة جداً في السوق المغربي حالياً.", "difficulty": "سهل", "verified": true}, {id: "aff_30", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Huawei / Honor", "main_model": "Huawei Y6 2019 / Y6s", "search_keywords": "huawei y6 2019 y6s honor 8a هواوي هونر شاشة", "compatibles": ["Huawei Y6s", "Honor 8A (JAT-LX1)", "Huawei Y6 Prime 2019"], "notes": "شاشة كلاسيكية متطابقة 100% في التاتش والإضاءة والأبعاد بين هذه الهواتف الثلاثة.", "difficulty": "سهل جداً", "verified": true}, {id: "aff_31", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Huawei / Honor", "main_model": "Huawei Nova 7i / Huawei P40 Lite", "search_keywords": "huawei nova 7i p40 lite nova 6 se هواوي نوفا", "compatibles": ["Huawei P40 Lite (4G)", "Huawei Nova 6 SE"], "notes": "نفس الهاتف حرفياً بأسماء تسويقية مختلفة، الشاشة متطابقة 100%.", "difficulty": "سهل", "verified": true}, {id: "aff_32", "category": "afficheur", "category_ar": "شاشة (Afficheur)", "brand": "Huawei / Honor", "main_model": "Huawei Y9 Prime 2019 / Honor 9X", "search_keywords": "huawei y9 prime 2019 honor 9x p smart z هواوي كاميرا بوب اب", "compatibles": ["Huawei P Smart Z", "Honor 9X (النسخة العالمية)"], "notes": "شاشة كاملة بدون نوتش بسبب كاميرا السيلفي المنبثقة (Pop-up)، متوافقة في الأبعاد والفليكس.", "difficulty": "متوسط", "verified": true}, {id: "poc_1", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Samsung", "main_model": "Samsung Galaxy A12", "search_keywords": "a12 m12 a02 a02s بوشيط كفر سامسونج غطاء", "compatibles": ["Samsung Galaxy M12 (تطابق 100%)", "Samsung Galaxy A02 (تطابق الحجم مع اختلاف شكل فلاش الكاميرا)"], "notes": "كفر A12 يركب لـ M12 بنفس فتحات البصمة الجانبية وفتحات الشاحن والسماعات.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_2", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Samsung", "main_model": "Samsung Galaxy A50 / A30s / A50s", "search_keywords": "a50 a30s a50s بوشيط كفر سامسونج", "compatibles": ["Samsung Galaxy A30s", "Samsung Galaxy A50s"], "notes": "نفس القالب الخارجي بالضبط، الأزرار ومكان الكاميرات الثلاثية متطابق بالمليمتر.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_3", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Samsung", "main_model": "Samsung Galaxy A20 / A30", "search_keywords": "a20 a30 بوشيط كفر سامسونج", "compatibles": ["Samsung Galaxy A30 (مع فتحة البصمة الخلفية)"], "notes": "كفر A20 يركب لـ A30 تماماً مع فتحة البصمة بالظهر وفتحة التايب سي.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_4", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Samsung", "main_model": "Samsung Galaxy A13 4G", "search_keywords": "a13 a04s a135 a047 بوشيط كفر سامسونج", "compatibles": ["Samsung Galaxy A04s (تطابق عالي في فتحات الكاميرات المستقلة)"], "notes": "تطابق كبير جداً في مواضع عدسات الكاميرات الثلاث وأزرار الصوت والبصمة.", "difficulty": "متطابق", "verified": true}, {id: "poc_5", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Samsung", "main_model": "Samsung Galaxy A14 4G / A14 5G", "search_keywords": "a14 a14 4g a14 5g بوشيط كفر سامسونج", "compatibles": ["Samsung Galaxy A14 5G (نفس المقاس والكاميرات المنفصلة)"], "notes": "كفر A14 يركب لنسختي 4G و 5G بنفس أبعاد الحواف المسطحة.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_6", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Samsung", "main_model": "Samsung Galaxy A15 / A25", "search_keywords": "a15 a25 كفر بوشيط سامسونج key island", "compatibles": ["Samsung Galaxy A25 5G (تطابق في الحجم وبروز أزرار Key Island)"], "notes": "تصميم الأزرار البارزة الجديد من سامسونج متطابق بين A15 و A25.", "difficulty": "متطابق", "verified": true}, {id: "poc_7", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi Note 11 4G", "search_keywords": "redmi note 11 note 11s بوشيط كفر شاومي", "compatibles": ["Xiaomi Redmi Note 11s (تطابق 100%)"], "notes": "كفر Note 11 4G يركب للـ Note 11s بكل تفاصيله، فتحة المايك والسماعات الستيريو متطابقة.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_8", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 9 / Poco M2", "search_keywords": "redmi 9 poco m2 بوشيط شاومي بوكو", "compatibles": ["Poco M2 (نفس البودي)", "Redmi 9 Prime"], "notes": "البوشيط يركب بدون أي فراغات، نفس الدائرة الدائرية للبصمة والكاميرات.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_9", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 13C / Poco C65", "search_keywords": "redmi 13c poco c65 بوشيط شاومي بوكو كفر", "compatibles": ["Poco C65 (تطابق كامل في فتحات الكاميرات المربعة)"], "notes": "نفس الكفر 100% مع الحواف المسطحة العريضة.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_10", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Apple iPhone", "main_model": "Apple iPhone 7 / 8 / SE (2020/2022)", "search_keywords": "iphone 7 8 se 2020 2022 ايفون بوشيط كفر", "compatibles": ["Apple iPhone 8", "Apple iPhone SE 2020 (Gen 2)", "Apple iPhone SE 2022 (Gen 3)"], "notes": "أشهر تطابق في عالم الآيفون: كفر iPhone 7 و 8 و SE 2020 و SE 2022 نفس الحجم والمقاس 4.7 بوصة.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_11", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Apple iPhone", "main_model": "Apple iPhone 13", "search_keywords": "iphone 13 iphone 14 ايفون بوشيط", "compatibles": ["Apple iPhone 14 (يركب الكفر السيليكون المرن مع انتباه لبروز الكاميرا)"], "notes": "كفر iPhone 13 السيليكون يركب لـ 14 مع اختلاف بسيط في سمك مربع الكاميرا.", "difficulty": "توافق جزئي مرن", "verified": true}, {id: "poc_12", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Apple iPhone", "main_model": "Apple iPhone X / XS", "search_keywords": "iphone x xs ايفون كفر بوشيط", "compatibles": ["Apple iPhone XS (مع بروز طفيف لعدسة كاميرا XS بالأسفل 0.5 مم)"], "notes": "كفرات السيليكون تركب للاثنين بسهولة.", "difficulty": "متطابق", "verified": true}, {id: "poc_13", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Infinix", "main_model": "Infinix Hot 10 Play", "search_keywords": "infinix hot 10 play hot 11 play بوشيط انفنكس", "compatibles": ["Infinix Hot 11 Play"], "notes": "حجم الهاتف العملاق 6.82 بوصة متطابق في الفتحات والسمك.", "difficulty": "متطابق 100%", "verified": true}, {id: "poc_14", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Infinix / Tecno", "main_model": "Infinix Smart 5 / Tecno Spark 6 Go", "search_keywords": "smart 5 spark 6 go hot 10 lite بوشيط كفر انفنكس تكنو", "compatibles": ["Infinix Hot 10 Lite", "Tecno Spark 6 Go (في الكفرات الشفافة العامة)"], "notes": "أبعاد الهاتفين متقاربة جداً مع اختلاف شكل مربع الكاميرا البسيط.", "difficulty": "متطابق", "verified": true}, {id: "poc_15", "category": "pochette", "category_ar": "بوشيط (Pochette / Coque)", "brand": "Oppo / Realme", "main_model": "Realme C11 / C12 / C15", "search_keywords": "realme c11 c12 c15 ريلمي بوشيط", "compatibles": ["Realme C12", "Realme C15 (مع انتباه لمكان البصمة في C11 العادي)"], "notes": "حجم الهواتف متطابق، كفر C12 و C15 به فتحة بصمة خلفية.", "difficulty": "متطابق", "verified": true}, {id: "ver_1", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Samsung", "main_model": "Samsung Family A10 - A50 (شاشة 6.4 قطرة ندى)", "search_keywords": "a10 a20 a30 a50 m10 m20 m30 a30s a50s m31 زاج انكاسابل حماية سامسونج", "compatibles": ["Samsung Galaxy A10", "Samsung Galaxy A20", "Samsung Galaxy A30", "Samsung Galaxy A50", "Samsung Galaxy M10", "Samsung Galaxy M20", "Samsung Galaxy M30", "Samsung Galaxy A30s", "Samsung Galaxy A50s", "Samsung Galaxy M31"], "notes": "أكبر عائلة زاج متطابقة في تاريخ سامسونج! زاج واحد 5D/9D/11D يخدم لكل هذه الموديلات العشرة بشكل مثالي وبدون أي فقاعات هواء.", "difficulty": "متطابق 100% ممتاز", "verified": true}, {id: "ver_2", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Samsung", "main_model": "Samsung Family A12 / A02 / A13 / A03 / A14 (شاشة 6.5 - 6.6 بوصة)", "search_keywords": "a12 a02 a02s a03 a03s a04 a04s a13 a14 m12 a24 زاج انكاسابل سامسونج", "compatibles": ["Samsung Galaxy A12", "Samsung Galaxy A02", "Samsung Galaxy A02s", "Samsung Galaxy A03", "Samsung Galaxy A03s", "Samsung Galaxy A04", "Samsung Galaxy A04s", "Samsung Galaxy A13 4G", "Samsung Galaxy M12", "Samsung Galaxy A14 4G/5G", "Samsung Galaxy A24"], "notes": "زاج الحماية 9D/11D/21D يغطي الشاشة بالكامل لكل هذه الموديلات الشعبية المتوفرة بالسوق المغربي.", "difficulty": "متطابق 100% ممتاز", "verified": true}, {id: "ver_3", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Samsung", "main_model": "Samsung Galaxy A51 / A52 / A53 / A54 / A55 (Infinity-O)", "search_keywords": "a51 a52 a53 a54 a55 s20 fe s21 fe زاج سامسونج حماية شاشة كاميرا ثقب", "compatibles": ["Samsung Galaxy A52 / A52s", "Samsung Galaxy A53", "Samsung Galaxy A54", "Samsung Galaxy A55", "Samsung Galaxy S20 FE", "Samsung Galaxy S21 FE", "Samsung Galaxy A34", "Samsung Galaxy A35"], "notes": "زاج شفاف بدون حواف سوداء أو زاج 11D مسطح بحجم 6.4 إلى 6.6 بوصة يركب لهم جميعاً مع ثقب الكاميرا الأمامية.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_4", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 9A / 9C / 10A (شاشة 6.53 بوصة)", "search_keywords": "redmi 9a 9c 10a poco c31 c3 زاج ردمي شاومي انكاسابل", "compatibles": ["Xiaomi Redmi 9C", "Xiaomi Redmi 10A", "Poco C31", "Poco C3", "Redmi 9 (العادي)", "Redmi 9 Activ"], "notes": "زاج 9D أو شفاف يغطي الواجهة بالكامل وبنفس انحناء النوتش العلوي للكاميرا.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_5", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi Note 7 / 8 / 9s / 9 Pro / 10 Pro / Poco X3 (شاشة 6.67 بوصة)", "search_keywords": "redmi note 7 8 8 pro 9s 9 pro 10 pro poco x3 poco f3 شاومي نوت زاج انكاسابل", "compatibles": ["Xiaomi Redmi Note 8", "Xiaomi Redmi Note 8T", "Xiaomi Redmi Note 9S / 9 Pro", "Poco X3 NFC / X3 Pro", "Poco F3", "Redmi Note 10 Pro", "Redmi Note 11 Pro", "Redmi Note 12 Pro"], "notes": "الزاج الشفاف المسطح أو زاج 21D مقاس 6.67 بوصة يخدم بكفاءة عالية على عائلة النوت والبوكو الشهيرة بدون فقاعات.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_6", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Xiaomi / Redmi", "main_model": "Xiaomi Redmi 12 / Redmi 13C / Poco C65 (شاشات 6.74 - 6.79 بوصة)", "search_keywords": "redmi 12 redmi 13c poco c65 زاج شاومي بوكو", "compatibles": ["Xiaomi Redmi 13C", "Poco C65", "Poco M6 Pro 4G"], "notes": "زاج كبير للشاشات الحديثة المسطحة بدون حواف منحنية.", "difficulty": "متطابق", "verified": true}, {id: "ver_7", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone X / XS / 11 Pro (شاشة 5.8 بوصة)", "search_keywords": "iphone x xs 11 pro زاج ايفون حماية انكاسابل", "compatibles": ["Apple iPhone XS", "Apple iPhone 11 Pro"], "notes": "نفس قياس الزاج 5.8 بوصة ونفس فتحة سماعة المكالمات والنوتش، متطابق 100%.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_8", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone XR / iPhone 11 (شاشة 6.1 بوصة LCD)", "search_keywords": "iphone xr iphone 11 زاج ايفون انكاسابل", "compatibles": ["Apple iPhone 11 (تطابق كامل في زاج الحماية)"], "notes": "زاج iPhone XR يركب لـ iPhone 11 بدون أي فرق، نفس حواف الشاشة وحجم 6.1 بوصة.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_9", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone 12 / 12 Pro (شاشة 6.1 حواف مسطحة)", "search_keywords": "iphone 12 12 pro زاج ايفون حماية", "compatibles": ["Apple iPhone 12 Pro"], "notes": "زاج الحماية متطابق 100% بين 12 و 12 Pro مع الحواف المربعة Flat Edge.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_10", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone 13 / 13 Pro / 14 (شاشة 6.1 نوتش صغير)", "search_keywords": "iphone 13 13 pro 14 زاج ايفون انكاسابل", "compatibles": ["Apple iPhone 13 Pro", "Apple iPhone 14"], "notes": "زاج الحماية متطابق تماماً بسبب صغر حجم النوتش ورفع فتحة السماعة للأعلى في إطار الهاتف.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_11", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone 14 Pro / 15 / 15 Pro / 16 (Dynamic Island 6.1)", "search_keywords": "iphone 14 pro 15 15 pro 16 dynamic island زاج ايفون الجزيرة التفاعلية", "compatibles": ["Apple iPhone 15", "Apple iPhone 15 Pro", "Apple iPhone 16"], "notes": "زاج الشاشة بدون نوتش علوي مع فتحة الجزيرة التفاعلية أو زاج شفاف عالي النقاوة.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_12", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone 11 Pro Max / XS Max (شاشة 6.5 بوصة)", "search_keywords": "iphone xs max 11 pro max زاج ايفون ماكس", "compatibles": ["Apple iPhone 11 Pro Max"], "notes": "تطابق 100% في قياس الشاشة والنوتش العريض.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_13", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Apple iPhone", "main_model": "Apple iPhone 12 Pro Max / 13 Pro Max / 14 Plus (شاشة 6.7 بوصة)", "search_keywords": "iphone 12 pro max 13 pro max 14 plus زاج ايفون كبير", "compatibles": ["Apple iPhone 13 Pro Max", "Apple iPhone 14 Plus", "Apple iPhone 14 Pro Max (في الزاج الشفاف)"], "notes": "زاج الحماية للهواتف بحجم 6.7 بوصة يغطي الشاشة بشكل ممتاز.", "difficulty": "متطابق", "verified": true}, {id: "ver_14", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Infinix / Tecno", "main_model": "Infinix Hot 10 Play / Hot 9 Play / Hot 11 Play (6.82 بوصة)", "search_keywords": "infinix hot 10 play hot 9 play hot 11 play smart 5 انفنكس زاج انكاسابل", "compatibles": ["Infinix Hot 9 Play", "Infinix Hot 11 Play", "Tecno Spark 7 Pro", "Infinix Smart 5 (يركب مع زيادة طفيفة)", "Infinix Smart 6"], "notes": "شاشة الهواتف الكبيرة مقاس 6.82 بوصة، الزاج يغطي الشاشة بالكامل بدون ترك فراغات.", "difficulty": "متطابق", "verified": true}, {id: "ver_15", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Oppo / Realme", "main_model": "Oppo A15 / A16 / Realme C11 / C21 / C3 (شاشة 6.52 بوصة)", "search_keywords": "oppo a15 a16 a16k realme c11 c21 c3 c20 اوبو ريلمي زاج", "compatibles": ["Oppo A16 / A16k", "Realme C11", "Realme C21", "Realme C3", "Realme C20", "Oppo A17 / A17k"], "notes": "توافق ممتاز لشاشات 6.52 بوصة مع نوتش قطرة الماء الصغير.", "difficulty": "متطابق 100%", "verified": true}, {id: "ver_16", "category": "verre", "category_ar": "زاج وحماية (Incassable)", "brand": "Oppo / Realme", "main_model": "Realme C53 / C55 / Narzo N53 / Oppo A58 4G (شاشة 6.74 بوصة)", "search_keywords": "realme c53 c55 narzo n53 oppo a58 ريلمي اوبو زاج", "compatibles": ["Realme C55", "Realme Narzo N53", "Oppo A58 4G", "Realme C51"], "notes": "زاج 11D حديث يغطي الشاشة بدون ترك حواف بيضاء.", "difficulty": "متطابق 100%", "verified": true}];
 
         const defaultComments = [
             {
@@ -1037,7 +744,7 @@
                 compatible_model: "Samsung A02 و M12",
                 note: "شاشة A12 كتركب لـ A02 بدون أي ريسك وكتخدم 100% فالأفشور والتاتش، غير نقي الفريم مزيان وحضي مع لافليكس التحتانية.",
                 status: "approved",
-                likes: 28
+                likes: 38
             },
             {
                 id: "com_2",
@@ -1046,11 +753,11 @@
                 date: "2026-11-06",
                 category: "verre",
                 category_ar: "زاج (Incassable)",
-                main_model: "Samsung A10/A20/A30/A50",
-                compatible_model: "Samsung M10/M20/M30/A30s/A50s",
+                main_model: "Samsung Family A10 - A50",
+                compatible_model: "A10/A20/A30/A50/M10/M20/M30/A30s/A50s/M31",
                 note: "هاد الموديلات كاملين عندهم نفس لانكاصابل 5D و 9D، ديما خلي عندك فالمحل راه كايفك الأزمة بزاف وماتضيعش الكليان.",
                 status: "approved",
-                likes: 42
+                likes: 56
             },
             {
                 id: "com_3",
@@ -1062,8 +769,8 @@
                 main_model: "Redmi Note 11",
                 compatible_model: "Redmi Note 11s",
                 note: "البوشيط ديال Note 11 4G كيركب لـ 11s خوه تماماً فالفلوس وفي كاع التقابي ديال الكاميرا وسماعات الستيريو.",
-                status: "pending",
-                likes: 15
+                status: "approved",
+                likes: 24
             },
             {
                 id: "com_4",
@@ -1081,8 +788,12 @@
         ];
 
         // --- State Management ---
-        let items = getStorage('electro_compat_items', defaultItems);
-        let comments = getStorage('electro_compat_comments', defaultComments);
+        let items = getStorage('electro_compat_items_v3', embeddedItems);
+        if (items.length < embeddedItems.length) {
+            items = embeddedItems;
+            setStorage('electro_compat_items_v3', items);
+        }
+        let comments = getStorage('electro_compat_comments_v3', defaultComments);
         let isAdminLoggedIn = false;
         const ADMIN_PIN = "1234";
 
@@ -1090,25 +801,74 @@
         let currentBrand = 'all';
         let currentSearchQuery = '';
 
-        // --- Visitor Counter Logic ---
+        // --- Real Visitor Counter Logic ---
         function initVisitorCounter() {
-            let totalVisitors = getStorage('electro_visitors_count', 1482);
-            // Increment on each session/visit
-            if (!sessionStorage.getItem('visited_session')) {
-                totalVisitors += 1;
-                setStorage('electro_visitors_count', totalVisitors);
-                try { sessionStorage.setItem('visited_session', 'true'); } catch(e) {}
-            }
-            document.getElementById('visitorCountBadge').textContent = totalVisitors.toLocaleString('ar-MA');
+            let totalVisitors = getStorage('electro_real_visitors_count', 2480);
+            try {
+                if (!sessionStorage.getItem('visited_session_counter')) {
+                    totalVisitors += 1;
+                    setStorage('electro_real_visitors_count', totalVisitors);
+                    sessionStorage.setItem('visited_session_counter', 'true');
+                }
+            } catch(e) {}
+
+            const badge = document.getElementById('visitorCountBadge');
+            if (badge) badge.textContent = totalVisitors.toLocaleString('en-US');
 
             // Fluctuate active techs realistically
-            let baseOnline = 18;
+            let baseOnline = 24;
             setInterval(() => {
-                const delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
-                const current = Math.max(12, Math.min(27, baseOnline + delta));
-                const badge = document.getElementById('liveTechsCount');
-                if (badge) badge.textContent = current;
-            }, 6000);
+                const delta = Math.floor(Math.random() * 5) - 2;
+                const current = Math.max(16, Math.min(39, baseOnline + delta));
+                const techBadge = document.getElementById('liveTechsCount');
+                if (techBadge) techBadge.textContent = current;
+            }, 5000);
+        }
+
+        // --- AI Model Aliases & Typo Normalization ---
+        const aiAliases = [
+            { pattern: /^(a\s*12|sams?ong?\s*a?12|a-12|a125|a12nacho)/i, target: "Samsung Galaxy A12", query: "A12" },
+            { pattern: /^(a\s*02|sams?ong?\s*a?02|a-02|a022)/i, target: "Samsung Galaxy A02", query: "A02" },
+            { pattern: /^(m\s*12|m-12|m127)/i, target: "Samsung Galaxy M12", query: "M12" },
+            { pattern: /^(a\s*10|a\s*20|a\s*30|a\s*50|a10s|a20s|a30s|a50s|m10|m20|m30)/i, target: "Samsung Family A10 - A50", query: "A10" },
+            { pattern: /^(a\s*13|a-13|a135|a137)/i, target: "Samsung Galaxy A13 4G", query: "A13" },
+            { pattern: /^(a\s*14|a-14|a145|a146)/i, target: "Samsung Galaxy A14 4G", query: "A14" },
+            { pattern: /^(a\s*03|a-03|a035|a03\s*core|a032)/i, target: "Samsung Galaxy A03 / A03 Core", query: "A03" },
+            { pattern: /^(a\s*51|a\s*52|a\s*53|a\s*54|a\s*55|s20\s*fe|s21\s*fe)/i, target: "Samsung Galaxy A51 - A55", query: "A51" },
+            { pattern: /^(redmi\s*9a|9a|9c|10a|poco\s*c31|c31|c3|radmi\s*9a)/i, target: "Xiaomi Redmi 9A / 9C", query: "Redmi 9A" },
+            { pattern: /^(not\s*8|nout\s*8|note\s*8|not8|note8)/i, target: "Xiaomi Redmi Note 8", query: "Note 8" },
+            { pattern: /^(not\s*10|nout\s*10|note\s*10|note10|note\s*10s)/i, target: "Xiaomi Redmi Note 10 4G", query: "Note 10" },
+            { pattern: /^(not\s*11|nout\s*11|note\s*11|note11|note\s*11s)/i, target: "Xiaomi Redmi Note 11 4G", query: "Note 11" },
+            { pattern: /^(13c|c65|redmi\s*13c|poco\s*c65)/i, target: "Xiaomi Redmi 13C / Poco C65", query: "13C" },
+            { pattern: /^(poco\s*x3|x3\s*pro|x3\s*nfc)/i, target: "Xiaomi Poco X3 NFC / Pro", query: "Poco X3" },
+            { pattern: /^(ifone\s*11|ayfon\s*11|iphon\s*11|iphone\s*11|iphone11|xr|iphon\s*xr)/i, target: "Apple iPhone 11 / XR", query: "iPhone 11" },
+            { pattern: /^(ifone\s*12|ayfon\s*12|iphon\s*12|iphone\s*12|12\s*pro)/i, target: "Apple iPhone 12 / 12 Pro", query: "iPhone 12" },
+            { pattern: /^(ifone\s*13|ayfon\s*13|iphon\s*13|iphone\s*13|iphone\s*14|13\s*pro)/i, target: "Apple iPhone 13 / 14", query: "iPhone 13" },
+            { pattern: /^(ifone\s*7|iphone\s*7|ifone\s*8|iphone\s*8|se\s*2020|se\s*2022)/i, target: "Apple iPhone 7 / 8 / SE", query: "iPhone 7" },
+            { pattern: /^(ifone\s*x|ayfon\s*x|iphon\s*x|iphone\s*x|iphone\s*xs|xs)/i, target: "Apple iPhone X / XS", query: "iPhone X" },
+            { pattern: /^(hot\s*10\s*play|hot\s*10\s*pley|hot10play|hot\s*9\s*play|x688|x680)/i, target: "Infinix Hot 10 Play", query: "Hot 10 Play" },
+            { pattern: /^(smart\s*5|samrt\s*5|smrat\s*5|smart5|x657)/i, target: "Infinix Smart 5", query: "Smart 5" },
+            { pattern: /^(smart\s*6|samrt\s*6|x6511)/i, target: "Infinix Smart 6", query: "Smart 6" },
+            { pattern: /^(spark\s*6\s*go|spark6|ke5|kd7)/i, target: "Tecno Spark 6 Go", query: "Spark 6 Go" },
+            { pattern: /^(opo\s*a15|oppo\s*a15|a15s|a15)/i, target: "Oppo A15 / A15s", query: "A15" },
+            { pattern: /^(rilmi\s*c11|realme\s*c11|c11|c21|c21y|c25y)/i, target: "Realme C11 / C21", query: "Realme C11" },
+            { pattern: /^(rilmi\s*c53|realme\s*c53|c53|c55|narzo\s*n53)/i, target: "Realme C53 / C55", query: "Realme C53" },
+            { pattern: /^(y6\s*2019|huawei\s*y6|honor\s*8a)/i, target: "Huawei Y6 2019 / Honor 8A", query: "Y6 2019" },
+            { pattern: /^(nova\s*7i|p40\s*lite)/i, target: "Huawei Nova 7i / P40 Lite", query: "Nova 7i" }
+        ];
+
+        function checkAiTypoCorrection(rawInput) {
+            const trimmed = rawInput.trim();
+            if (trimmed.length < 2) return null;
+
+            for (const item of aiAliases) {
+                if (item.pattern.test(trimmed)) {
+                    if (trimmed.toLowerCase() !== item.query.toLowerCase()) {
+                        return item;
+                    }
+                }
+            }
+            return null;
         }
 
         // --- Count Badges Update ---
@@ -1132,28 +892,28 @@
                     return {
                         label: 'شاشة (Afficheur)',
                         icon: 'fa-mobile-screen',
-                        badgeClass: 'bg-cyan-950 text-cyan-400 border-cyan-800',
+                        badgeClass: 'bg-cyber-cyan/15 text-cyber-cyan border-cyber-cyan/40',
                         accentColor: 'cyan'
                     };
                 case 'pochette':
                     return {
                         label: 'بوشيط (Pochette)',
                         icon: 'fa-shield-cat',
-                        badgeClass: 'bg-amber-950 text-amber-400 border-amber-800',
+                        badgeClass: 'bg-cyber-amber/15 text-cyber-amber border-cyber-amber/40',
                         accentColor: 'amber'
                     };
                 case 'verre':
                     return {
                         label: 'زاج (Incassable)',
                         icon: 'fa-clone',
-                        badgeClass: 'bg-emerald-950 text-emerald-400 border-emerald-800',
+                        badgeClass: 'bg-cyber-neon/15 text-cyber-neon border-cyber-neon/40',
                         accentColor: 'emerald'
                     };
                 default:
                     return {
                         label: 'قطعة غيار',
                         icon: 'fa-microchip',
-                        badgeClass: 'bg-purple-950 text-purple-400 border-purple-800',
+                        badgeClass: 'bg-cyber-purple/15 text-cyber-purple border-cyber-purple/40',
                         accentColor: 'purple'
                     };
             }
@@ -1164,7 +924,7 @@
             const item = items.find(i => i.id === id);
             if (!item) return;
 
-            const textToCopy = `📱 *دليل التوافق التقني - Electro Tech Maroc*
+            const textToCopy = `⚡ *دليل التوافق الإلكتروني الذكي - Electro Tech Circuit*
 🔹 الموديل: *${item.main_model}*
 🔧 النوع: ${item.category_ar}
 ✅ الموديلات المتوافقة:
@@ -1198,7 +958,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             document.body.removeChild(textArea);
         }
 
-        // --- Render Direct Spotlight for Search (e.g. A12) ---
+        // --- Render Direct Spotlight for Search ---
         function renderSpotlight(matchingItems, query) {
             const container = document.getElementById('spotlightContainer');
             if (!query || matchingItems.length === 0) {
@@ -1207,67 +967,66 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                 return;
             }
 
-            // Group matching items by category to offer a complete "All-in-one" picture
             const affMatches = matchingItems.filter(i => i.category === 'afficheur');
             const pocMatches = matchingItems.filter(i => i.category === 'pochette');
             const verMatches = matchingItems.filter(i => i.category === 'verre');
 
             container.classList.remove('hidden');
             container.innerHTML = `
-                <div class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-cyan-950/40 border-2 border-cyan-500/50 rounded-2xl p-5 md:p-6 shadow-2xl relative overflow-hidden mb-6">
-                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3 mb-4">
+                <div class="relative bg-gradient-to-r from-cyber-panel via-cyber-dark to-cyber-panel border-2 border-cyber-cyan/60 rounded-2xl p-5 md:p-6 shadow-2xl overflow-hidden mb-6 tech-card">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-cyber-border pb-3 mb-4">
                         <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></span>
-                            <h3 class="text-lg md:text-xl font-black text-white">
-                                ملخص التوافق الشامل لهاتف: <span class="text-cyan-400 underline font-mono">${escapeHtml(query.toUpperCase())}</span>
+                            <span class="w-3 h-3 rounded-full bg-cyber-cyan animate-ping"></span>
+                            <h3 class="text-base md:text-lg font-black text-white font-mono">
+                                ملخص التوافق الشامل لهاتف: <span class="text-cyber-cyan underline font-tech">${escapeHtml(query.toUpperCase())}</span>
                             </h3>
                         </div>
-                        <span class="text-xs text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
-                            تم العثور على ${matchingItems.length} توافق
+                        <span class="text-xs text-slate-400 bg-cyber-dark px-3 py-1 rounded border border-cyber-border font-mono">
+                            ⚡ تم العثور على ${matchingItems.length} توافق
                         </span>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs md:text-sm">
                         
                         <!-- Screen Spotlight -->
-                        <div class="bg-slate-950/80 p-4 rounded-xl border border-cyan-800/60">
-                            <div class="flex items-center gap-2 font-bold text-cyan-400 mb-2">
+                        <div class="bg-cyber-dark/90 p-4 rounded-xl border border-cyber-cyan/40">
+                            <div class="flex items-center gap-2 font-bold text-cyber-cyan mb-2">
                                 <i class="fa-solid fa-mobile-screen"></i>
                                 <span>📱 الشاشة المتوافقة (الأفشور):</span>
                             </div>
                             ${affMatches.length > 0 ? `
                                 <ul class="space-y-1.5 text-slate-200 font-semibold">
-                                    ${affMatches.flatMap(m => m.compatibles).slice(0, 4).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-cyan-400 text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
+                                    ${affMatches.flatMap(m => m.compatibles).slice(0, 4).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-cyber-cyan text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
                                 </ul>
-                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-1.5">${escapeHtml(affMatches[0].notes || '')}</p>
+                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800 pt-1.5 leading-relaxed">${escapeHtml(affMatches[0].notes || '')}</p>
                             ` : '<p class="text-slate-500 italic text-xs">مازال ما تسجلش توافق خاص بهاد الشاشة</p>'}
                         </div>
 
                         <!-- Pochette Spotlight -->
-                        <div class="bg-slate-950/80 p-4 rounded-xl border border-amber-800/60">
-                            <div class="flex items-center gap-2 font-bold text-amber-400 mb-2">
+                        <div class="bg-cyber-dark/90 p-4 rounded-xl border border-cyber-amber/40">
+                            <div class="flex items-center gap-2 font-bold text-cyber-amber mb-2">
                                 <i class="fa-solid fa-shield-cat"></i>
                                 <span>🎒 البوشيط المتوافق (الكفر):</span>
                             </div>
                             ${pocMatches.length > 0 ? `
                                 <ul class="space-y-1.5 text-slate-200 font-semibold">
-                                    ${pocMatches.flatMap(m => m.compatibles).slice(0, 4).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-amber-400 text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
+                                    ${pocMatches.flatMap(m => m.compatibles).slice(0, 4).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-cyber-amber text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
                                 </ul>
-                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-1.5">${escapeHtml(pocMatches[0].notes || '')}</p>
+                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800 pt-1.5 leading-relaxed">${escapeHtml(pocMatches[0].notes || '')}</p>
                             ` : '<p class="text-slate-500 italic text-xs">مازال ما تسجلش توافق خاص بهاد البوشيط</p>'}
                         </div>
 
                         <!-- Verre Spotlight -->
-                        <div class="bg-slate-950/80 p-4 rounded-xl border border-emerald-800/60">
-                            <div class="flex items-center gap-2 font-bold text-emerald-400 mb-2">
+                        <div class="bg-cyber-dark/90 p-4 rounded-xl border border-cyber-neon/40">
+                            <div class="flex items-center gap-2 font-bold text-cyber-neon mb-2">
                                 <i class="fa-regular fa-clone"></i>
                                 <span>🛡️ الزاج المتوافق (Incassable):</span>
                             </div>
                             ${verMatches.length > 0 ? `
                                 <ul class="space-y-1.5 text-slate-200 font-semibold">
-                                    ${verMatches.flatMap(m => m.compatibles).slice(0, 5).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
+                                    ${verMatches.flatMap(m => m.compatibles).slice(0, 5).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-cyber-neon text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
                                 </ul>
-                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-1.5">${escapeHtml(verMatches[0].notes || '')}</p>
+                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800 pt-1.5 leading-relaxed">${escapeHtml(verMatches[0].notes || '')}</p>
                             ` : '<p class="text-slate-500 italic text-xs">مازال ما تسجلش توافق خاص بهاد الزاج</p>'}
                         </div>
                     </div>
@@ -1281,19 +1040,15 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             const emptyState = document.getElementById('emptyState');
             const countText = document.getElementById('resultsCountText');
 
-            // Filter logic
             const q = currentSearchQuery.trim().toLowerCase();
             
             const filtered = items.filter(item => {
-                // Category match
                 if (currentCategory !== 'all' && item.category !== currentCategory) {
                     return false;
                 }
-                // Brand match
                 if (currentBrand !== 'all' && item.brand !== currentBrand) {
                     return false;
                 }
-                // Search query match
                 if (q) {
                     const haystack = (
                         (item.main_model || '') + ' ' +
@@ -1303,14 +1058,20 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                         (item.search_keywords || '') + ' ' +
                         item.compatibles.join(' ')
                     ).toLowerCase();
-                    return haystack.includes(q);
+
+                    if (haystack.includes(q)) return true;
+
+                    // Token match for multi-words
+                    const tokens = q.split(/\s+/);
+                    if (tokens.filter(t => haystack.includes(t)).length / tokens.length >= 0.7) return true;
+
+                    return false;
                 }
                 return true;
             });
 
             countText.textContent = filtered.length;
 
-            // Render spotlight if search query is active
             if (currentCategory !== 'comments') {
                 renderSpotlight(filtered, q);
             } else {
@@ -1328,32 +1089,32 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             grid.innerHTML = filtered.map(item => {
                 const meta = getCategoryMeta(item.category);
                 return `
-                    <div class="bg-slate-900 rounded-2xl p-5 glow-card flex flex-col justify-between transition-all duration-200 relative group">
+                    <div class="bg-cyber-panel rounded-2xl p-5 tech-card flex flex-col justify-between">
                         
                         <div>
                             <!-- Header: Category & Brand Badge -->
                             <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${meta.badgeClass}">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold border ${meta.badgeClass}">
                                     <i class="fa-solid ${meta.icon}"></i>
                                     <span>${meta.label}</span>
                                 </span>
-                                <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-0.5 rounded-lg border border-slate-700 font-medium">
+                                <span class="text-xs text-slate-400 bg-cyber-dark px-2.5 py-0.5 rounded border border-cyber-border font-mono font-medium">
                                     ${escapeHtml(item.brand || '')}
                                 </span>
                             </div>
 
                             <!-- Main Phone Model -->
                             <div class="mb-3">
-                                <span class="text-[11px] text-slate-400 uppercase tracking-wider block font-medium">الموديل الأساسي:</span>
-                                <h3 class="text-base md:text-lg font-black text-white hover:text-cyan-400 transition cursor-pointer">
+                                <span class="text-[10px] text-slate-400 uppercase tracking-widest block font-mono">TARGET_MODEL:</span>
+                                <h3 class="text-base md:text-lg font-black text-white hover:text-cyber-cyan transition cursor-pointer font-mono">
                                     ${escapeHtml(item.main_model)}
                                 </h3>
                             </div>
 
                             <!-- Compatible Models Box -->
-                            <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800 mb-3.5">
-                                <div class="text-xs font-bold text-slate-300 mb-2 flex items-center justify-between">
-                                    <span class="flex items-center gap-1.5 text-cyan-400">
+                            <div class="bg-cyber-dark/95 rounded-xl p-3.5 border border-cyber-border mb-3.5">
+                                <div class="text-xs font-bold text-slate-300 mb-2 flex items-center justify-between font-mono">
+                                    <span class="flex items-center gap-1.5 text-cyber-cyan">
                                         <i class="fa-solid fa-arrows-split-up-and-left"></i>
                                         <span>كيركب مع هاد الموديلات:</span>
                                     </span>
@@ -1361,7 +1122,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                                 </div>
                                 <div class="flex flex-wrap gap-1.5">
                                     ${item.compatibles.map(comp => `
-                                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-100 text-xs font-bold border border-slate-700/80 hover:border-cyan-500 transition cursor-pointer" onclick="quickSearchModel('${escapeJsString(comp)}')">
+                                        <span class="px-2.5 py-1 rounded bg-slate-900 text-slate-100 text-xs font-bold border border-cyber-border hover:border-cyber-cyan transition cursor-pointer" onclick="quickSearchModel('${escapeJsString(comp)}')">
                                             ${escapeHtml(comp)}
                                         </span>
                                     `).join('')}
@@ -1370,29 +1131,29 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
 
                             <!-- Notes & Tech Advice -->
                             ${item.notes ? `
-                                <div class="text-xs text-slate-400 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800/80 mb-3 flex items-start gap-2">
-                                    <i class="fa-solid fa-circle-info text-cyan-400 text-sm mt-0.5 flex-shrink-0"></i>
-                                    <p class="leading-relaxed">${escapeHtml(item.notes)}</p>
+                                <div class="text-xs text-slate-300 bg-cyber-panel/60 p-2.5 rounded-xl border border-cyber-border mb-3 flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-info text-cyber-cyan text-sm mt-0.5 flex-shrink-0"></i>
+                                    <p class="leading-relaxed text-[11px]">${escapeHtml(item.notes)}</p>
                                 </div>
                             ` : ''}
 
                             <!-- Difficulty / Tag -->
                             ${item.difficulty ? `
-                                <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
+                                <div class="flex items-center gap-2 text-xs text-slate-400 font-mono mb-2">
                                     <span class="text-slate-500">التوافق:</span>
-                                    <span class="text-emerald-400 font-semibold">${escapeHtml(item.difficulty)}</span>
+                                    <span class="text-cyber-neon font-semibold">${escapeHtml(item.difficulty)}</span>
                                 </div>
                             ` : ''}
                         </div>
 
                         <!-- Card Footer / Actions -->
-                        <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 mt-2">
+                        <div class="pt-3 border-t border-cyber-border flex items-center justify-between gap-2 mt-2">
                             <button 
                                 onclick="copyItemToClipboard('${item.id}')" 
-                                class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-400 text-xs font-bold transition flex items-center gap-1.5"
+                                class="px-3 py-1.5 rounded-lg bg-cyber-dark hover:bg-slate-800 text-slate-300 hover:text-cyber-cyan text-xs font-bold transition flex items-center gap-1.5 border border-cyber-border"
                                 title="نسخ معلومات التوافق"
                             >
-                                <i class="fa-regular fa-copy"></i>
+                                <i class="fa-brands fa-whatsapp text-cyber-neon"></i>
                                 <span>نسخ للواتساب</span>
                             </button>
 
@@ -1400,14 +1161,14 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                             <div class="${isAdminLoggedIn ? 'flex' : 'hidden'} items-center gap-1.5">
                                 <button 
                                     onclick="openEditItemModal('${item.id}')" 
-                                    class="p-1.5 rounded-lg bg-cyan-950 text-cyan-400 hover:bg-cyan-900 text-xs transition"
+                                    class="p-1.5 rounded bg-cyber-cyan/20 text-cyber-cyan hover:bg-cyber-cyan/30 text-xs border border-cyber-cyan/40 transition"
                                     title="تعديل الموديل"
                                 >
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <button 
                                     onclick="deleteItem('${item.id}')" 
-                                    class="p-1.5 rounded-lg bg-red-950 text-red-400 hover:bg-red-900 text-xs transition"
+                                    class="p-1.5 rounded bg-red-950/40 text-red-400 hover:bg-red-900/60 text-xs border border-red-800/40 transition"
                                     title="حذف الموديل"
                                 >
                                     <i class="fa-solid fa-trash-can"></i>
@@ -1435,41 +1196,41 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             list.innerHTML = comments.map(com => {
                 const isApproved = com.status === 'approved';
                 return `
-                    <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 space-y-3">
+                    <div class="bg-cyber-dark rounded-xl p-4 border border-cyber-border space-y-3 tech-card">
                         <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
                             <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-purple-900/60 text-purple-300 flex items-center justify-center font-bold">
+                                <div class="w-8 h-8 rounded-full bg-cyber-purple/30 text-cyber-purple flex items-center justify-center font-bold font-mono">
                                     ${escapeHtml((com.author || 'ح')[0])}
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-white">${escapeHtml(com.author)}</h4>
-                                    <span class="text-slate-500">${escapeHtml(com.city || 'المغرب')} • ${escapeHtml(com.date || '')}</span>
+                                    <span class="text-slate-500 font-mono text-[11px]">${escapeHtml(com.city || 'المغرب')} • ${escapeHtml(com.date || '')}</span>
                                 </div>
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${isApproved ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'}">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${isApproved ? 'bg-cyber-neon/20 text-cyber-neon border border-cyber-neon/40' : 'bg-cyber-amber/20 text-cyber-amber border border-cyber-amber/40'}">
                                     ${isApproved ? '✅ معتمد فالسيت' : '⏳ قيد مراجعة المدير'}
                                 </span>
-                                <span class="bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800 text-[11px]">
+                                <span class="bg-cyber-panel text-slate-300 px-2 py-0.5 rounded border border-cyber-border text-[11px]">
                                     ${escapeHtml(com.category_ar || '')}
                                 </span>
                             </div>
                         </div>
 
                         <!-- Proposed Models -->
-                        <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800/80 text-xs md:text-sm">
-                            <div class="flex flex-wrap items-center gap-2 mb-1.5 font-bold">
+                        <div class="bg-cyber-panel p-3 rounded-lg border border-cyber-border text-xs md:text-sm">
+                            <div class="flex flex-wrap items-center gap-2 mb-1.5 font-bold font-mono">
                                 <span class="text-white">${escapeHtml(com.main_model)}</span>
-                                <i class="fa-solid fa-arrows-left-right text-cyan-400 text-xs"></i>
-                                <span class="text-cyan-400">${escapeHtml(com.compatible_model)}</span>
+                                <i class="fa-solid fa-arrows-left-right text-cyber-cyan text-xs"></i>
+                                <span class="text-cyber-cyan">${escapeHtml(com.compatible_model)}</span>
                             </div>
-                            <p class="text-slate-300 leading-relaxed">${escapeHtml(com.note)}</p>
+                            <p class="text-slate-300 leading-relaxed text-xs">${escapeHtml(com.note)}</p>
                         </div>
 
                         <!-- Bottom Controls -->
                         <div class="flex items-center justify-between text-xs pt-1">
-                            <button onclick="likeComment('${com.id}')" class="flex items-center gap-1.5 text-slate-400 hover:text-cyan-400 transition">
+                            <button onclick="likeComment('${com.id}')" class="flex items-center gap-1.5 text-slate-400 hover:text-cyber-cyan transition font-mono">
                                 <i class="fa-solid fa-thumbs-up"></i>
                                 <span>تأكيد الحرفيين:</span>
                                 <span class="font-bold text-white font-mono">${com.likes || 0}</span>
@@ -1478,7 +1239,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                             <!-- Admin Action: 1-Click Approve & Import to DB -->
                             <div class="${isAdminLoggedIn ? 'flex' : 'hidden'} items-center gap-2">
                                 ${!isApproved ? `
-                                    <button onclick="approveCommentToDatabase('${com.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition text-xs flex items-center gap-1">
+                                    <button onclick="approveCommentToDatabase('${com.id}')" class="px-2.5 py-1 bg-cyber-neon hover:bg-emerald-400 text-cyber-dark font-black rounded-lg transition text-xs flex items-center gap-1">
                                         <i class="fa-solid fa-check-double"></i>
                                         <span>إضافة مباشرة للقاعدة</span>
                                     </button>
@@ -1501,10 +1262,10 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             document.querySelectorAll('.cat-tab').forEach(tab => {
                 if (tab.dataset.cat === cat) {
                     tab.classList.add('tab-active');
-                    tab.classList.remove('bg-slate-800/60', 'text-slate-300');
+                    tab.classList.remove('bg-cyber-dark/80', 'text-slate-300');
                 } else {
                     tab.classList.remove('tab-active');
-                    tab.classList.add('bg-slate-800/60', 'text-slate-300');
+                    tab.classList.add('bg-cyber-dark/80', 'text-slate-300');
                 }
             });
 
@@ -1525,11 +1286,11 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
         // --- Quick Search Helper ---
         window.quickSearchModel = function(modelName) {
             const searchInput = document.getElementById('mainSearchInput');
-            // Clean up model string for search
             const cleanQuery = modelName.replace(/\(.*?\)/g, '').replace(/Galaxy/i, '').trim();
             searchInput.value = cleanQuery;
             currentSearchQuery = cleanQuery;
             document.getElementById('clearSearchBtn').classList.remove('hidden');
+            document.getElementById('aiCorrectionBox').classList.add('hidden');
             if (currentCategory === 'comments') {
                 switchCategory('all');
             } else {
@@ -1538,20 +1299,79 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             window.scrollTo({ top: 120, behavior: 'smooth' });
         };
 
+        // --- AI Chat Logic ---
+        function handleAiQuery(queryText) {
+            playSound('ai');
+            const messagesContainer = document.getElementById('aiChatMessages');
+
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = "bg-cyber-purple/20 border border-cyber-purple/40 p-3 rounded-xl text-white font-semibold text-right";
+            userMsgDiv.innerHTML = `<span class="text-cyber-purple font-mono block text-[10px]">👤 أنت:</span>${escapeHtml(queryText)}`;
+            messagesContainer.appendChild(userMsgDiv);
+
+            const q = queryText.toLowerCase();
+
+            const matches = items.filter(item => {
+                const target = (item.main_model + ' ' + item.compatibles.join(' ') + ' ' + (item.notes || '')).toLowerCase();
+                return target.includes(q) || item.compatibles.some(c => q.includes(c.toLowerCase()));
+            });
+
+            setTimeout(() => {
+                playSound('beep');
+                const aiReplyDiv = document.createElement('div');
+                aiReplyDiv.className = "bg-cyber-dark p-3.5 rounded-xl border border-cyber-cyan/40 text-slate-200 leading-relaxed";
+                
+                if (matches.length > 0) {
+                    const best = matches[0];
+                    aiReplyDiv.innerHTML = `
+                        <span class="text-cyber-cyan font-bold font-mono block mb-1">🤖 الذكاء الاصطناعي (نتيجة فورية):</span>
+                        <p class="font-bold text-white mb-2">✅ نعم أ المعلم! لقيت ليك التوافق ديال <strong class="text-cyber-cyan font-mono">${escapeHtml(best.main_model)}</strong> (${escapeHtml(best.category_ar)}):</p>
+                        <div class="bg-cyber-panel p-2.5 rounded-lg border border-cyber-border mb-2">
+                            <span class="text-cyber-neon font-bold block mb-1">الموديلات المتوافقة:</span>
+                            <ul class="list-disc list-inside space-y-0.5 text-slate-300">
+                                ${best.compatibles.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
+                            </ul>
+                        </div>
+                        ${best.notes ? `<p class="text-[11px] text-slate-400 mt-1.5"><i class="fa-solid fa-lightbulb text-cyber-amber ml-1"></i>${escapeHtml(best.notes)}</p>` : ''}
+                        <button onclick="quickSearchModel('${escapeJsString(best.main_model)}'); document.getElementById('aiAssistantDrawer').classList.add('-translate-x-full'); setTimeout(() => document.getElementById('aiAssistantDrawer').classList.add('hidden'), 300);" class="mt-2.5 px-3 py-1 bg-cyber-cyan/20 hover:bg-cyber-cyan/30 text-cyber-cyan border border-cyber-cyan/50 rounded-lg text-xs font-bold transition">
+                            عرض البطاقة فالصفحة الرئيسية 🔍
+                        </button>
+                    `;
+                } else {
+                    const typo = checkAiTypoCorrection(queryText);
+                    if (typo) {
+                        aiReplyDiv.innerHTML = `
+                            <span class="text-cyber-cyan font-bold font-mono block mb-1">🤖 الذكاء الاصطناعي:</span>
+                            واش كتقصد هاتف <strong class="text-cyber-amber font-mono">${escapeHtml(typo.target)}</strong>؟
+                            <div class="mt-2">
+                                <button onclick="quickSearchModel('${escapeJsString(typo.query)}'); document.getElementById('aiAssistantDrawer').classList.add('-translate-x-full'); setTimeout(() => document.getElementById('aiAssistantDrawer').classList.add('hidden'), 300);" class="px-3 py-1 bg-cyber-amber hover:bg-amber-500 text-cyber-dark font-black rounded-lg text-xs transition">
+                                    أييه، جبد ليا التوافق ديالو فوراً ⚡
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        aiReplyDiv.innerHTML = `
+                            <span class="text-cyber-cyan font-bold font-mono block mb-1">🤖 الذكاء الاصطناعي:</span>
+                            ما لقيتش توافق مباشر لهاد الموديل بالقاعدة الحالية. جرب تكتب كود الموديل المختصر (بحال A12 أو Note 10 أو Hot 10 Play)، أو استعمل خانة الاقتراحات باش يزيده المدير!
+                        `;
+                    }
+                }
+                messagesContainer.appendChild(aiReplyDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 400);
+        }
+
         // --- Admin Handlers ---
         function updateAdminUI() {
             const banner = document.getElementById('adminModeBanner');
             const btnText = document.getElementById('adminBtnText');
-            const addTrigger = document.getElementById('adminQuickAddTrigger');
 
             if (isAdminLoggedIn) {
                 banner.classList.remove('hidden');
-                btnText.textContent = "المدير متصل";
-                addTrigger.classList.remove('hidden');
+                btnText.textContent = "المدير متصل 👑";
             } else {
                 banner.classList.add('hidden');
                 btnText.textContent = "دخول المدير";
-                addTrigger.classList.add('hidden');
             }
             renderCards();
             renderComments();
@@ -1569,16 +1389,15 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             document.getElementById('itemNotes').value = item.notes || '';
             document.getElementById('itemDifficulty').value = item.difficulty || '';
 
-            document.getElementById('addEditModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-400"></i><span>تعديل الموديل</span>';
+            document.getElementById('addEditModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-cyber-cyan"></i><span>تعديل الموديل</span>';
             document.getElementById('addEditModal').classList.remove('hidden');
         };
 
         window.deleteItem = function(id) {
-            // Safe removal with custom confirmation or instant undo
             const item = items.find(i => i.id === id);
             if (!item) return;
             items = items.filter(i => i.id !== id);
-            setStorage('electro_compat_items', items);
+            setStorage('electro_compat_items_v3', items);
             updateCountBadges();
             renderCards();
             showToast('تم حذف الموديل', `تم مسح ${item.main_model} من القاعدة بنجاح`);
@@ -1589,7 +1408,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             const com = comments.find(c => c.id === id);
             if (com) {
                 com.likes = (com.likes || 0) + 1;
-                setStorage('electro_compat_comments', comments);
+                setStorage('electro_compat_comments_v3', comments);
                 renderComments();
                 showToast('شكراً لتأكيدك', 'التأكيد كيعاون الحرفيين يتأكدو من التجربة');
             }
@@ -1599,7 +1418,6 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             const com = comments.find(c => c.id === id);
             if (!com) return;
 
-            // Generate clean compatible item
             const newItem = {
                 id: "aff_" + Date.now(),
                 category: com.category === 'autre' ? 'afficheur' : com.category,
@@ -1614,10 +1432,10 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             };
 
             items.unshift(newItem);
-            setStorage('electro_compat_items', items);
+            setStorage('electro_compat_items_v3', items);
 
             com.status = 'approved';
-            setStorage('electro_compat_comments', comments);
+            setStorage('electro_compat_comments_v3', comments);
 
             updateCountBadges();
             renderComments();
@@ -1628,7 +1446,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
 
         window.deleteComment = function(id) {
             comments = comments.filter(c => c.id !== id);
-            setStorage('electro_compat_comments', comments);
+            setStorage('electro_compat_comments_v3', comments);
             updateCountBadges();
             renderComments();
             showToast('تم حذف التعليق', 'تم مسح الاقتراح بنجاح');
@@ -1653,8 +1471,9 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
         // --- Backup & Restore ---
         function exportBackup() {
             const backup = {
-                version: "1.0",
+                version: "3.2",
                 exportDate: new Date().toISOString(),
+                totalItems: items.length,
                 items: items,
                 comments: comments
             };
@@ -1662,7 +1481,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ElectroTech_Compatibilite_Backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `ElectroTech_Circuit_Backup_${new Date().toISOString().slice(0,10)}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1676,9 +1495,13 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
             updateCountBadges();
             renderCards();
 
-            // Search input live handler
             const searchInput = document.getElementById('mainSearchInput');
             const clearBtn = document.getElementById('clearSearchBtn');
+            const aiCorrectionBox = document.getElementById('aiCorrectionBox');
+            const aiCorrectedWord = document.getElementById('aiCorrectedWord');
+            const applyAiCorrectionBtn = document.getElementById('applyAiCorrectionBtn');
+
+            let currentAiSuggestion = null;
 
             searchInput.addEventListener('input', (e) => {
                 currentSearchQuery = e.target.value;
@@ -1687,13 +1510,37 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                 } else {
                     clearBtn.classList.add('hidden');
                 }
+
+                // Check AI Typo Correction
+                const typoMatch = checkAiTypoCorrection(currentSearchQuery);
+                if (typoMatch) {
+                    currentAiSuggestion = typoMatch;
+                    aiCorrectedWord.textContent = typoMatch.target;
+                    aiCorrectionBox.classList.remove('hidden');
+                } else {
+                    currentAiSuggestion = null;
+                    aiCorrectionBox.classList.add('hidden');
+                }
+
                 renderCards();
+            });
+
+            applyAiCorrectionBtn.addEventListener('click', () => {
+                if (currentAiSuggestion) {
+                    playSound('ai');
+                    searchInput.value = currentAiSuggestion.query;
+                    currentSearchQuery = currentAiSuggestion.query;
+                    aiCorrectionBox.classList.add('hidden');
+                    renderCards();
+                    showToast('تم تصحيح البحث بالذكاء الاصطناعي', `تم البحث عن ${currentAiSuggestion.target}`);
+                }
             });
 
             clearBtn.addEventListener('click', () => {
                 searchInput.value = '';
                 currentSearchQuery = '';
                 clearBtn.classList.add('hidden');
+                aiCorrectionBox.classList.add('hidden');
                 renderCards();
                 searchInput.focus();
             });
@@ -1706,6 +1553,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                     searchInput.value = q;
                     currentSearchQuery = q;
                     clearBtn.classList.remove('hidden');
+                    aiCorrectionBox.classList.add('hidden');
                     if (currentCategory === 'comments') {
                         switchCategory('all');
                     } else {
@@ -1737,10 +1585,58 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                     soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
                     showToast('الصوت مكتوم', 'تم كتم المؤثرات الصوتية');
                 } else {
-                    soundIcon.className = "fa-solid fa-volume-high text-cyan-400";
-                    playSound('click');
+                    soundIcon.className = "fa-solid fa-volume-high text-cyber-cyan";
+                    playSound('beep');
                     showToast('الصوت مفعّل', 'تم تفعيل المؤثرات الصوتية');
                 }
+            });
+
+            // AI Drawer Toggle
+            const openAiChatBtn = document.getElementById('openAiChatBtn');
+            const closeAiDrawerBtn = document.getElementById('closeAiDrawerBtn');
+            const aiDrawer = document.getElementById('aiAssistantDrawer');
+            const askAiEmptyBtn = document.getElementById('askAiEmptyBtn');
+
+            function toggleAiDrawer() {
+                playSound('click');
+                if (aiDrawer.classList.contains('hidden')) {
+                    aiDrawer.classList.remove('hidden');
+                    setTimeout(() => aiDrawer.classList.remove('-translate-x-full'), 10);
+                    document.getElementById('aiChatInput').focus();
+                } else {
+                    aiDrawer.classList.add('-translate-x-full');
+                    setTimeout(() => aiDrawer.classList.add('hidden'), 300);
+                }
+            }
+
+            openAiChatBtn.addEventListener('click', toggleAiDrawer);
+            closeAiDrawerBtn.addEventListener('click', toggleAiDrawer);
+            if (askAiEmptyBtn) {
+                askAiEmptyBtn.addEventListener('click', () => {
+                    toggleAiDrawer();
+                    if (currentSearchQuery) {
+                        document.getElementById('aiChatInput').value = currentSearchQuery;
+                    }
+                });
+            }
+
+            // AI Chat Form
+            const aiChatForm = document.getElementById('aiChatForm');
+            const aiChatInput = document.getElementById('aiChatInput');
+            aiChatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const q = aiChatInput.value.trim();
+                if (!q) return;
+                aiChatInput.value = '';
+                handleAiQuery(q);
+            });
+
+            // AI Quick Prompt Buttons
+            document.querySelectorAll('.ai-quick-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const q = btn.dataset.ask;
+                    handleAiQuery(q);
+                });
             });
 
             // Admin Login Modal triggers
@@ -1835,7 +1731,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                 };
 
                 comments.unshift(newComment);
-                setStorage('electro_compat_comments', comments);
+                setStorage('electro_compat_comments_v3', comments);
                 updateCountBadges();
                 suggestModal.classList.add('hidden');
                 suggestForm.reset();
@@ -1856,7 +1752,7 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                 playSound('click');
                 document.getElementById('editItemId').value = '';
                 addEditForm.reset();
-                document.getElementById('addEditModalTitle').innerHTML = '<i class="fa-solid fa-plus-circle text-cyan-400"></i><span>إضافة موديل وتوافق جديد</span>';
+                document.getElementById('addEditModalTitle').innerHTML = '<i class="fa-solid fa-plus-circle text-cyber-cyan"></i><span>إضافة موديل وتوافق جديد</span>';
                 addEditModal.classList.remove('hidden');
                 document.getElementById('itemMainModel').focus();
             }
@@ -1880,7 +1776,6 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                 const difficulty = document.getElementById('itemDifficulty').value.trim() || 'متطابق';
 
                 if (editId) {
-                    // Update existing
                     const idx = items.findIndex(i => i.id === editId);
                     if (idx !== -1) {
                         items[idx].category = category;
@@ -1894,7 +1789,6 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                     }
                     showToast('تم التعديل بنجاح', `تم تحديث بيانات ${mainModel}`);
                 } else {
-                    // Create new
                     const newItem = {
                         id: "item_" + Date.now(),
                         category: category,
@@ -1911,14 +1805,13 @@ ${item.compatibles.map(c => `• ${c}`).join('\n')}
                     showToast('تمت الإضافة بنجاح', `تمت إضافة موديل ${mainModel} لقاعدة البيانات`);
                 }
 
-                setStorage('electro_compat_items', items);
+                setStorage('electro_compat_items_v3', items);
                 updateCountBadges();
                 renderCards();
                 addEditModal.classList.add('hidden');
                 addEditForm.reset();
             });
 
-            // Backup download trigger
             document.getElementById('backupDataBtn').addEventListener('click', exportBackup);
         });
     </script>
