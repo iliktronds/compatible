@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل توافق الهواتف | Electro Tech Maroc 📱⚡</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            900: '#164e63',
+                        },
+                        amberbrand: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0b1120;
+            color: #f1f5f9;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        .glow-card {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(51, 65, 85, 0.7);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.2);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+        .tab-active {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: #ffffff;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.35);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- Top Announcement & Stats Bar -->
+    <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm">
+            
+            <!-- Logo & Brand Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-microchip text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-black text-white tracking-wide flex items-center gap-2">
+                        <span>دليل توافق الهواتف</span>
+                        <span class="text-cyan-400 text-xs px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-800">نسخة الحرفيين المغربية 🇲🇦</span>
+                    </h1>
+                    <p class="text-slate-400 text-xs">الشاشات (الأفشور) • البوشيط • الزاج والحماية (Incassable)</p>
+                </div>
+            </div>
+
+            <!-- Live Visitors & Online Counters -->
+            <div class="flex items-center gap-3 bg-slate-950 px-3.5 py-1.5 rounded-full border border-slate-800 shadow-inner">
+                <div class="flex items-center gap-1.5 text-cyan-400 font-semibold" title="عدد الزوار الإجمالي">
+                    <i class="fa-solid fa-users text-xs"></i>
+                    <span>الزوار:</span>
+                    <span id="visitorCountBadge" class="font-bold text-white tracking-wider">1,482</span>
+                </div>
+                <span class="text-slate-700">|</span>
+                <div class="flex items-center gap-1.5 text-emerald-400 font-medium" title="حرفيين متصلين دابا">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-slate-300">أونلاين:</span>
+                    <span id="liveTechsCount" class="font-bold text-emerald-400">18</span>
+                </div>
+            </div>
+
+            <!-- Action Controls (Sound, Suggestions, Admin) -->
+            <div class="flex items-center gap-2">
+                <!-- Sound Toggle -->
+                <button id="soundToggleBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-400 transition" title="تشغيل / كتم الصوت">
+                    <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <!-- New Suggestion Button -->
+                <button id="openSuggestModalBtn" class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1.5 font-bold transition">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span class="hidden sm:inline">اقترح توافق</span>
+                </button>
+
+                <!-- Admin Auth Button -->
+                <button id="adminAuthBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5 font-bold transition">
+                    <i class="fa-solid fa-crown text-amber-400"></i>
+                    <span id="adminBtnText">دخول المدير</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Active Notification Banner (Hidden by default) -->
+        <div id="adminModeBanner" class="hidden bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-slate-950 font-bold px-4 py-1.5 text-center text-xs md:text-sm flex items-center justify-between shadow-md">
+            <div class="flex items-center gap-2 mx-auto">
+                <i class="fa-solid fa-shield-halved text-slate-950"></i>
+                <span>👑 وضع المدير مفعّل: عندك كامل الصلاحيات لإضافة، تعديل وحذف الموديلات ومصادقة تعليقات الحرفيين.</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="openAddModalBtn" class="px-2.5 py-1 bg-slate-950 text-white rounded text-xs hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-plus ml-1"></i> موديل جديد
+                </button>
+                <button id="backupDataBtn" class="px-2 py-1 bg-slate-900/60 text-slate-950 hover:text-white rounded text-xs transition" title="تحميل نسخة احتياطية">
+                    <i class="fa-solid fa-download"></i>
+                </button>
+                <button id="logoutAdminBtn" class="px-2.5 py-1 bg-red-700 text-white rounded text-xs hover:bg-red-800 transition">
+                    خروج
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero & Search Section -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full space-y-6">
+
+        <!-- Search Card -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 p-6 md:p-8 rounded-2xl border border-slate-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center max-w-2xl mx-auto mb-6">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 text-cyan-400 border border-cyan-800 text-xs font-bold mb-3">
+                    <i class="fa-solid fa-bolt"></i> بحث مباشر وسريع بضغطة زر
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                    كتب سمية التيليفون واعرف شنو كيركب ليه فوراً
+                </h2>
+                <p class="text-slate-400 text-sm mt-2">
+                    مثال: كتب <strong class="text-cyan-400 font-mono">A12</strong> أو <strong class="text-cyan-400 font-mono">Note 8</strong> أو <strong class="text-cyan-400 font-mono">Smart 5</strong> باش يطلعو ليك الشاشات، البوشيطات، والزاج المتوافق!
+                </p>
+            </div>
+
+            <!-- Instant Search Input Box -->
+            <div class="max-w-3xl mx-auto relative">
+                <div class="relative flex items-center">
+                    <div class="absolute right-4 text-cyan-400 text-xl pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="mainSearchInput" 
+                        placeholder="كتب الموديل هنا (مثال: A12, Note 10, Hot 10 Play, iPhone 11, Oppo A15...)" 
+                        class="w-full pl-12 pr-14 py-4 md:py-4.5 bg-slate-900/90 text-white rounded-2xl border-2 border-cyan-500/40 focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20 text-base md:text-lg font-bold placeholder-slate-500 shadow-xl transition"
+                        autocomplete="off"
+                        autofocus
+                    >
+                    <button 
+                        id="clearSearchBtn" 
+                        class="hidden absolute left-4 text-slate-400 hover:text-white p-2 text-sm bg-slate-800 rounded-lg transition"
+                        title="مسح البحث"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Quick Model Quick-Tap Tags -->
+                <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+                    <span class="text-slate-400 font-semibold ml-1">جرب بسرعة:</span>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="A12">Samsung A12</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="A10">Samsung A10/A50</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Redmi 9A">Redmi 9A/9C</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Hot 10 Play">Infinix Hot 10 Play</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="iPhone 11">iPhone 11 / XR</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Note 11">Redmi Note 11</button>
+                    <button class="quick-tag px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-700 transition" data-query="Smart 5">Infinix Smart 5</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category & Brand Navigation Tabs -->
+        <div class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 p-2 rounded-xl border border-slate-800">
+                <!-- Main Category Tabs -->
+                <div class="flex flex-wrap items-center gap-1.5 md:gap-2">
+                    <button class="cat-tab tab-active px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm transition flex items-center gap-2" data-cat="all">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>الكل (الشامل)</span>
+                        <span id="countBadgeAll" class="px-1.5 py-0.2 rounded-full bg-slate-800 text-[11px] text-cyan-300">0</span>
+                    </button>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="afficheur">
+                        <i class="fa-solid fa-mobile-screen text-cyan-400"></i>
+                        <span>الشاشات (الأفشور)</span>
+                        <span id="countBadgeAff" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-cyan-300">0</span>
+                    </button>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="pochette">
+                        <i class="fa-solid fa-shield-cat text-amber-400"></i>
+                        <span>البوشيط (الكفرات)</span>
+                        <span id="countBadgePoc" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-amber-300">0</span>
+                    </button>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="verre">
+                        <i class="fa-regular fa-clone text-emerald-400"></i>
+                        <span>الزاج (Incassable)</span>
+                        <span id="countBadgeVer" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-emerald-300">0</span>
+                    </button>
+                    <button class="cat-tab px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 transition flex items-center gap-2" data-cat="comments">
+                        <i class="fa-solid fa-comments text-purple-400"></i>
+                        <span>اقتراحات الحرفيين</span>
+                        <span id="countBadgeCom" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[11px] text-purple-300">0</span>
+                    </button>
+                </div>
+
+                <!-- Brand Filter Pill selector -->
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <span class="text-xs text-slate-400 font-medium whitespace-nowrap"><i class="fa-solid fa-filter ml-1"></i>الماركة:</span>
+                    <select id="brandFilterSelect" class="bg-slate-800 text-slate-200 text-xs md:text-sm rounded-lg px-3 py-1.5 border border-slate-700 focus:outline-none focus:border-cyan-500 w-full sm:w-44">
+                        <option value="all">كاع الماركات (الكل)</option>
+                        <option value="Samsung">Samsung (سامسونج)</option>
+                        <option value="Xiaomi / Redmi">Xiaomi / Redmi (شاومي)</option>
+                        <option value="Infinix">Infinix (إنفينيكس)</option>
+                        <option value="Apple iPhone">Apple iPhone (آبل آيفون)</option>
+                        <option value="Oppo / Realme">Oppo / Realme (أوبو / ريلمي)</option>
+                        <option value="Huawei / Honor">Huawei / Honor (هواوي / هونر)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direct Match Spotlight Card (Shows when search is active and matches) -->
+        <div id="spotlightContainer" class="hidden">
+            <!-- Populated dynamically by JS -->
+        </div>
+
+        <!-- Main Cards Grid View -->
+        <div id="cardsGridSection">
+            <div class="flex items-center justify-between mb-3 text-xs md:text-sm text-slate-400">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-cyan-400"></i>
+                    <span>النتائج المعروضة:</span>
+                    <strong id="resultsCountText" class="text-white font-mono">0</strong>
+                </div>
+                <div id="adminQuickAddTrigger" class="hidden">
+                    <button id="addCardQuickBtn" class="text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-plus-circle"></i> زيد موديل جديد
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid container -->
+            <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Cards rendered by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-12 px-4 bg-slate-900/40 rounded-2xl border border-slate-800">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 text-2xl">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">ما لقينا حتى نتيجة لهاد الموديل</h3>
+                <p class="text-slate-400 text-sm max-w-md mx-auto mb-4">
+                    تأكد من كتابة سمية الموديل بشكل صحيح، أو اقترح هاد التوافق باش يزيدوه الحرفيين والمدير!
+                </p>
+                <button id="emptyStateSuggestBtn" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold rounded-xl hover:brightness-110 transition inline-flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-lightbulb"></i> زيد اقتراح ديالك دابا
+                </button>
+            </div>
+        </div>
+
+        <!-- Technician Comments & Suggestions Dedicated Section (shown when comments tab is selected or directly below) -->
+        <div id="commentsSection" class="hidden bg-slate-900/80 rounded-2xl border border-slate-800 p-6 space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-purple-400"></i>
+                        <span>اقتراحات وتعليقات الحرفيين والتقنيين</span>
+                    </h3>
+                    <p class="text-slate-400 text-xs md:text-sm">هنا الحرفيين كيحطو تجاربهم فالتوافق، والمدير كيقوم بالمصادقة عليها وزيادتها للسيت!</p>
+                </div>
+                <button id="addCommentTriggerBtn" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl hover:brightness-110 transition flex items-center gap-2 text-sm shadow-lg shadow-purple-600/20">
+                    <i class="fa-solid fa-plus"></i> شارك توافق جديد
+                </button>
+            </div>
+
+            <!-- Comments List -->
+            <div id="commentsList" class="space-y-4">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 mt-12 py-6 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-center md:text-right">
+                <i class="fa-solid fa-wrench text-cyan-400"></i>
+                <span>دليل التوافق التقني للهواتف الذكية • صُمّم خصيصاً لمساعدة حرفيي إصلاح الهواتف بالمغرب</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+                <span>⚡ توافق الشاشات (LCD / OLED)</span>
+                <span>•</span>
+                <span>🎒 البوشيط والكفرات</span>
+                <span>•</span>
+                <span>🛡️ الزاج 5D/9D/11D/21D</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- 1. Admin Login PIN Modal -->
+    <div id="adminPinModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+            <button id="closeAdminPinModalBtn" class="absolute top-4 left-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-2">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">دخول المدير (Admin)</h3>
+                <p class="text-slate-400 text-xs">دخل كود PIN باش تفعل صلاحيات الإضافة والتعديل</p>
+                <p class="text-cyan-400 text-[11px] mt-1 font-mono">الكود الافتراضي: 1234</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <input 
+                        type="password" 
+                        id="adminPinInput" 
+                        maxlength="6" 
+                        placeholder="••••" 
+                        class="w-full text-center tracking-widest text-2xl py-3 bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-amber-500 font-mono"
+                    >
+                    <p id="adminPinError" class="hidden text-red-400 text-xs text-center mt-1.5 font-semibold">الكود غير صحيح! عاود جرب.</p>
+                </div>
+                <button id="confirmAdminPinBtn" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl transition">
+                    تأكيد الدخول
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Add / Edit Compatibility Model Modal (Admin Only) -->
+    <div id="addEditModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl my-8 relative">
+            <button id="closeAddEditModalBtn" class="absolute top-4 left-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="mb-4">
+                <h3 id="addEditModalTitle" class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-cyan-400"></i>
+                    <span>إضافة موديل وتوافق جديد</span>
+                </h3>
+                <p class="text-slate-400 text-xs">عمر المعلومات ديال الهاتف والموديلات لي كتركب ليه</p>
+            </div>
+
+            <form id="addEditForm" class="space-y-3.5 text-xs md:text-sm">
+                <input type="hidden" id="editItemId">
+
+                <div>
+                    <label class="block text-slate-300 font-medium mb-1">نوع القطعة:</label>
+                    <select id="itemCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                        <option value="afficheur">📱 شاشة (Afficheur)</option>
+                        <option value="pochette">🎒 بوشيط (Pochette / Coque)</option>
+                        <option value="verre">🛡️ زاج وحماية (Incassable 5D/9D/11D)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">الماركة:</label>
+                        <select id="itemBrand" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                            <option value="Samsung">Samsung</option>
+                            <option value="Xiaomi / Redmi">Xiaomi / Redmi</option>
+                            <option value="Infinix">Infinix</option>
+                            <option value="Apple iPhone">Apple iPhone</option>
+                            <option value="Oppo / Realme">Oppo / Realme</option>
+                            <option value="Huawei / Honor">Huawei / Honor</option>
+                            <option value="Tecno">Tecno</option>
+                            <option value="أخرى">أخرى</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">الموديل الأساسي:</label>
+                        <input type="text" id="itemMainModel" required placeholder="مثال: Samsung A12" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-medium mb-1">الموديلات المتوافقة (فرق بيناتهم بفاصلة أو سطر):</label>
+                    <textarea id="itemCompatibles" rows="3" required placeholder="مثال: Samsung A02, Samsung M12, Samsung A32 5G" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500"></textarea>
+                    <span class="text-[11px] text-slate-400">كتب الموديلات لي كتركب ليها هاد القطعة</span>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-medium mb-1">ملاحظات تقنية ونصائح للحريفي:</label>
+                    <textarea id="itemNotes" rows="2" placeholder="مثال: كتخدم 100% نفس الفليكس، غير رد البال لتنظيف الفريم..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-medium mb-1">مستوى التوافق / الصعوبة:</label>
+                    <input type="text" id="itemDifficulty" placeholder="مثال: متطابق 100%، أو يحتاج تعديل فريم" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-cyan-500">
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button type="button" id="cancelAddEditBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition">إلغاء</button>
+                    <button type="submit" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>حفظ التوافق</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Suggest New Compatibility Modal (Open to all Technicians) -->
+    <div id="suggestModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl my-8 relative">
+            <button id="closeSuggestModalBtn" class="absolute top-4 left-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="mb-4">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold mb-2">
+                    <i class="fa-solid fa-handshake"></i> مشاركة الحرفيين
+                </div>
+                <h3 class="text-lg font-bold text-white">اقترح توافق جديد أو تعليق تقني</h3>
+                <p class="text-slate-400 text-xs">جربتي شي توافق وخدم ليك؟ شاركو مع خوتك الحرفيين والمدير غادي يزيده للقائمة مباشرة!</p>
+            </div>
+
+            <form id="suggestForm" class="space-y-3.5 text-xs md:text-sm">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">اسم الحريفي / المحل:</label>
+                        <input type="text" id="sugAuthor" required placeholder="مثال: المعلم رشيد" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">المدينة:</label>
+                        <input type="text" id="sugCity" required placeholder="مثال: كازا، مراكش، سطات..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">نوع القطعة:</label>
+                        <select id="sugCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                            <option value="afficheur">📱 شاشة (Afficheur)</option>
+                            <option value="pochette">🎒 بوشيط (Pochette)</option>
+                            <option value="verre">🛡️ زاج (Incassable)</option>
+                            <option value="autre">🔧 أخرى (باتري / فليكس...)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">الموديل:</label>
+                        <input type="text" id="sugMainModel" required placeholder="مثال: A14 4G" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-medium mb-1">الموديل لي كيركب ليه (المتوافق):</label>
+                    <input type="text" id="sugCompatibleModel" required placeholder="مثال: A24 / A34..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500">
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-medium mb-1">نصيحة أو ملاحظة تقنية:</label>
+                    <textarea id="sugNote" rows="3" required placeholder="شرح لينا كي دازت التجربة واش كاين شي ريسك أو احتياطات..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-500"></textarea>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button type="button" id="cancelSuggestBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition">إلغاء</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>إرسال الاقتراح</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. Toast Notification Popup -->
+    <div id="toastNotification" class="fixed bottom-6 left-6 z-50 bg-slate-900 border border-cyan-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-20 opacity-0 duration-300 pointer-events-none">
+        <div id="toastIcon" class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 id="toastTitle" class="font-bold text-sm">تم بنجاح</h4>
+            <p id="toastMessage" class="text-xs text-slate-400">العملية دازت ناضية!</p>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // --- Web Audio Synthesizer (Zero external audio files) ---
+        let audioCtx = null;
+        let isMuted = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch(e) {}
+            }
+        }
+
+        function playSound(type) {
+            if (isMuted) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.05);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'admin') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(600, now + 0.12);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                }
+            } catch (err) {}
+        }
+
+        // --- Toast System (Replaces blocked alert/confirm) ---
+        function showToast(title, message, isSuccess = true) {
+            const toast = document.getElementById('toastNotification');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastTitle.textContent = title;
+            toastMsg.textContent = message;
+
+            if (isSuccess) {
+                toast.className = "fixed bottom-6 left-6 z-50 bg-slate-900 border border-cyan-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-0 opacity-100 duration-300 pointer-events-auto";
+                toastIcon.className = "w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center";
+                toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+                playSound('success');
+            } else {
+                toast.className = "fixed bottom-6 left-6 z-50 bg-slate-900 border border-red-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-0 opacity-100 duration-300 pointer-events-auto";
+                toastIcon.className = "w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center";
+                toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            }
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // --- Safe Storage Utilities ---
+        function getStorage(key, defaultValue) {
+            try {
+                const val = localStorage.getItem(key);
+                return val ? JSON.parse(val) : defaultValue;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+
+        function setStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {}
+        }
+
+        // --- Initial Seed Data ---
+        const defaultItems = [
+            // Afficheurs
+            {
+                id: "aff_1",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A12 (SM-A125F)",
+                search_keywords: "a12 a125 a125f a02 a022 m12 m127 سامسونج شاشة افشور",
+                compatibles: ["Samsung Galaxy A02 (SM-A022F)", "Samsung Galaxy M12 (SM-M127F)", "Samsung Galaxy A32 5G (في بعض نسخ LCD)"],
+                notes: "شاشة LCD متوافقة 100% بين A12 و A02 و M12 بدون مشاكل إضاءة. تأكد من تجربة التاتش قبل الكولاج.",
+                difficulty: "سهل (Easy)",
+                verified: true
+            },
+            {
+                id: "aff_2",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A03 (SM-A035F)",
+                search_keywords: "a03 a035 a032 a03 core سامسونج",
+                compatibles: ["Samsung Galaxy A03 Core (SM-A032F)"],
+                notes: "شاشة A03 و A03 Core متوافقة في الفليكس و IC التاتش. ركز مع فريم الشاشة القديم.",
+                difficulty: "متوسط",
+                verified: true
+            },
+            {
+                id: "aff_3",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A10s (SM-A107F)",
+                search_keywords: "a10s a107 a20s a207 سامسونج",
+                compatibles: ["Samsung Galaxy A20s (SM-A207F)"],
+                notes: "شاشة A10s و A20s تخدم بنفس الفليكس في الشاشات العادية، مع اختلاف طفيف في سمك الفريم.",
+                difficulty: "متوسط",
+                verified: true
+            },
+            {
+                id: "aff_4",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A13 4G (SM-A135F)",
+                search_keywords: "a13 a135 a137 a04 a045 سامسونج",
+                compatibles: ["Samsung Galaxy A13 4G الجديد (SM-A137F)", "Samsung Galaxy A04 (SM-A045F)"],
+                notes: "انتبه: نسخة A13 5G مختلفة تماماً عن A13 4G. شاشة A135 متطابقة مع A137.",
+                difficulty: "سهل",
+                verified: true
+            },
+            {
+                id: "aff_5",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi 9A / 9C",
+                search_keywords: "redmi 9a 9c 10a poco c31 c3 شاومي ريدمي ردمي",
+                compatibles: ["Xiaomi Redmi 10A", "Poco C31", "Poco C3"],
+                notes: "من أكثر الشاشات انتشاراً في المغرب، شاشة Redmi 9A تركب لـ 9C و 10A و Poco C31 بدون أي تعديل.",
+                difficulty: "سهل جداً",
+                verified: true
+            },
+            {
+                id: "aff_6",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi Note 10 4G (OLED)",
+                search_keywords: "redmi note 10 10s note 10s شاومي ريدمي نوت",
+                compatibles: ["Xiaomi Redmi Note 10s"],
+                notes: "شاشة AMOLED ممتازة متوافقة 100% بين Note 10 4G و Note 10s مع دعم البصمة الجانبية ووضوح عالي.",
+                difficulty: "سهل",
+                verified: true
+            },
+            {
+                id: "aff_7",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi Note 8 (2019)",
+                search_keywords: "redmi note 8 2019 2021 شاومي نوت 8",
+                compatibles: ["Xiaomi Redmi Note 8 (2021 Edition)"],
+                notes: "نفس شاشة النوت 8 تركب لنسخة 2021 المعادة إصدارها بدون مشاكل.",
+                difficulty: "سهل",
+                verified: true
+            },
+            {
+                id: "aff_8",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Infinix",
+                main_model: "Infinix Hot 10 Play (X688)",
+                search_keywords: "infinix hot 10 play x688 hot 9 play x680 smart hd انفنكس انفنيكس",
+                compatibles: ["Infinix Hot 9 Play (X680)", "Infinix Smart HD 2021 (X612)"],
+                notes: "نفس الفليكس ونفس حجم 6.82 بوصة. شاشة اقتصادية ومتوفرة بكثرة.",
+                difficulty: "سهل",
+                verified: true
+            },
+            {
+                id: "aff_9",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Infinix",
+                main_model: "Infinix Smart 5 (X657)",
+                search_keywords: "infinix smart 5 x657 hot 10 lite x657b spark 6 go ke5 انفنكس تكنو",
+                compatibles: ["Infinix Hot 10 Lite (X657B)", "Tecno Spark 6 Go (KE5)", "Tecno Spark Go 2020"],
+                notes: "توافق مشترك بين عائلة Transsion (Infinix و Tecno)، نفس الكونيكتور ونفس التردد.",
+                difficulty: "سهل",
+                verified: true
+            },
+            {
+                id: "aff_10",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Oppo / Realme",
+                main_model: "Oppo A15 / A15s",
+                search_keywords: "oppo a15 a15s realme c11 c21 اوبو ريلمي",
+                compatibles: ["Realme C11 (2021)", "Realme C21", "Realme C20"],
+                notes: "تطابق في الفليكس وحجم الشاشة 6.52 بوصة. تأكد من نسخة الأندرويد لضبط سطوع الشاشة.",
+                difficulty: "متوسط",
+                verified: true
+            },
+            {
+                id: "aff_11",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone 12 / 12 Pro",
+                search_keywords: "iphone 12 12 pro ايفون شاشة",
+                compatibles: ["Apple iPhone 12 Pro (نفس الشاشة 100%)"],
+                notes: "شاشة iPhone 12 تركب لـ 12 Pro بدون أي تعديل. انقل فليكس سماعة الأذن بحذر للحفاظ على Face ID.",
+                difficulty: "احترافي (Pro)",
+                verified: true
+            },
+            {
+                id: "aff_12",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                brand: "Huawei / Honor",
+                main_model: "Huawei Y6 2019 / Y6 Prime",
+                search_keywords: "huawei y6 2019 y6s honor 8a هواوي هونر",
+                compatibles: ["Huawei Y6s", "Honor 8A (JAT-LX1)"],
+                notes: "تطابق كامل في الشاشة والتاتش والكونيكتور بين Y6 2019 و Y6s و Honor 8A.",
+                difficulty: "سهل",
+                verified: true
+            },
+
+            // Pochettes
+            {
+                id: "poc_1",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A12",
+                search_keywords: "a12 m12 a02 a02s بوشيط كفر سامسونج غطاء",
+                compatibles: ["Samsung Galaxy M12 (تطابق 100%)", "Samsung Galaxy A02 (تطابق في الحجم مع اختلاف بسيط في شكل الكاميرا)"],
+                notes: "بوشيط A12 يركب لـ M12 بنفس فتحات البصمة الجانبية وفتحات الشاحن والسماعات.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_2",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A50 / A30s / A50s",
+                search_keywords: "a50 a30s a50s بوشيط كفر سامسونج",
+                compatibles: ["Samsung Galaxy A30s", "Samsung Galaxy A50s"],
+                notes: "نفس القالب الخارجي بالضبط، الأزرار ومكان الكاميرات الثلاثية متطابق بالمليمتر.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_3",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A20 / A30",
+                search_keywords: "a20 a30 بوشيط كفر سامسونج",
+                compatibles: ["Samsung Galaxy A30 (مع فتحة البصمة الخلفية)"],
+                notes: "كفر A20 يركب لـ A30 تماماً مع فتحة البصمة بالظهر وفتحة التايب سي.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_4",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A13 4G",
+                search_keywords: "a13 a04s a135 a047 بوشيط كفر سامسونج",
+                compatibles: ["Samsung Galaxy A04s (تطابق عالي في فتحات الكاميرات المستقلة)"],
+                notes: "تطابق كبير جداً في مواضع عدسات الكاميرات الثلاث وأزرار الصوت والبصمة.",
+                difficulty: "متطابق",
+                verified: true
+            },
+            {
+                id: "poc_5",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi Note 11 4G",
+                search_keywords: "redmi note 11 note 11s بوشيط كفر شاومي",
+                compatibles: ["Xiaomi Redmi Note 11s (تطابق 100%)"],
+                notes: "كفر Note 11 4G يركب للـ Note 11s بكل تفاصيله، فتحة المايك والسماعات الستيريو متطابقة.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_6",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi 9 / Poco M2",
+                search_keywords: "redmi 9 poco m2 بوشيط شاومي بوكو",
+                compatibles: ["Poco M2 (نفس البودي)", "Redmi 9 Prime"],
+                notes: "البوشيط يركب بدون أي فراغات، نفس الدائرة الدائرية للبصمة والكاميرات.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_7",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone 7 / 8 / SE (2020/2022)",
+                search_keywords: "iphone 7 8 se 2020 2022 ايفون بوشيط كفر",
+                compatibles: ["Apple iPhone 8", "Apple iPhone SE 2020 (Gen 2)", "Apple iPhone SE 2022 (Gen 3)"],
+                notes: "أشهر تطابق في عالم الآيفون: كفر iPhone 7 و 8 و SE 2020 و SE 2022 نفس الحجم والمقاس 4.7 بوصة.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_8",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone 13",
+                search_keywords: "iphone 13 iphone 14 ايفون بوشيط",
+                compatibles: ["Apple iPhone 14 (يركب الكفر السيليكون المرن مع انتباه لبروز الكاميرا)"],
+                notes: "كفر iPhone 13 السيليكون يركب لـ 14 مع اختلاف بسيط في سمك مربع الكاميرا.",
+                difficulty: "توافق جزئي مرن",
+                verified: true
+            },
+            {
+                id: "poc_9",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Infinix",
+                main_model: "Infinix Hot 10 Play",
+                search_keywords: "infinix hot 10 play hot 11 play بوشيط انفنكس",
+                compatibles: ["Infinix Hot 11 Play"],
+                notes: "حجم الهاتف العملاق 6.82 بوصة متطابق في الفتحات والسمك.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "poc_10",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette / Coque)",
+                brand: "Oppo / Realme",
+                main_model: "Realme C11 / C12 / C15",
+                search_keywords: "realme c11 c12 c15 ريلمي بوشيط",
+                compatibles: ["Realme C12", "Realme C15 (مع انتباه لمكان البصمة في C11 العادي)"],
+                notes: "حجم الهواتف متطابق، كفر C12 و C15 به فتحة بصمة خلفية.",
+                difficulty: "متطابق",
+                verified: true
+            },
+
+            // Verre / Incassable
+            {
+                id: "ver_1",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Samsung",
+                main_model: "Samsung Family A10 - A50 (شاشة 6.4 قطرة ندى)",
+                search_keywords: "a10 a20 a30 a50 m10 m20 m30 a30s a50s m31 زاج انكاسابل حماية سامسونج",
+                compatibles: ["Samsung Galaxy A10", "Samsung Galaxy A20", "Samsung Galaxy A30", "Samsung Galaxy A50", "Samsung Galaxy M10", "Samsung Galaxy M20", "Samsung Galaxy M30", "Samsung Galaxy A30s", "Samsung Galaxy A50s", "Samsung Galaxy M31"],
+                notes: "أكبر عائلة زاج متطابقة في تاريخ سامسونج! زاج واحد 5D/9D/11D يخدم لكل هذه الموديلات العشرة بشكل مثالي.",
+                difficulty: "متطابق 100% ممتاز",
+                verified: true
+            },
+            {
+                id: "ver_2",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Samsung",
+                main_model: "Samsung Family A12 / A02 / A13 / A03 (شاشة 6.5 بوصة)",
+                search_keywords: "a12 a02 a02s a03 a03s a04 a04s a13 a14 m12 زاج انكاسابل سامسونج",
+                compatibles: ["Samsung Galaxy A12", "Samsung Galaxy A02", "Samsung Galaxy A02s", "Samsung Galaxy A03", "Samsung Galaxy A03s", "Samsung Galaxy A04", "Samsung Galaxy A04s", "Samsung Galaxy A13 4G", "Samsung Galaxy M12", "Samsung Galaxy A14 4G/5G"],
+                notes: "زاج الحماية 9D/11D/21D يغطي الشاشة بالكامل لكل هذه الموديلات الشعبية المتوفرة بالسوق المغربي.",
+                difficulty: "متطابق 100% ممتاز",
+                verified: true
+            },
+            {
+                id: "ver_3",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Samsung",
+                main_model: "Samsung Galaxy A51 / A52 / A53 / A54 (Infinity-O)",
+                search_keywords: "a51 a52 a53 a54 s20 fe s21 fe زاج سامسونج حماية شاشة كاميرا ثقب",
+                compatibles: ["Samsung Galaxy A52 / A52s", "Samsung Galaxy A53", "Samsung Galaxy A54", "Samsung Galaxy S20 FE", "Samsung Galaxy S21 FE"],
+                notes: "زاج شفاف بدون حواف سوداء أو زاج 11D مسطح بحجم 6.4 إلى 6.5 بوصة يركب لهم جميعاً مع ثقب الكاميرا الأمامية.",
+                difficulty: "متطابق",
+                verified: true
+            },
+            {
+                id: "ver_4",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi 9A / 9C / 10A (شاشة 6.53 بوصة)",
+                search_keywords: "redmi 9a 9c 10a poco c31 c3 زاج ردمي شاومي انكاسابل",
+                compatibles: ["Xiaomi Redmi 9C", "Xiaomi Redmi 10A", "Poco C31", "Poco C3", "Redmi 9 (العادي)"],
+                notes: "زاج 9D أو شفاف يغطي الواجهة بالكامل وبنفس انحناء النوتش العلوي للكاميرا.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "ver_5",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Xiaomi / Redmi",
+                main_model: "Xiaomi Redmi Note 7 / 8 / 8 Pro / 9s / 9 Pro / 10 Pro",
+                search_keywords: "redmi note 7 8 8 pro 9s 9 pro 10 pro شاومي نوت زاج انكاسابل",
+                compatibles: ["Xiaomi Redmi Note 8", "Xiaomi Redmi Note 8T", "Xiaomi Redmi Note 9S / 9 Pro", "Poco X3 NFC / X3 Pro"],
+                notes: "الزاج الشفاف المسطح يخدم بكفاءة عالية على عائلة النوت والبوكو الشهيرة بدون فقاعات هواء.",
+                difficulty: "متطابق",
+                verified: true
+            },
+            {
+                id: "ver_6",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone X / XS / 11 Pro (شاشة 5.8 بوصة)",
+                search_keywords: "iphone x xs 11 pro زاج ايفون حماية انكاسابل",
+                compatibles: ["Apple iPhone XS", "Apple iPhone 11 Pro"],
+                notes: "نفس قياس الزاج 5.8 بوصة ونفس فتحة سماعة المكالمات والنوتش، متطابق 100%.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "ver_7",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone XR / iPhone 11 (شاشة 6.1 بوصة)",
+                search_keywords: "iphone xr iphone 11 زاج ايفون انكاسابل",
+                compatibles: ["Apple iPhone 11 (تطابق كامل في زاج الحماية)"],
+                notes: "زاج iPhone XR يركب لـ iPhone 11 بدون أي فرق، نفس حواف الشاشة الـ LCD وحجم 6.1 بوصة.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "ver_8",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone 12 / 12 Pro (شاشة 6.1 حواف مسطحة)",
+                search_keywords: "iphone 12 12 pro زاج ايفون حماية",
+                compatibles: ["Apple iPhone 12 Pro"],
+                notes: "زاج الحماية متطابق 100% بين 12 و 12 Pro مع الحواف المربعة Flat Edge.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "ver_9",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Apple iPhone",
+                main_model: "Apple iPhone 13 / 13 Pro / 14 (شاشة 6.1 نوتش صغير)",
+                search_keywords: "iphone 13 13 pro 14 زاج ايفون انكاسابل",
+                compatibles: ["Apple iPhone 13 Pro", "Apple iPhone 14"],
+                notes: "زاج الحماية متطابق تماماً بسبب صغر حجم النوتش ورفع فتحة السماعة للأعلى في إطار الهاتف.",
+                difficulty: "متطابق 100%",
+                verified: true
+            },
+            {
+                id: "ver_10",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Infinix / Tecno",
+                main_model: "Infinix Hot 10 Play / Hot 9 Play / Hot 11 Play (6.82 بوصة)",
+                search_keywords: "infinix hot 10 play hot 9 play hot 11 play smart 5 انفنكس زاج انكاسابل",
+                compatibles: ["Infinix Hot 9 Play", "Infinix Hot 11 Play", "Tecno Spark 7 Pro (في الزاج الشفاف)"],
+                notes: "شاشة الهواتف الكبيرة مقاس 6.82 بوصة، الزاج يغطي الشاشة بالكامل بدون ترك فراغات.",
+                difficulty: "متطابق",
+                verified: true
+            },
+            {
+                id: "ver_11",
+                category: "verre",
+                category_ar: "زاج وحماية (Incassable)",
+                brand: "Oppo / Realme",
+                main_model: "Oppo A15 / A16 / Realme C11 / C21 / C3",
+                search_keywords: "oppo a15 a16 a16k realme c11 c21 c3 اوبو ريلمي زاج",
+                compatibles: ["Oppo A16 / A16k", "Realme C11", "Realme C21", "Realme C3"],
+                notes: "توافق ممتاز لشاشات 6.52 بوصة مع نوتش قطرة الماء الصغير.",
+                difficulty: "متطابق 100%",
+                verified: true
+            }
+        ];
+
+        const defaultComments = [
+            {
+                id: "com_1",
+                author: "المعلم رشيد (درب غلف - كازا)",
+                city: "الدار البيضاء",
+                date: "2026-11-05",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                main_model: "Samsung A12",
+                compatible_model: "Samsung A02 و M12",
+                note: "شاشة A12 كتركب لـ A02 بدون أي ريسك وكتخدم 100% فالأفشور والتاتش، غير نقي الفريم مزيان وحضي مع لافليكس التحتانية.",
+                status: "approved",
+                likes: 28
+            },
+            {
+                id: "com_2",
+                author: "المعلم كمال (سوق القريعة)",
+                city: "الدار البيضاء",
+                date: "2026-11-06",
+                category: "verre",
+                category_ar: "زاج (Incassable)",
+                main_model: "Samsung A10/A20/A30/A50",
+                compatible_model: "Samsung M10/M20/M30/A30s/A50s",
+                note: "هاد الموديلات كاملين عندهم نفس لانكاصابل 5D و 9D، ديما خلي عندك فالمحل راه كايفك الأزمة بزاف وماتضيعش الكليان.",
+                status: "approved",
+                likes: 42
+            },
+            {
+                id: "com_3",
+                author: "ياسين ريباراتور",
+                city: "فاس",
+                date: "2026-11-07",
+                category: "pochette",
+                category_ar: "بوشيط (Pochette)",
+                main_model: "Redmi Note 11",
+                compatible_model: "Redmi Note 11s",
+                note: "البوشيط ديال Note 11 4G كيركب لـ 11s خوه تماماً فالفلوس وفي كاع التقابي ديال الكاميرا وسماعات الستيريو.",
+                status: "pending",
+                likes: 15
+            },
+            {
+                id: "com_4",
+                author: "هشام تيك (سطات)",
+                city: "سطات",
+                date: "2026-11-07",
+                category: "afficheur",
+                category_ar: "شاشة (Afficheur)",
+                main_model: "Infinix Hot 10 Play",
+                compatible_model: "Infinix Hot 9 Play (X680)",
+                note: "الأفشور ديال Hot 10 Play كيركب لـ Hot 9 Play نفس لافليكس ونفس لافيشور، جربتها شخصياً خدامة ناضية.",
+                status: "pending",
+                likes: 19
+            }
+        ];
+
+        // --- State Management ---
+        let items = getStorage('electro_compat_items', defaultItems);
+        let comments = getStorage('electro_compat_comments', defaultComments);
+        let isAdminLoggedIn = false;
+        const ADMIN_PIN = "1234";
+
+        let currentCategory = 'all';
+        let currentBrand = 'all';
+        let currentSearchQuery = '';
+
+        // --- Visitor Counter Logic ---
+        function initVisitorCounter() {
+            let totalVisitors = getStorage('electro_visitors_count', 1482);
+            // Increment on each session/visit
+            if (!sessionStorage.getItem('visited_session')) {
+                totalVisitors += 1;
+                setStorage('electro_visitors_count', totalVisitors);
+                try { sessionStorage.setItem('visited_session', 'true'); } catch(e) {}
+            }
+            document.getElementById('visitorCountBadge').textContent = totalVisitors.toLocaleString('ar-MA');
+
+            // Fluctuate active techs realistically
+            let baseOnline = 18;
+            setInterval(() => {
+                const delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
+                const current = Math.max(12, Math.min(27, baseOnline + delta));
+                const badge = document.getElementById('liveTechsCount');
+                if (badge) badge.textContent = current;
+            }, 6000);
+        }
+
+        // --- Count Badges Update ---
+        function updateCountBadges() {
+            const affCount = items.filter(i => i.category === 'afficheur').length;
+            const pocCount = items.filter(i => i.category === 'pochette').length;
+            const verCount = items.filter(i => i.category === 'verre').length;
+            const comCount = comments.length;
+
+            document.getElementById('countBadgeAll').textContent = items.length;
+            document.getElementById('countBadgeAff').textContent = affCount;
+            document.getElementById('countBadgePoc').textContent = pocCount;
+            document.getElementById('countBadgeVer').textContent = verCount;
+            document.getElementById('countBadgeCom').textContent = comCount;
+        }
+
+        // --- Category Styling Helpers ---
+        function getCategoryMeta(cat) {
+            switch(cat) {
+                case 'afficheur':
+                    return {
+                        label: 'شاشة (Afficheur)',
+                        icon: 'fa-mobile-screen',
+                        badgeClass: 'bg-cyan-950 text-cyan-400 border-cyan-800',
+                        accentColor: 'cyan'
+                    };
+                case 'pochette':
+                    return {
+                        label: 'بوشيط (Pochette)',
+                        icon: 'fa-shield-cat',
+                        badgeClass: 'bg-amber-950 text-amber-400 border-amber-800',
+                        accentColor: 'amber'
+                    };
+                case 'verre':
+                    return {
+                        label: 'زاج (Incassable)',
+                        icon: 'fa-clone',
+                        badgeClass: 'bg-emerald-950 text-emerald-400 border-emerald-800',
+                        accentColor: 'emerald'
+                    };
+                default:
+                    return {
+                        label: 'قطعة غيار',
+                        icon: 'fa-microchip',
+                        badgeClass: 'bg-purple-950 text-purple-400 border-purple-800',
+                        accentColor: 'purple'
+                    };
+            }
+        }
+
+        // --- Copy to WhatsApp / Clipboard ---
+        function copyItemToClipboard(id) {
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+
+            const textToCopy = `📱 *دليل التوافق التقني - Electro Tech Maroc*
+🔹 الموديل: *${item.main_model}*
+🔧 النوع: ${item.category_ar}
+✅ الموديلات المتوافقة:
+${item.compatibles.map(c => `• ${c}`).join('\n')}
+💡 ملاحظة تقنية: ${item.notes || 'لا توجد ملاحظات خاصة'}`;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToast('تم النسخ بنجاح', 'تقدر دابا تصيفط التوافق فالواتساب أو للكليان!');
+                }).catch(() => {
+                    fallbackCopy(textToCopy);
+                });
+            } else {
+                fallbackCopy(textToCopy);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast('تم النسخ بنجاح', 'تقدر دابا تصيفط التوافق فالواتساب أو للكليان!');
+            } catch (err) {
+                showToast('خطأ في النسخ', 'يرجى النسخ يدوياً', false);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Render Direct Spotlight for Search (e.g. A12) ---
+        function renderSpotlight(matchingItems, query) {
+            const container = document.getElementById('spotlightContainer');
+            if (!query || matchingItems.length === 0) {
+                container.classList.add('hidden');
+                container.innerHTML = '';
+                return;
+            }
+
+            // Group matching items by category to offer a complete "All-in-one" picture
+            const affMatches = matchingItems.filter(i => i.category === 'afficheur');
+            const pocMatches = matchingItems.filter(i => i.category === 'pochette');
+            const verMatches = matchingItems.filter(i => i.category === 'verre');
+
+            container.classList.remove('hidden');
+            container.innerHTML = `
+                <div class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-cyan-950/40 border-2 border-cyan-500/50 rounded-2xl p-5 md:p-6 shadow-2xl relative overflow-hidden mb-6">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></span>
+                            <h3 class="text-lg md:text-xl font-black text-white">
+                                ملخص التوافق الشامل لهاتف: <span class="text-cyan-400 underline font-mono">${escapeHtml(query.toUpperCase())}</span>
+                            </h3>
+                        </div>
+                        <span class="text-xs text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+                            تم العثور على ${matchingItems.length} توافق
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs md:text-sm">
+                        
+                        <!-- Screen Spotlight -->
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-cyan-800/60">
+                            <div class="flex items-center gap-2 font-bold text-cyan-400 mb-2">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                                <span>📱 الشاشة المتوافقة (الأفشور):</span>
+                            </div>
+                            ${affMatches.length > 0 ? `
+                                <ul class="space-y-1.5 text-slate-200 font-semibold">
+                                    ${affMatches.flatMap(m => m.compatibles).slice(0, 4).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-cyan-400 text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
+                                </ul>
+                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-1.5">${escapeHtml(affMatches[0].notes || '')}</p>
+                            ` : '<p class="text-slate-500 italic text-xs">مازال ما تسجلش توافق خاص بهاد الشاشة</p>'}
+                        </div>
+
+                        <!-- Pochette Spotlight -->
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-amber-800/60">
+                            <div class="flex items-center gap-2 font-bold text-amber-400 mb-2">
+                                <i class="fa-solid fa-shield-cat"></i>
+                                <span>🎒 البوشيط المتوافق (الكفر):</span>
+                            </div>
+                            ${pocMatches.length > 0 ? `
+                                <ul class="space-y-1.5 text-slate-200 font-semibold">
+                                    ${pocMatches.flatMap(m => m.compatibles).slice(0, 4).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-amber-400 text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
+                                </ul>
+                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-1.5">${escapeHtml(pocMatches[0].notes || '')}</p>
+                            ` : '<p class="text-slate-500 italic text-xs">مازال ما تسجلش توافق خاص بهاد البوشيط</p>'}
+                        </div>
+
+                        <!-- Verre Spotlight -->
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-emerald-800/60">
+                            <div class="flex items-center gap-2 font-bold text-emerald-400 mb-2">
+                                <i class="fa-regular fa-clone"></i>
+                                <span>🛡️ الزاج المتوافق (Incassable):</span>
+                            </div>
+                            ${verMatches.length > 0 ? `
+                                <ul class="space-y-1.5 text-slate-200 font-semibold">
+                                    ${verMatches.flatMap(m => m.compatibles).slice(0, 5).map(c => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> <span>${escapeHtml(c)}</span></li>`).join('')}
+                                </ul>
+                                <p class="mt-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-1.5">${escapeHtml(verMatches[0].notes || '')}</p>
+                            ` : '<p class="text-slate-500 italic text-xs">مازال ما تسجلش توافق خاص بهاد الزاج</p>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Render Compatibility Cards ---
+        function renderCards() {
+            const grid = document.getElementById('resultsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const countText = document.getElementById('resultsCountText');
+
+            // Filter logic
+            const q = currentSearchQuery.trim().toLowerCase();
+            
+            const filtered = items.filter(item => {
+                // Category match
+                if (currentCategory !== 'all' && item.category !== currentCategory) {
+                    return false;
+                }
+                // Brand match
+                if (currentBrand !== 'all' && item.brand !== currentBrand) {
+                    return false;
+                }
+                // Search query match
+                if (q) {
+                    const haystack = (
+                        (item.main_model || '') + ' ' +
+                        (item.brand || '') + ' ' +
+                        (item.category_ar || '') + ' ' +
+                        (item.notes || '') + ' ' +
+                        (item.search_keywords || '') + ' ' +
+                        item.compatibles.join(' ')
+                    ).toLowerCase();
+                    return haystack.includes(q);
+                }
+                return true;
+            });
+
+            countText.textContent = filtered.length;
+
+            // Render spotlight if search query is active
+            if (currentCategory !== 'comments') {
+                renderSpotlight(filtered, q);
+            } else {
+                document.getElementById('spotlightContainer').classList.add('hidden');
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(item => {
+                const meta = getCategoryMeta(item.category);
+                return `
+                    <div class="bg-slate-900 rounded-2xl p-5 glow-card flex flex-col justify-between transition-all duration-200 relative group">
+                        
+                        <div>
+                            <!-- Header: Category & Brand Badge -->
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${meta.badgeClass}">
+                                    <i class="fa-solid ${meta.icon}"></i>
+                                    <span>${meta.label}</span>
+                                </span>
+                                <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-0.5 rounded-lg border border-slate-700 font-medium">
+                                    ${escapeHtml(item.brand || '')}
+                                </span>
+                            </div>
+
+                            <!-- Main Phone Model -->
+                            <div class="mb-3">
+                                <span class="text-[11px] text-slate-400 uppercase tracking-wider block font-medium">الموديل الأساسي:</span>
+                                <h3 class="text-base md:text-lg font-black text-white hover:text-cyan-400 transition cursor-pointer">
+                                    ${escapeHtml(item.main_model)}
+                                </h3>
+                            </div>
+
+                            <!-- Compatible Models Box -->
+                            <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800 mb-3.5">
+                                <div class="text-xs font-bold text-slate-300 mb-2 flex items-center justify-between">
+                                    <span class="flex items-center gap-1.5 text-cyan-400">
+                                        <i class="fa-solid fa-arrows-split-up-and-left"></i>
+                                        <span>كيركب مع هاد الموديلات:</span>
+                                    </span>
+                                    <span class="text-[11px] text-slate-500 font-mono">(${item.compatibles.length})</span>
+                                </div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${item.compatibles.map(comp => `
+                                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-100 text-xs font-bold border border-slate-700/80 hover:border-cyan-500 transition cursor-pointer" onclick="quickSearchModel('${escapeJsString(comp)}')">
+                                            ${escapeHtml(comp)}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Notes & Tech Advice -->
+                            ${item.notes ? `
+                                <div class="text-xs text-slate-400 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800/80 mb-3 flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-info text-cyan-400 text-sm mt-0.5 flex-shrink-0"></i>
+                                    <p class="leading-relaxed">${escapeHtml(item.notes)}</p>
+                                </div>
+                            ` : ''}
+
+                            <!-- Difficulty / Tag -->
+                            ${item.difficulty ? `
+                                <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
+                                    <span class="text-slate-500">التوافق:</span>
+                                    <span class="text-emerald-400 font-semibold">${escapeHtml(item.difficulty)}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <!-- Card Footer / Actions -->
+                        <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 mt-2">
+                            <button 
+                                onclick="copyItemToClipboard('${item.id}')" 
+                                class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-400 text-xs font-bold transition flex items-center gap-1.5"
+                                title="نسخ معلومات التوافق"
+                            >
+                                <i class="fa-regular fa-copy"></i>
+                                <span>نسخ للواتساب</span>
+                            </button>
+
+                            <!-- Admin Controls (Edit & Delete) -->
+                            <div class="${isAdminLoggedIn ? 'flex' : 'hidden'} items-center gap-1.5">
+                                <button 
+                                    onclick="openEditItemModal('${item.id}')" 
+                                    class="p-1.5 rounded-lg bg-cyan-950 text-cyan-400 hover:bg-cyan-900 text-xs transition"
+                                    title="تعديل الموديل"
+                                >
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button 
+                                    onclick="deleteItem('${item.id}')" 
+                                    class="p-1.5 rounded-lg bg-red-950 text-red-400 hover:bg-red-900 text-xs transition"
+                                    title="حذف الموديل"
+                                >
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- Render Comments / Suggestions ---
+        function renderComments() {
+            const list = document.getElementById('commentsList');
+            if (comments.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 text-sm">
+                        مازال ما كاين حتى تعليق. كون أول حريفي يشارك التوافق ديالو!
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = comments.map(com => {
+                const isApproved = com.status === 'approved';
+                return `
+                    <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-purple-900/60 text-purple-300 flex items-center justify-center font-bold">
+                                    ${escapeHtml((com.author || 'ح')[0])}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white">${escapeHtml(com.author)}</h4>
+                                    <span class="text-slate-500">${escapeHtml(com.city || 'المغرب')} • ${escapeHtml(com.date || '')}</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${isApproved ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'}">
+                                    ${isApproved ? '✅ معتمد فالسيت' : '⏳ قيد مراجعة المدير'}
+                                </span>
+                                <span class="bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800 text-[11px]">
+                                    ${escapeHtml(com.category_ar || '')}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Proposed Models -->
+                        <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800/80 text-xs md:text-sm">
+                            <div class="flex flex-wrap items-center gap-2 mb-1.5 font-bold">
+                                <span class="text-white">${escapeHtml(com.main_model)}</span>
+                                <i class="fa-solid fa-arrows-left-right text-cyan-400 text-xs"></i>
+                                <span class="text-cyan-400">${escapeHtml(com.compatible_model)}</span>
+                            </div>
+                            <p class="text-slate-300 leading-relaxed">${escapeHtml(com.note)}</p>
+                        </div>
+
+                        <!-- Bottom Controls -->
+                        <div class="flex items-center justify-between text-xs pt-1">
+                            <button onclick="likeComment('${com.id}')" class="flex items-center gap-1.5 text-slate-400 hover:text-cyan-400 transition">
+                                <i class="fa-solid fa-thumbs-up"></i>
+                                <span>تأكيد الحرفيين:</span>
+                                <span class="font-bold text-white font-mono">${com.likes || 0}</span>
+                            </button>
+
+                            <!-- Admin Action: 1-Click Approve & Import to DB -->
+                            <div class="${isAdminLoggedIn ? 'flex' : 'hidden'} items-center gap-2">
+                                ${!isApproved ? `
+                                    <button onclick="approveCommentToDatabase('${com.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition text-xs flex items-center gap-1">
+                                        <i class="fa-solid fa-check-double"></i>
+                                        <span>إضافة مباشرة للقاعدة</span>
+                                    </button>
+                                ` : ''}
+                                <button onclick="deleteComment('${com.id}')" class="p-1 text-red-400 hover:text-red-300 transition" title="حذف التعليق">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- View Switching Logic ---
+        function switchCategory(cat) {
+            playSound('click');
+            currentCategory = cat;
+
+            document.querySelectorAll('.cat-tab').forEach(tab => {
+                if (tab.dataset.cat === cat) {
+                    tab.classList.add('tab-active');
+                    tab.classList.remove('bg-slate-800/60', 'text-slate-300');
+                } else {
+                    tab.classList.remove('tab-active');
+                    tab.classList.add('bg-slate-800/60', 'text-slate-300');
+                }
+            });
+
+            const cardsSection = document.getElementById('cardsGridSection');
+            const commentsSection = document.getElementById('commentsSection');
+
+            if (cat === 'comments') {
+                cardsSection.classList.add('hidden');
+                commentsSection.classList.remove('hidden');
+                renderComments();
+            } else {
+                cardsSection.classList.remove('hidden');
+                commentsSection.classList.add('hidden');
+                renderCards();
+            }
+        }
+
+        // --- Quick Search Helper ---
+        window.quickSearchModel = function(modelName) {
+            const searchInput = document.getElementById('mainSearchInput');
+            // Clean up model string for search
+            const cleanQuery = modelName.replace(/\(.*?\)/g, '').replace(/Galaxy/i, '').trim();
+            searchInput.value = cleanQuery;
+            currentSearchQuery = cleanQuery;
+            document.getElementById('clearSearchBtn').classList.remove('hidden');
+            if (currentCategory === 'comments') {
+                switchCategory('all');
+            } else {
+                renderCards();
+            }
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        };
+
+        // --- Admin Handlers ---
+        function updateAdminUI() {
+            const banner = document.getElementById('adminModeBanner');
+            const btnText = document.getElementById('adminBtnText');
+            const addTrigger = document.getElementById('adminQuickAddTrigger');
+
+            if (isAdminLoggedIn) {
+                banner.classList.remove('hidden');
+                btnText.textContent = "المدير متصل";
+                addTrigger.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+                btnText.textContent = "دخول المدير";
+                addTrigger.classList.add('hidden');
+            }
+            renderCards();
+            renderComments();
+        }
+
+        window.openEditItemModal = function(id) {
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('editItemId').value = item.id;
+            document.getElementById('itemCategory').value = item.category;
+            document.getElementById('itemBrand').value = item.brand;
+            document.getElementById('itemMainModel').value = item.main_model;
+            document.getElementById('itemCompatibles').value = item.compatibles.join(', ');
+            document.getElementById('itemNotes').value = item.notes || '';
+            document.getElementById('itemDifficulty').value = item.difficulty || '';
+
+            document.getElementById('addEditModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-400"></i><span>تعديل الموديل</span>';
+            document.getElementById('addEditModal').classList.remove('hidden');
+        };
+
+        window.deleteItem = function(id) {
+            // Safe removal with custom confirmation or instant undo
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+            items = items.filter(i => i.id !== id);
+            setStorage('electro_compat_items', items);
+            updateCountBadges();
+            renderCards();
+            showToast('تم حذف الموديل', `تم مسح ${item.main_model} من القاعدة بنجاح`);
+        };
+
+        window.likeComment = function(id) {
+            playSound('click');
+            const com = comments.find(c => c.id === id);
+            if (com) {
+                com.likes = (com.likes || 0) + 1;
+                setStorage('electro_compat_comments', comments);
+                renderComments();
+                showToast('شكراً لتأكيدك', 'التأكيد كيعاون الحرفيين يتأكدو من التجربة');
+            }
+        };
+
+        window.approveCommentToDatabase = function(id) {
+            const com = comments.find(c => c.id === id);
+            if (!com) return;
+
+            // Generate clean compatible item
+            const newItem = {
+                id: "aff_" + Date.now(),
+                category: com.category === 'autre' ? 'afficheur' : com.category,
+                category_ar: com.category_ar,
+                brand: "عام",
+                main_model: com.main_model,
+                search_keywords: (com.main_model + ' ' + com.compatible_model).toLowerCase(),
+                compatibles: [com.compatible_model],
+                notes: `مساهمة من الحريفي ${com.author} (${com.city}): ${com.note}`,
+                difficulty: "معتمد من طرف الحرفيين",
+                verified: true
+            };
+
+            items.unshift(newItem);
+            setStorage('electro_compat_items', items);
+
+            com.status = 'approved';
+            setStorage('electro_compat_comments', comments);
+
+            updateCountBadges();
+            renderComments();
+            renderCards();
+
+            showToast('تمت المصادقة والإضافة', `تمت إضافة ${com.main_model} لقاعدة البيانات الرئيسية بنجاح!`);
+        };
+
+        window.deleteComment = function(id) {
+            comments = comments.filter(c => c.id !== id);
+            setStorage('electro_compat_comments', comments);
+            updateCountBadges();
+            renderComments();
+            showToast('تم حذف التعليق', 'تم مسح الاقتراح بنجاح');
+        };
+
+        // --- Utility Escapes ---
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function escapeJsString(str) {
+            if (!str) return '';
+            return String(str).replace(/'/g, "\\'");
+        }
+
+        // --- Backup & Restore ---
+        function exportBackup() {
+            const backup = {
+                version: "1.0",
+                exportDate: new Date().toISOString(),
+                items: items,
+                comments: comments
+            };
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ElectroTech_Compatibilite_Backup_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('تم تحميل النسخة الاحتياطية', 'الملف محفوظ عندك فالهاتف أو البيسي');
+        }
+
+        // --- Event Listeners Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initVisitorCounter();
+            updateCountBadges();
+            renderCards();
+
+            // Search input live handler
+            const searchInput = document.getElementById('mainSearchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            searchInput.addEventListener('input', (e) => {
+                currentSearchQuery = e.target.value;
+                if (currentSearchQuery.length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+                renderCards();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                currentSearchQuery = '';
+                clearBtn.classList.add('hidden');
+                renderCards();
+                searchInput.focus();
+            });
+
+            // Quick search tags
+            document.querySelectorAll('.quick-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    playSound('click');
+                    const q = tag.dataset.query;
+                    searchInput.value = q;
+                    currentSearchQuery = q;
+                    clearBtn.classList.remove('hidden');
+                    if (currentCategory === 'comments') {
+                        switchCategory('all');
+                    } else {
+                        renderCards();
+                    }
+                });
+            });
+
+            // Category tabs
+            document.querySelectorAll('.cat-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchCategory(tab.dataset.cat);
+                });
+            });
+
+            // Brand filter select
+            document.getElementById('brandFilterSelect').addEventListener('change', (e) => {
+                playSound('click');
+                currentBrand = e.target.value;
+                renderCards();
+            });
+
+            // Sound Toggle
+            const soundBtn = document.getElementById('soundToggleBtn');
+            const soundIcon = document.getElementById('soundIcon');
+            soundBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted) {
+                    soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+                    showToast('الصوت مكتوم', 'تم كتم المؤثرات الصوتية');
+                } else {
+                    soundIcon.className = "fa-solid fa-volume-high text-cyan-400";
+                    playSound('click');
+                    showToast('الصوت مفعّل', 'تم تفعيل المؤثرات الصوتية');
+                }
+            });
+
+            // Admin Login Modal triggers
+            const adminAuthBtn = document.getElementById('adminAuthBtn');
+            const adminPinModal = document.getElementById('adminPinModal');
+            const closeAdminPinModalBtn = document.getElementById('closeAdminPinModalBtn');
+            const confirmAdminPinBtn = document.getElementById('confirmAdminPinBtn');
+            const adminPinInput = document.getElementById('adminPinInput');
+            const adminPinError = document.getElementById('adminPinError');
+            const logoutAdminBtn = document.getElementById('logoutAdminBtn');
+
+            adminAuthBtn.addEventListener('click', () => {
+                if (isAdminLoggedIn) {
+                    showToast('المدير مفعّل', 'راك داخل كمدير، عندك كاع الصلاحيات!');
+                } else {
+                    adminPinModal.classList.remove('hidden');
+                    adminPinInput.value = '';
+                    adminPinError.classList.add('hidden');
+                    adminPinInput.focus();
+                }
+            });
+
+            closeAdminPinModalBtn.addEventListener('click', () => {
+                adminPinModal.classList.add('hidden');
+            });
+
+            confirmAdminPinBtn.addEventListener('click', () => {
+                if (adminPinInput.value === ADMIN_PIN) {
+                    isAdminLoggedIn = true;
+                    adminPinModal.classList.add('hidden');
+                    updateAdminUI();
+                    playSound('admin');
+                    showToast('مرحباً بك أ المدير!', 'تم تفعيل وضع المدير وصلاحيات الإضافة والتعديل');
+                } else {
+                    adminPinError.classList.remove('hidden');
+                    adminPinInput.value = '';
+                    playSound('click');
+                }
+            });
+
+            adminPinInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    confirmAdminPinBtn.click();
+                }
+            });
+
+            logoutAdminBtn.addEventListener('click', () => {
+                isAdminLoggedIn = false;
+                updateAdminUI();
+                showToast('تم تسجيل الخروج', 'خرجتي من وضع المدير');
+            });
+
+            // Suggest Modal triggers
+            const suggestModal = document.getElementById('suggestModal');
+            const openSuggestBtn = document.getElementById('openSuggestModalBtn');
+            const closeSuggestBtn = document.getElementById('closeSuggestModalBtn');
+            const cancelSuggestBtn = document.getElementById('cancelSuggestBtn');
+            const suggestForm = document.getElementById('suggestForm');
+            const addCommentTriggerBtn = document.getElementById('addCommentTriggerBtn');
+            const emptyStateSuggestBtn = document.getElementById('emptyStateSuggestBtn');
+
+            function openSuggest() {
+                playSound('click');
+                suggestModal.classList.remove('hidden');
+                document.getElementById('sugAuthor').focus();
+            }
+
+            openSuggestBtn.addEventListener('click', openSuggest);
+            addCommentTriggerBtn.addEventListener('click', openSuggest);
+            emptyStateSuggestBtn.addEventListener('click', openSuggest);
+
+            closeSuggestBtn.addEventListener('click', () => suggestModal.classList.add('hidden'));
+            cancelSuggestBtn.addEventListener('click', () => suggestModal.classList.add('hidden'));
+
+            suggestForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const catVal = document.getElementById('sugCategory').value;
+                const catMeta = getCategoryMeta(catVal);
+
+                const newComment = {
+                    id: "com_" + Date.now(),
+                    author: document.getElementById('sugAuthor').value.trim(),
+                    city: document.getElementById('sugCity').value.trim(),
+                    date: new Date().toISOString().slice(0, 10),
+                    category: catVal,
+                    category_ar: catMeta.label,
+                    main_model: document.getElementById('sugMainModel').value.trim(),
+                    compatible_model: document.getElementById('sugCompatibleModel').value.trim(),
+                    note: document.getElementById('sugNote').value.trim(),
+                    status: "pending",
+                    likes: 1
+                };
+
+                comments.unshift(newComment);
+                setStorage('electro_compat_comments', comments);
+                updateCountBadges();
+                suggestModal.classList.add('hidden');
+                suggestForm.reset();
+
+                showToast('شكراً أ المعلم!', 'تم تسجيل اقتراحك بنجاح وغادي يراجعه المدير لزيادته للسيت');
+                switchCategory('comments');
+            });
+
+            // Add/Edit Model Modal triggers (Admin)
+            const addEditModal = document.getElementById('addEditModal');
+            const openAddModalBtn = document.getElementById('openAddModalBtn');
+            const addCardQuickBtn = document.getElementById('addCardQuickBtn');
+            const closeAddEditModalBtn = document.getElementById('closeAddEditModalBtn');
+            const cancelAddEditBtn = document.getElementById('cancelAddEditBtn');
+            const addEditForm = document.getElementById('addEditForm');
+
+            function openNewModelModal() {
+                playSound('click');
+                document.getElementById('editItemId').value = '';
+                addEditForm.reset();
+                document.getElementById('addEditModalTitle').innerHTML = '<i class="fa-solid fa-plus-circle text-cyan-400"></i><span>إضافة موديل وتوافق جديد</span>';
+                addEditModal.classList.remove('hidden');
+                document.getElementById('itemMainModel').focus();
+            }
+
+            openAddModalBtn.addEventListener('click', openNewModelModal);
+            addCardQuickBtn.addEventListener('click', openNewModelModal);
+
+            closeAddEditModalBtn.addEventListener('click', () => addEditModal.classList.add('hidden'));
+            cancelAddEditBtn.addEventListener('click', () => addEditModal.classList.add('hidden'));
+
+            addEditForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const editId = document.getElementById('editItemId').value;
+                const category = document.getElementById('itemCategory').value;
+                const catMeta = getCategoryMeta(category);
+                const brand = document.getElementById('itemBrand').value;
+                const mainModel = document.getElementById('itemMainModel').value.trim();
+                const rawCompatibles = document.getElementById('itemCompatibles').value;
+                const compatibles = rawCompatibles.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+                const notes = document.getElementById('itemNotes').value.trim();
+                const difficulty = document.getElementById('itemDifficulty').value.trim() || 'متطابق';
+
+                if (editId) {
+                    // Update existing
+                    const idx = items.findIndex(i => i.id === editId);
+                    if (idx !== -1) {
+                        items[idx].category = category;
+                        items[idx].category_ar = catMeta.label;
+                        items[idx].brand = brand;
+                        items[idx].main_model = mainModel;
+                        items[idx].compatibles = compatibles;
+                        items[idx].notes = notes;
+                        items[idx].difficulty = difficulty;
+                        items[idx].search_keywords = (mainModel + ' ' + compatibles.join(' ') + ' ' + notes).toLowerCase();
+                    }
+                    showToast('تم التعديل بنجاح', `تم تحديث بيانات ${mainModel}`);
+                } else {
+                    // Create new
+                    const newItem = {
+                        id: "item_" + Date.now(),
+                        category: category,
+                        category_ar: catMeta.label,
+                        brand: brand,
+                        main_model: mainModel,
+                        compatibles: compatibles,
+                        notes: notes,
+                        difficulty: difficulty,
+                        search_keywords: (mainModel + ' ' + compatibles.join(' ') + ' ' + notes).toLowerCase(),
+                        verified: true
+                    };
+                    items.unshift(newItem);
+                    showToast('تمت الإضافة بنجاح', `تمت إضافة موديل ${mainModel} لقاعدة البيانات`);
+                }
+
+                setStorage('electro_compat_items', items);
+                updateCountBadges();
+                renderCards();
+                addEditModal.classList.add('hidden');
+                addEditForm.reset();
+            });
+
+            // Backup download trigger
+            document.getElementById('backupDataBtn').addEventListener('click', exportBackup);
+        });
+    </script>
+</body>
+</html>
+```
