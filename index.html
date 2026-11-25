@@ -386,6 +386,70 @@
 
       <!-- Search View Section -->
       <section id="catalogSection" class="flex flex-col gap-5">
+        <!-- FRONT-PAGE AI AUTO-COMPATIBILITY FINDER (Auto-Saves to Site DB) -->
+        <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-violet-400/30 bg-gradient-to-br from-violet-950/45 via-slate-900/65 to-blue-950/40 shadow-xl shadow-violet-950/25">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-cyan-400 flex items-center justify-center text-white font-extrabold shadow-lg shadow-violet-500/30 shrink-0">AI</div>
+              <div>
+                <h3 class="font-extrabold text-sm sm:text-base text-white" data-i18n="aiFinderTitle">البحث التلقائي بالذكاء الاصطناعي (حفظ مباشر فالموقع)</h3>
+                <p class="text-[11px] text-cyan-200/80" data-i18n="aiFinderSub">كتب الموديل وعزل النوع، والذكاء الاصطناعي يجبد ليك غير المتوافقات ويسجلها فالموقع تلقائياً</p>
+              </div>
+            </div>
+            <span id="aiSavedCountPill" class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-[11px] font-bold text-emerald-300">✨ حفظ تلقائي مفعّل</span>
+          </div>
+
+          <form id="aiFinderForm" class="flex flex-col gap-3">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5">
+              <!-- Model Input -->
+              <div class="md:col-span-5">
+                <input id="aiModelInput" type="text" required autocomplete="off"
+                  class="w-full bg-slate-950/80 border border-white/15 focus:border-violet-400 focus:ring-2 focus:ring-violet-500/30 rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-400 outline-none transition"
+                  placeholder="كتب الموديل... مثلاً: A12، A51، Redmi Note 12، Smart 8، iPhone 13" />
+              </div>
+
+              <!-- Part Type Toggle Pills -->
+              <div class="md:col-span-4 grid grid-cols-3 gap-1.5 bg-slate-950/75 p-1 rounded-2xl border border-white/10">
+                <button type="button" class="ai-type-btn py-2 px-2 rounded-xl text-xs font-bold transition bg-violet-600 text-white shadow" data-aitype="screen">أفشور</button>
+                <button type="button" class="ai-type-btn py-2 px-2 rounded-xl text-xs font-bold transition text-slate-300 hover:text-white" data-aitype="case">بوشيط</button>
+                <button type="button" class="ai-type-btn py-2 px-2 rounded-xl text-xs font-bold transition text-slate-300 hover:text-white" data-aitype="glass">زاج</button>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="md:col-span-3">
+                <button id="aiFinderSubmitBtn" type="submit"
+                  class="w-full h-full py-3 px-4 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-violet-600/30 flex items-center justify-center gap-2 transition">
+                  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span id="aiFinderBtnText" data-i18n="aiFinderBtn">جبد المتوافقات</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Clean AI Result Output Box (ONLY compatible models + auto-save badge) -->
+          <div id="aiFinderResult" class="hidden mt-4 rounded-2xl bg-slate-950/85 border border-cyan-400/35 p-4 flex flex-col gap-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span id="aiResTypeBadge" class="px-2.5 py-1 rounded-xl bg-cyan-500/20 border border-cyan-400/35 text-cyan-200 text-xs font-bold"></span>
+                <span id="aiResBrandBadge" class="text-xs font-extrabold text-white"></span>
+              </div>
+              <span id="aiResSourceBadge" class="px-2.5 py-1 rounded-full text-[11px] font-bold"></span>
+            </div>
+
+            <div>
+              <div class="text-[11px] font-bold text-slate-400 mb-2" data-i18n="aiCompatibleOnlyLabel">الموديلات المتوافقة فقط:</div>
+              <div id="aiResModels" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div id="aiResNote" class="text-xs text-slate-300 bg-white/5 rounded-xl px-3 py-2 border border-white/10"></div>
+
+            <div class="flex items-center justify-between gap-2 pt-1">
+              <button id="aiResCopyWaBtn" type="button" class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/35 text-emerald-200 text-xs font-bold transition">📋 نسخ للواتساب</button>
+              <button id="aiResCloseBtn" type="button" class="text-xs text-slate-400 hover:text-white transition">إخفاء ✕</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Smart Search Bar -->
         <div class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col gap-3">
           <div class="relative flex items-center">
@@ -534,6 +598,14 @@
                   <button type="submit" class="px-4 py-2 rounded-2xl bg-white text-slate-950 hover:bg-slate-200 font-bold text-xs transition" data-i18n="savePinBtn">حفظ الكود</button>
                 </form>
               </div>
+              <div class="pt-2 border-t border-white/10">
+                <form id="geminiKeyForm" class="flex gap-2">
+                  <input id="geminiKeyInput" type="password" autocomplete="off"
+                    class="flex-1 bg-slate-950/70 border border-white/15 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-400 outline-none focus:border-cyan-400"
+                    placeholder="مفتاح Gemini API (اختياري للبحث الحي عن أي موديل نادر)" />
+                  <button type="submit" class="px-3.5 py-2 rounded-2xl bg-cyan-500/25 hover:bg-cyan-500/35 border border-cyan-400/35 text-cyan-200 font-bold text-xs transition">حفظ AI</button>
+                </form>
+              </div>
               <div class="flex flex-wrap gap-2 pt-2 border-t border-white/10">
                 <button id="exportJsonBtn" class="flex-1 py-2.5 px-3 rounded-2xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/35 text-emerald-200 font-bold text-xs transition" data-i18n="exportJson">تصدير نسخة JSON</button>
                 <label class="flex-1 py-2.5 px-3 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/35 text-cyan-200 font-bold text-xs text-center cursor-pointer transition">
@@ -679,7 +751,8 @@
       visits: 'glassy_compat_visits_v10',
       pin: 'glassy_compat_admin_pin_v10',
       faceId: 'glassy_compat_faceid_v10',
-      lang: 'glassy_compat_lang_v10'
+      lang: 'glassy_compat_lang_v10',
+      geminiKey: 'glassy_compat_gemini_key_v10'
     };
 
     function safeGet(key, fallback) {
@@ -752,6 +825,10 @@
         webauthnSub: 'يرجى تأكيد بصمة الوجه / البصمة على جهازك...',
         scanSuccess: 'تم التحقق ببصمة الوجه بنجاح!',
         enrollSuccess: 'تم تسجيل بصمة الوجه للمدير بنجاح!',
+        aiFinderTitle: 'البحث التلقائي بالذكاء الاصطناعي (حفظ مباشر فالموقع)',
+        aiFinderSub: 'كتب الموديل وعزل النوع، والذكاء الاصطناعي يجبد ليك غير المتوافقات ويسجلها فالموقع تلقائياً',
+        aiFinderBtn: 'جبد المتوافقات',
+        aiCompatibleOnlyLabel: 'الموديلات المتوافقة فقط:',
         typeLabels: { screen: 'شاشة / Afficheur', case: 'بوشيط / Pochette', glass: 'زاج / Incassable' }
       },
       fr: {
@@ -806,6 +883,10 @@
         webauthnSub: 'Confirmez avec Face ID / empreinte sur votre appareil...',
         scanSuccess: 'Identité vérifiée par Face ID !',
         enrollSuccess: 'Face ID administrateur enregistré !',
+        aiFinderTitle: 'Recherche IA Automatique (Enregistrement Auto)',
+        aiFinderSub: 'Tapez le modèle et le type : l\'IA affiche uniquement les compatibles et les ajoute au site',
+        aiFinderBtn: 'Trouver Compatibles',
+        aiCompatibleOnlyLabel: 'Modèles compatibles uniquement :',
         typeLabels: { screen: 'Afficheur', case: 'Pochette', glass: 'Verre 5D/9D' }
       },
       en: {
@@ -860,6 +941,10 @@
         webauthnSub: 'Verify with Face ID / Biometrics on your device...',
         scanSuccess: 'Face ID Verified!',
         enrollSuccess: 'Admin Face ID Enrolled!',
+        aiFinderTitle: 'AI Auto-Compatibility Finder (Auto-Saves to Site)',
+        aiFinderSub: 'Enter model & part type: AI returns only compatible models and saves them automatically',
+        aiFinderBtn: 'Find Compatible',
+        aiCompatibleOnlyLabel: 'Compatible models only:',
         typeLabels: { screen: 'Screen', case: 'Case', glass: 'Glass' }
       }
     };
@@ -1765,6 +1850,242 @@
     }
 
     // ==============================
+    // 9B. AI AUTO-COMPATIBILITY ENGINE & AUTO-SAVE TO SITE DB
+    // ==============================
+    let selectedAiType = 'screen';
+    let lastAiResultEntry = null;
+
+    // Extended verified Moroccan repair AI knowledge bank (loaded on demand & auto-saved to site cards!)
+    const AI_KNOWLEDGE_BANK = [
+      // Samsung Screens
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A14 4G (A145)', 'Galaxy A14 5G (A146P فقط)'], note: 'انتبه لنسخة A146B مقابل A146P فالفليكس' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A15 4G', 'Galaxy A15 5G'], note: 'نفس شاشة Super AMOLED 6.5 إنش' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A20', 'Galaxy A205', 'Galaxy A30 (مقاس مختلف قليلاً في الفريم)'], note: 'A205 أصلية OLED أو TFT متوافقة بين نسخ A20' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A21s', 'Galaxy A217'], note: 'شاشة خاصة بـ A21s (تحقق من نسخة الكونيكتور في البوردة)' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A22 4G', 'Galaxy M22', 'Galaxy M32 4G', 'Galaxy F22'], note: 'نفس الشاشة AMOLED 6.4 إنش 90Hz' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A24 4G', 'Galaxy A25 5G'], note: 'نفس مقاس الشاشة 6.5 إنش AMOLED (تأكد من تردد 90Hz/120Hz)' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A31', 'Galaxy A315'], note: 'شاشة خاصة بـ A31 مقاس 6.4 إنش' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A32 4G', 'Galaxy A325'], note: 'شاشة 6.4 إنش 90Hz (مختلفة عن A32 5G)' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A34 5G', 'Galaxy A346'], note: 'شاشة Super AMOLED 6.6 إنش 120Hz' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A51', 'Galaxy A515'], note: 'شاشة 6.5 إنش Super AMOLED (تأكد من البصمة تحت الشاشة)' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A52 4G', 'Galaxy A52 5G', 'Galaxy A52s 5G'], note: 'عائلة A52 كاملة متوافقة فالشاشة' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A53 5G', 'Galaxy A536'], note: 'شاشة 6.5 إنش 120Hz خاصة بـ A53' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A54 5G', 'Galaxy A546'], note: 'شاشة Super AMOLED 6.4 إنش 120Hz' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A05', 'Galaxy A055'], note: 'شاشة 6.7 إنش PLS LCD (مختلفة عن A05s)' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A05s', 'Galaxy A057'], note: 'شاشة 6.7 إنش FHD+ 90Hz' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy J4 Plus', 'Galaxy J6 Plus', 'Galaxy J4 Core', 'Galaxy J415', 'Galaxy J610'], note: 'عائلة J+ المشهورة نفس الشاشة 100%' },
+      { type: 'screen', brand: 'Samsung', models: ['Galaxy A01 Core', 'Galaxy M01 Core', 'Galaxy A3 Core'], note: 'نفس الأفشور 5.3 إنش' },
+      // Xiaomi / Redmi / Poco Screens
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 8', 'Redmi Note 8 (2021)'], note: 'نفس الشاشة والفليكس 6.3 إنش' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 9', 'Redmi 10X 4G'], note: 'نفس الشاشة 6.53 إنش' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 9S', 'Redmi Note 9 Pro', 'Redmi Note 9 Pro Max', 'Poco M2 Pro'], note: 'عائلة Note 9 Pro كاملة متوافقة 100%' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 10 4G', 'Redmi Note 10S', 'Poco M5s'], note: 'نفس شاشة AMOLED 6.43 إنش' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 10 Pro', 'Redmi Note 10 Pro Max', 'Redmi Note 11 Pro 4G/5G (مختلف الفريم)'], note: 'Note 10 Pro و Pro Max نفس الشاشة 120Hz' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 12 4G', 'Redmi Note 12 5G', 'Poco X5 5G'], note: 'نفس شاشة AMOLED 6.67 إنش 120Hz' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 13 4G', 'Redmi Note 13 5G (فريم مختلف قليلاً)'], note: 'شاشة AMOLED 6.67 إنش 120Hz' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi 9', 'Redmi 9 Prime', 'Poco M2'], note: 'نفس الشاشة 6.53 إنش FHD+' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi 10', 'Redmi 10 (2022)', 'Redmi 10 Prime', 'Redmi Note 11 4G (China)'], note: 'نفس الشاشة 6.5 إنش 90Hz' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Redmi 12 4G', 'Redmi 12 5G', 'Poco M6 Pro 5G'], note: 'نفس الشاشة 6.79 إنش 90Hz' },
+      { type: 'screen', brand: 'Xiaomi', models: ['Poco X3 NFC', 'Poco X3 Pro', 'Xiaomi Mi 10T Lite'], note: 'Poco X3 NFC و X3 Pro نفس الشاشة 120Hz تماماً' },
+      // Infinix / Tecno / Itel Screens
+      { type: 'screen', brand: 'Infinix', models: ['Infinix Hot 12', 'Infinix Hot 12 Play', 'Tecno Spark 8P (مختلف)', 'Tecno Pova Neo 2'], note: 'Hot 12 و Hot 12 Play مقاس 6.82 إنش (تأكد من فليكس الشاشة)' },
+      { type: 'screen', brand: 'Infinix', models: ['Infinix Hot 30', 'Infinix Hot 30i (أصغر 6.56)', 'Tecno Spark 10 Pro'], note: 'Hot 30 و Spark 10 Pro نفس الشاشة 6.78 إنش FHD+' },
+      { type: 'screen', brand: 'Infinix', models: ['Infinix Hot 30i', 'Infinix Smart 7', 'Tecno Spark 10', 'Tecno Spark 10C', 'Tecno Pop 7 Pro', 'Itel A60s'], note: 'عائلة 6.6 إنش 90Hz متوافقة فالمغرب (تحقق من كود الفليكس)' },
+      { type: 'screen', brand: 'Infinix', models: ['Infinix Smart 8', 'Infinix Hot 40i', 'Tecno Spark 20', 'Tecno Spark 20C', 'Tecno Pop 8', 'Itel P55'], note: 'عائلة 6.6 إنش ثقب الكاميرا (Punch-Hole) المتوافقة' },
+      // Apple iPhone Screens
+      { type: 'screen', brand: 'Apple', models: ['iPhone 13', 'iPhone 13 (خاص به — مختلف عن 13 Pro)'], note: 'شاشة 6.1 إنش OLED 60Hz (13 Pro يأتي بـ 120Hz وفليكس مختلف)' },
+      { type: 'screen', brand: 'Apple', models: ['iPhone 14', 'iPhone 13 (مختلف الفليكس قليلاً)'], note: 'iPhone 14 يحتاج شاشته الخاصة مع نقل حساس الإضاءة' },
+      { type: 'screen', brand: 'Apple', models: ['iPhone X', 'iPhone XS (اختلاف بسيط في الفريم السفلي)'], note: 'نفس القياس 5.8 إنش — يفضل تركيب شاشة كل موديل لتفادي فرق الفريم' },
+      { type: 'screen', brand: 'Apple', models: ['iPhone 11', 'iPhone XR (مختلفة الفليكس)'], note: 'iPhone 11 شاشة 6.1 LCD خاصة به (الزاج فقط هو المتوافق مع XR)' },
+      // Oppo / Realme Screens
+      { type: 'screen', brand: 'Oppo', models: ['Oppo A16', 'Oppo A16s', 'Oppo A54s', 'Realme C25', 'Realme C25s'], note: 'نفس الشاشة 6.52 إنش ونفس التوصيلة' },
+      { type: 'screen', brand: 'Oppo', models: ['Oppo A17', 'Oppo A17k', 'Oppo A57 (2022)', 'Oppo A57s', 'Oppo A77 4G/5G', 'Oppo A58 5G', 'Realme C33', 'Realme C30'], note: 'عائلة 6.56 إنش الأكثر توافقاً في Oppo/Realme' },
+      { type: 'screen', brand: 'Oppo', models: ['Oppo A38', 'Oppo A18', 'Oppo A58 4G (أكبر)'], note: 'Oppo A38 و A18 نفس الشاشة 6.56 إنش 90Hz' },
+      { type: 'screen', brand: 'Oppo', models: ['Oppo A54 4G', 'Oppo A55 4G', 'Oppo A16 (مختلف الكاميرا)'], note: 'Oppo A54 و A55 نفس الشاشة 6.51 إنش' },
+      { type: 'screen', brand: 'Oppo', models: ['Realme C21Y', 'Realme C25Y', 'Realme C11 (2021)', 'Realme C20', 'Realme C21', 'Narzo 50i'], note: 'عائلة Realme الاقتصادية المتوافقة 100%' },
+      { type: 'screen', brand: 'Oppo', models: ['Realme C53', 'Realme C51', 'Realme Note 50', 'Narzo N53'], note: 'نفس الشاشة 6.74 إنش 90Hz' },
+      { type: 'screen', brand: 'Oppo', models: ['Realme C55', 'Oppo A58 4G', 'Realme Narzo N55'], note: 'نفس الشاشة 6.72 إنش FHD+' },
+      // Huawei / Honor Screens
+      { type: 'screen', brand: 'Huawei', models: ['Huawei Y7 2019', 'Huawei Y7 Prime 2019', 'Huawei Y7 Pro 2019'], note: 'نفس الشاشة 6.26 إنش بالكامل' },
+      { type: 'screen', brand: 'Huawei', models: ['Huawei Y9 2019', 'Huawei Enjoy 9 Plus'], note: 'نفس الشاشة 6.5 إنش' },
+      { type: 'screen', brand: 'Huawei', models: ['Huawei Y9 Prime 2019', 'Huawei P Smart Z', 'Honor 9X'], note: 'نفس الشاشة الكاملة بدون نوتش 6.59 إنش' },
+      { type: 'screen', brand: 'Huawei', models: ['Huawei Nova 7i', 'Huawei P40 Lite 4G', 'Huawei Nova 6 SE'], note: 'نفس الشاشة 6.4 إنش 100%' },
+      // Cases (Pochettes)
+      { type: 'case', brand: 'Samsung', models: ['Galaxy A03s', 'Galaxy A02s'], note: 'نفس الكفر وفتحة الكاميرا الطولية' },
+      { type: 'case', brand: 'Samsung', models: ['Galaxy A04', 'Galaxy A04e', 'Galaxy M04'], note: 'نفس الكفر بفتحتين للكاميرا' },
+      { type: 'case', brand: 'Samsung', models: ['Galaxy A13 4G', 'Galaxy A13 5G (كاميرات مختلفة)', 'Galaxy A04s (كاميرا A13 5G)'], note: 'A13 5G و A04s نفس البوشيط تماماً' },
+      { type: 'case', brand: 'Samsung', models: ['Galaxy A14 4G', 'Galaxy A14 5G'], note: 'نفس البوشيط 100%' },
+      { type: 'case', brand: 'Samsung', models: ['Galaxy A15 4G', 'Galaxy A15 5G'], note: 'نفس البوشيط ومكان الأزرار' },
+      { type: 'case', brand: 'Samsung', models: ['Galaxy A52 4G', 'Galaxy A52 5G', 'Galaxy A52s 5G'], note: 'نفس البوشيط تماماً' },
+      { type: 'case', brand: 'Xiaomi', models: ['Redmi 9A', 'Redmi 9AT', 'Redmi 9i'], note: 'نفس البوشيط بدون فتحة بصمة خلفية' },
+      { type: 'case', brand: 'Xiaomi', models: ['Redmi 9C', 'Redmi 10A', 'Poco C31'], note: 'نفس البوشيط بفتحة البصمة الخلفية' },
+      { type: 'case', brand: 'Xiaomi', models: ['Redmi Note 10 4G', 'Redmi Note 10S', 'Poco M5s'], note: 'نفس البوشيط 100%' },
+      { type: 'case', brand: 'Xiaomi', models: ['Redmi 13C', 'Poco C65'], note: 'نفس البوشيط ومكان الكاميرات' },
+      { type: 'case', brand: 'Infinix', models: ['Infinix Smart 8', 'Infinix Hot 40i', 'Tecno Spark 20', 'Tecno Pop 8'], note: 'نفس المقاس ومربع الكاميرات في أغلب النسخ' },
+      { type: 'case', brand: 'Apple', models: ['iPhone X', 'iPhone XS'], note: 'نفس البوشيط 100%' },
+      { type: 'case', brand: 'Apple', models: ['iPhone 13', 'iPhone 14 (نفس المقاس مع فرق بسيط فالأزرار)'], note: 'البوشيطات المرنة كتركب لبعضهم' },
+      { type: 'case', brand: 'Oppo', models: ['Oppo A17', 'Oppo A17k'], note: 'نفس البوشيط' },
+      { type: 'case', brand: 'Oppo', models: ['Oppo A38', 'Oppo A18'], note: 'نفس البوشيط 100%' },
+      // Tempered Glass (Incassable)
+      { type: 'glass', brand: 'Samsung', models: ['Galaxy A15', 'Galaxy A24', 'Galaxy A25', 'Galaxy A34', 'Galaxy M34'], note: 'نفس زاج النوتش 6.5 إنش (U-Notch)' },
+      { type: 'glass', brand: 'Samsung', models: ['Galaxy A51', 'Galaxy A52', 'Galaxy A52s', 'Galaxy A53', 'Galaxy A54 (أعرض قليلاً)'], note: 'زاج ثقب الكاميرا الوسطي 6.5 إنش' },
+      { type: 'glass', brand: 'Xiaomi', models: ['Redmi Note 10', 'Redmi Note 10S', 'Redmi Note 11', 'Redmi Note 11S', 'Redmi Note 12S', 'Poco M4 Pro'], note: 'نفس الزاج الواقي 6.43 إنش ثقب وسطي' },
+      { type: 'glass', brand: 'Xiaomi', models: ['Redmi Note 12', 'Redmi Note 13', 'Redmi 12', 'Poco X5', 'Poco X6'], note: 'نفس الزاج الواقي 6.67 إنش ثقب وسطي' },
+      { type: 'glass', brand: 'Xiaomi', models: ['Redmi 12C', 'Redmi 13C', 'Poco C55', 'Poco C65', 'Infinix Smart 7', 'Tecno Spark 10C'], note: 'نفس زاج النوتش الكبير 6.7 إنش' },
+      { type: 'glass', brand: 'Apple', models: ['iPhone 13', 'iPhone 13 Pro', 'iPhone 14', 'iPhone 16e'], note: 'نفس الزاج الواقي 6.1 إنش نوتش صغير' },
+      { type: 'glass', brand: 'Apple', models: ['iPhone 14 Pro', 'iPhone 15', 'iPhone 15 Pro', 'iPhone 16'], note: 'نفس الزاج الواقي 6.1 إنش Dynamic Island' },
+      { type: 'glass', brand: 'Infinix', models: ['Infinix Smart 8', 'Infinix Hot 40i', 'Tecno Spark 20', 'Tecno Spark 20C', 'Tecno Pop 8'], note: 'نفس الزاج 6.6 إنش ثقب وسطي' },
+      { type: 'glass', brand: 'Oppo', models: ['Oppo A16', 'Oppo A17', 'Oppo A18', 'Oppo A38', 'Oppo A57', 'Realme C30', 'Realme C33', 'Realme C53'], note: 'نفس زاج النوتش 6.56 إنش' }
+    ];
+
+    function findMatchingEntryInList(list, queryNorm, partType) {
+      const q = queryNorm.toLowerCase().trim();
+      const tokens = q.split(/\s+/).filter(Boolean);
+      if (!tokens.length) return null;
+      return list.find(item => {
+        if (item.type !== partType) return false;
+        const hay = (item.brand + ' ' + item.models.join(' ')).toLowerCase();
+        return tokens.every(tok => hay.includes(tok));
+      }) || null;
+    }
+
+    async function queryLiveAiForCompat(modelQuery, partType) {
+      const partName = partType === 'screen' ? 'LCD/OLED Screen (Afficheur)' : (partType === 'case' ? 'Phone Case (Pochette/Coque)' : 'Tempered Glass Screen Protector (Incassable 5D/9D/21D)');
+      const prompt = `You are a Moroccan smartphone repair technician expert. A technician asks for compatible ${partName} models for "${modelQuery}". Return ONLY a valid JSON object (no markdown, no explanation) with keys: "brand" (one of Samsung, Xiaomi, Infinix, Apple, Oppo, Huawei, Other), "models" (array of 2 to 8 exact compatible phone model names including "${modelQuery}"), and "note" (one short technical note in Arabic/Darija, max 12 words).`;
+
+      // 1) Try Admin's Gemini API Key if configured
+      const geminiKey = safeGet(STORAGE_KEYS.geminiKey, '');
+      if (geminiKey && typeof geminiKey === 'string' && geminiKey.trim().length > 10) {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(geminiKey.trim())}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          const match = txt.match(/\{[\s\S]*\}/);
+          if (match) return JSON.parse(match[0]);
+        }
+      }
+
+      // 2) Public CORS-enabled AI text endpoint fallback
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 9000);
+      try {
+        const res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}?json=true`, { signal: controller.signal });
+        clearTimeout(timer);
+        if (res.ok) {
+          const txt = await res.text();
+          const match = txt.match(/\{[\s\S]*\}/);
+          if (match) return JSON.parse(match[0]);
+        }
+      } catch (e) {
+        clearTimeout(timer);
+      }
+      return null;
+    }
+
+    function displayAiFinderResult(entry, sourceKind) {
+      lastAiResultEntry = entry;
+      const box = document.getElementById('aiFinderResult');
+      const t = I18N[state.lang];
+      document.getElementById('aiResTypeBadge').textContent = t.typeLabels[entry.type] || entry.type;
+      document.getElementById('aiResBrandBadge').textContent = entry.brand;
+
+      const srcBadge = document.getElementById('aiResSourceBadge');
+      if (sourceKind === 'cached') {
+        srcBadge.textContent = state.lang === 'ar' ? '⚡ من قاعدة الموقع (بدون استهلاك AI)' : (state.lang === 'fr' ? '⚡ Déjà dans la base du site' : '⚡ Instant from Site DB');
+        srcBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-500/20 border border-blue-400/35 text-blue-200';
+      } else {
+        srcBadge.textContent = state.lang === 'ar' ? '🤖 تم الجلب بـ AI وحفظه تلقائياً فالموقع ✓' : (state.lang === 'fr' ? '🤖 Trouvé par IA & enregistré ✓' : '🤖 Found by AI & Auto-Saved ✓');
+        srcBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/35 text-emerald-200';
+      }
+
+      document.getElementById('aiResModels').innerHTML = entry.models
+        .map(m => `<span class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-violet-600/30 to-blue-600/30 border border-violet-400/40 text-white text-xs sm:text-sm font-extrabold">${m}</span>`)
+        .join('');
+      document.getElementById('aiResNote').textContent = entry.note || '';
+      box.classList.remove('hidden');
+    }
+
+    async function handleAiFinderSubmit(e) {
+      e.preventDefault();
+      const rawModel = document.getElementById('aiModelInput').value.trim();
+      if (!rawModel) return;
+
+      const btn = document.getElementById('aiFinderSubmitBtn');
+      const btnText = document.getElementById('aiFinderBtnText');
+      const norm = normalizeQuery(rawModel);
+      const cleanQuery = norm.corrected || rawModel;
+
+      // STAGE 1: Check existing site database FIRST (instant, zero AI call!)
+      const existing = findMatchingEntryInList(state.entries, cleanQuery, selectedAiType);
+      if (existing) {
+        displayAiFinderResult(existing, 'cached');
+        // Also filter the main grid to highlight it
+        state.searchQuery = cleanQuery;
+        document.getElementById('searchInput').value = cleanQuery;
+        document.getElementById('clearSearchBtn').classList.remove('hidden');
+        renderCards();
+        return;
+      }
+
+      // STAGE 2: AI Auto-Research (Local Knowledge Bank -> Live AI API) + AUTO-SAVE TO SITE DB!
+      btn.disabled = true;
+      btnText.textContent = state.lang === 'ar' ? 'الذكاء الاصطناعي كيبحث...' : 'AI searching...';
+
+      let found = findMatchingEntryInList(AI_KNOWLEDGE_BANK, cleanQuery, selectedAiType);
+      if (found) {
+        await new Promise(r => setTimeout(r, 420));
+      } else {
+        try {
+          const live = await queryLiveAiForCompat(cleanQuery, selectedAiType);
+          if (live && Array.isArray(live.models) && live.models.length > 0) {
+            const allowedBrands = ['Samsung', 'Xiaomi', 'Infinix', 'Apple', 'Oppo', 'Huawei'];
+            const safeBrand = allowedBrands.includes(live.brand) ? live.brand : 'Samsung';
+            found = {
+              type: selectedAiType,
+              brand: safeBrand,
+              models: live.models.map(x => String(x).trim()).filter(Boolean).slice(0, 10),
+              note: live.note ? String(live.note).trim() : 'تم جلبها بالذكاء الاصطناعي — يرجى التأكد من الفليكس'
+            };
+          }
+        } catch (err) {
+          found = null;
+        }
+      }
+
+      btn.disabled = false;
+      btnText.textContent = I18N[state.lang].aiFinderBtn;
+
+      if (!found) {
+        showToast(state.lang === 'ar' ? 'ما قدرش AI يجيب نتيجة دقيقة — تأكد من اسم الموديل أو زيد مفتاح Gemini فلوحة المدير' : 'Could not verify exact models — check spelling or add Gemini API key in Admin');
+        return;
+      }
+
+      // AUTO-SAVE into the site's permanent compatibility database so future visitors find it immediately!
+      const newEntry = {
+        id: 'ai_' + Date.now(),
+        type: found.type,
+        brand: found.brand,
+        models: found.models,
+        note: found.note + ' [AI Auto]'
+      };
+      state.entries.unshift(newEntry);
+      safeSet(STORAGE_KEYS.entries, state.entries);
+
+      // Update UI & Grid immediately
+      renderBrands();
+      state.searchQuery = cleanQuery;
+      document.getElementById('searchInput').value = cleanQuery;
+      document.getElementById('clearSearchBtn').classList.remove('hidden');
+      renderCards();
+      displayAiFinderResult(newEntry, 'ai_saved');
+      showToast(state.lang === 'ar' ? 'تم إيجاد المتوافقات وحفظها تلقائياً في قاعدة الموقع!' : 'Compatible models found & auto-saved!');
+    }
+
+    // ==============================
     // 10. EVENT LISTENERS
     // ==============================
     document.querySelectorAll('#mainNav .nav-item').forEach(btn => {
@@ -1997,6 +2318,39 @@
       addAiMessage('user', q);
       inp.value = '';
       setTimeout(() => addAiMessage('ai', answerAiQuestion(q)), 250);
+    });
+
+    // Front-Page AI Finder Listeners
+    document.querySelectorAll('.ai-type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedAiType = btn.dataset.aitype;
+        document.querySelectorAll('.ai-type-btn').forEach(b => {
+          const active = b.dataset.aitype === selectedAiType;
+          b.className = 'ai-type-btn py-2 px-2 rounded-xl text-xs font-bold transition ' +
+            (active ? 'bg-violet-600 text-white shadow' : 'text-slate-300 hover:text-white');
+        });
+      });
+    });
+    document.getElementById('aiFinderForm').addEventListener('submit', handleAiFinderSubmit);
+    document.getElementById('aiResCloseBtn').addEventListener('click', () => {
+      document.getElementById('aiFinderResult').classList.add('hidden');
+    });
+    document.getElementById('aiResCopyWaBtn').addEventListener('click', () => {
+      if (!lastAiResultEntry) return;
+      const t = I18N[state.lang];
+      const msg = `📱 ${t.typeLabels[lastAiResultEntry.type]} (${lastAiResultEntry.brand})
+✅ المتوافقين: ${lastAiResultEntry.models.join(' / ')}
+📝 ${lastAiResultEntry.note || ''}`;
+      copyText(msg);
+    });
+
+    // Admin Gemini API Key Save
+    document.getElementById('geminiKeyForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const key = document.getElementById('geminiKeyInput').value.trim();
+      safeSet(STORAGE_KEYS.geminiKey, key);
+      document.getElementById('geminiKeyInput').value = '';
+      showToast(key ? (state.lang === 'ar' ? 'تم حفظ مفتاح Gemini AI بنجاح!' : 'Gemini API key saved!') : (state.lang === 'ar' ? 'تم مسح مفتاح API' : 'API key cleared'));
     });
 
     // ==============================
