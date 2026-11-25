@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -141,7 +142,7 @@
       transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease;
     }
 
-    /* Face ID Sheet & Glowing Scanner Animation (Inspired by Flutter Face ID Reel) */
+    /* Face ID Sheet & Glowing Scanner Animation */
     @keyframes faceGlowPulse {
       0%, 100% {
         box-shadow:
@@ -396,7 +397,7 @@
                 <p class="text-[11px] text-cyan-200/80" data-i18n="aiFinderSub">كتب الموديل وعزل النوع، والذكاء الاصطناعي يجبد ليك غير المتوافقات ويسجلها فالموقع تلقائياً</p>
               </div>
             </div>
-            <span id="aiSavedCountPill" class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-[11px] font-bold text-emerald-300">✨ حفظ تلقائي مفعّل</span>
+            <span id="aiSavedCountPill" class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-[11px] font-bold text-emerald-300">✨ Gemini 2.5 Flash • حفظ تلقائي</span>
           </div>
 
           <form id="aiFinderForm" class="flex flex-col gap-3">
@@ -405,7 +406,7 @@
               <div class="md:col-span-5">
                 <input id="aiModelInput" type="text" required autocomplete="off"
                   class="w-full bg-slate-950/80 border border-white/15 focus:border-violet-400 focus:ring-2 focus:ring-violet-500/30 rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-400 outline-none transition"
-                  placeholder="كتب الموديل... مثلاً: A12، A51، Redmi Note 12، Smart 8، iPhone 13" />
+                  placeholder="كتب الموديل... مثلاً: Redmi A5، A12، A51، Smart 8، iPhone 13" />
               </div>
 
               <!-- Part Type Toggle Pills -->
@@ -426,7 +427,7 @@
             </div>
           </form>
 
-          <!-- Clean AI Result Output Box (ONLY compatible models + auto-save badge) -->
+          <!-- Clean AI Result Output Box -->
           <div id="aiFinderResult" class="hidden mt-4 rounded-2xl bg-slate-950/85 border border-cyan-400/35 p-4 flex flex-col gap-3">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex items-center gap-2">
@@ -551,7 +552,7 @@
 
         <!-- Unlocked Admin Dashboard -->
         <div id="adminUnlockedView" class="hidden flex flex-col gap-5">
-          <!-- Face ID Welcome Banner (inspired by Dashboard success screen in the video) -->
+          <!-- Face ID Welcome Banner -->
           <div class="rounded-3xl bg-gradient-to-r from-violet-600/25 via-indigo-600/20 to-blue-600/25 border border-violet-400/35 p-5 flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <div class="w-14 h-14 rounded-2xl bg-white text-violet-600 flex items-center justify-center shadow-lg shadow-violet-500/25 shrink-0">
@@ -587,10 +588,10 @@
               </div>
             </div>
 
-            <!-- Change PIN & JSON Backup Card -->
+            <!-- Change PIN, Gemini API Key & JSON Backup Card -->
             <div class="glass-panel rounded-3xl p-5 flex flex-col justify-between gap-4">
               <div>
-                <h4 class="font-extrabold text-base text-white mb-2" data-i18n="pinAndBackupTitle">تغيير الكود السري والنسخ الاحتياطي</h4>
+                <h4 class="font-extrabold text-base text-white mb-2" data-i18n="pinAndBackupTitle">تغيير الكود السري ومفتاح Gemini AI</h4>
                 <form id="changePinForm" class="flex gap-2">
                   <input id="newPinInput" type="password" inputmode="numeric" minlength="4" maxlength="12" required
                     class="flex-1 bg-slate-950/70 border border-white/15 rounded-2xl px-3.5 py-2 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400"
@@ -598,11 +599,15 @@
                   <button type="submit" class="px-4 py-2 rounded-2xl bg-white text-slate-950 hover:bg-slate-200 font-bold text-xs transition" data-i18n="savePinBtn">حفظ الكود</button>
                 </form>
               </div>
-              <div class="pt-2 border-t border-white/10">
+              <div class="pt-2 border-t border-white/10 flex flex-col gap-1.5">
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="text-slate-400">حالة مفتاح Gemini API:</span>
+                  <span id="geminiKeyStatusBadge" class="font-bold text-amber-300">غير مضاف</span>
+                </div>
                 <form id="geminiKeyForm" class="flex gap-2">
                   <input id="geminiKeyInput" type="password" autocomplete="off"
                     class="flex-1 bg-slate-950/70 border border-white/15 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-400 outline-none focus:border-cyan-400"
-                    placeholder="مفتاح Gemini API (اختياري للبحث الحي عن أي موديل نادر)" />
+                    placeholder="لصق مفتاح Gemini API هنا (AIza...)" />
                   <button type="submit" class="px-3.5 py-2 rounded-2xl bg-cyan-500/25 hover:bg-cyan-500/35 border border-cyan-400/35 text-cyan-200 font-bold text-xs transition">حفظ AI</button>
                 </form>
               </div>
@@ -739,7 +744,7 @@
   </aside>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[80] hidden px-4 py-2.5 rounded-2xl bg-slate-900/95 border border-violet-400/40 text-white text-xs sm:text-sm font-bold shadow-2xl"></div>
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[80] hidden px-4 py-2.5 rounded-2xl bg-slate-900/95 border border-violet-400/40 text-white text-xs sm:text-sm font-bold shadow-2xl max-w-[92vw] text-center"></div>
 
   <script>
     // ==============================
@@ -808,7 +813,7 @@
         enrollFaceBtn: 'تسجيل / تحديث بصمة الوجه',
         testFaceBtn: 'تجربة المسح',
         removeFaceBtn: 'حذف البصمة',
-        pinAndBackupTitle: 'تغيير الكود السري والنسخ الاحتياطي',
+        pinAndBackupTitle: 'تغيير الكود السري ومفتاح Gemini AI',
         savePinBtn: 'حفظ الكود',
         exportJson: 'تصدير نسخة JSON',
         importJson: 'استيراد نسخة JSON',
@@ -866,7 +871,7 @@
         enrollFaceBtn: 'Enregistrer / Mettre à jour Face ID',
         testFaceBtn: 'Tester le scan',
         removeFaceBtn: 'Supprimer Face ID',
-        pinAndBackupTitle: 'Code PIN & Sauvegarde JSON',
+        pinAndBackupTitle: 'Code PIN & Clé Gemini AI',
         savePinBtn: 'Enregistrer',
         exportJson: 'Exporter JSON',
         importJson: 'Importer JSON',
@@ -924,7 +929,7 @@
         enrollFaceBtn: 'Enroll / Update Face ID',
         testFaceBtn: 'Test Scan',
         removeFaceBtn: 'Remove Face ID',
-        pinAndBackupTitle: 'Change PIN & JSON Backup',
+        pinAndBackupTitle: 'Change PIN & Gemini AI Key',
         savePinBtn: 'Save PIN',
         exportJson: 'Export JSON',
         importJson: 'Import JSON',
@@ -1007,9 +1012,9 @@
       entries: safeGet(STORAGE_KEYS.entries, DEFAULT_ENTRIES),
       comments: safeGet(STORAGE_KEYS.comments, DEFAULT_COMMENTS),
       adminPin: safeGet(STORAGE_KEYS.pin, '1234'),
-      faceIdData: safeGet(STORAGE_KEYS.faceId, null), // { enrolled: true, mode: 'webauthn'|'simulated', credId: '...', enrolledAt: '...' }
+      faceIdData: safeGet(STORAGE_KEYS.faceId, null),
       isAdminUnlocked: false,
-      unlockMethod: 'pin', // 'pin' | 'faceid'
+      unlockMethod: 'pin',
       sidebarCollapsed: false
     };
 
@@ -1049,12 +1054,12 @@
     // 6. DOM HELPERS & TOAST
     // ==============================
     let toastTimer = null;
-    function showToast(msg) {
+    function showToast(msg, duration = 3200) {
       const el = document.getElementById('toast');
       el.textContent = msg;
       el.classList.remove('hidden');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.add('hidden'), 2600);
+      toastTimer = setTimeout(() => el.classList.add('hidden'), duration);
     }
 
     function copyText(text) {
@@ -1079,7 +1084,7 @@
     // 7. REAL CAMERA AI FACE ID ENGINE (128D face-api.js)
     // ==============================
     const FACE_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/model';
-    const STRICT_MATCH_THRESHOLD = 0.46; // Strict Euclidean distance: <=0.46 same person, >0.46 rejected!
+    const STRICT_MATCH_THRESHOLD = 0.46;
     let faceModelsLoaded = false;
     let faceModalActive = false;
     let activeFaceMode = 'login';
@@ -1218,7 +1223,6 @@
         if (pct !== null && pct !== undefined) document.getElementById('faceProgressBar').style.width = pct + '%';
       };
 
-      // Guard: Login/Test requires real enrolled descriptors
       if ((mode === 'login' || mode === 'test') && (!state.faceIdData || !Array.isArray(state.faceIdData.descriptors) || state.faceIdData.descriptors.length === 0)) {
         showFaceErrorState(
           state.lang === 'ar' ? 'لا توجد بصمة وجه مسجلة' : 'No Face ID Enrolled',
@@ -1228,7 +1232,6 @@
         return;
       }
 
-      // Step 1: Load AI neural network models
       try {
         await ensureFaceModelsLoaded(setStatus);
       } catch (err) {
@@ -1242,7 +1245,6 @@
       }
       if (!faceModalActive) return;
 
-      // Step 2: Open real front camera
       setStatus(
         state.lang === 'ar' ? 'جاري فتح الكاميرا الأمامية...' : (state.lang === 'fr' ? 'Ouverture de la caméra...' : 'Opening front camera...'),
         state.lang === 'ar' ? 'امنح إذن الكاميرا للمتصفح باش يبدا المسح الحقيقي.' : 'Allow camera permission to start real face scan.',
@@ -1341,7 +1343,6 @@
 
         noFaceFrames = 0;
 
-        // Draw subtle glowing biometric landmark dots on the live face
         const pts = detection.landmarks.positions;
         ctx.fillStyle = 'rgba(56, 189, 248, 0.85)';
         for (let i = 0; i < pts.length; i += 2) {
@@ -1353,7 +1354,6 @@
         const liveDesc = detection.descriptor;
 
         if (mode === 'enroll') {
-          // Verify consistency between captured samples so nobody switches mid-enroll
           if (capturedDescriptors.length > 0) {
             const distToFirst = faceapi.euclideanDistance(liveDesc, capturedDescriptors[0]);
             if (distToFirst > 0.45) {
@@ -1394,7 +1394,6 @@
           return;
         }
 
-        // MODE: LOGIN or TEST — Strict 128D Euclidean distance check
         const savedList = state.faceIdData.descriptors.map(arr => new Float32Array(arr));
         let minDist = 999;
         for (const saved of savedList) {
@@ -1468,7 +1467,6 @@
       document.documentElement.lang = state.lang;
       document.documentElement.dir = t.dir;
 
-      // Update sidebar anchor side for mobile drawer
       const sidebar = document.getElementById('sidebar');
       if (t.dir === 'rtl') {
         sidebar.style.right = '0';
@@ -1556,7 +1554,6 @@
       const norm = normalizeQuery(state.searchQuery);
       const q = norm.corrected.toLowerCase();
 
-      // AI Correction Banner
       const banner = document.getElementById('aiCorrectionBanner');
       if (norm.changed) {
         banner.classList.remove('hidden');
@@ -1583,7 +1580,7 @@
         grid.innerHTML = `
           <div class="col-span-full glass-panel rounded-3xl p-8 text-center">
             <div class="text-3xl mb-2">🔍</div>
-            <div class="font-bold text-white text-sm">${state.lang === 'ar' ? 'ما لقيناش نتيجة مطابقة — جرب تسول المساعد الذكي AI!' : 'No matching models found — try asking the AI Assistant!'}</div>
+            <div class="font-bold text-white text-sm">${state.lang === 'ar' ? 'ما لقيناش نتيجة مطابقة — جرب البحث التلقائي AI الفوق!' : 'No matching models found — try the AI Finder above!'}</div>
           </div>
         `;
         return;
@@ -1719,7 +1716,6 @@
       lockedView.classList.add('hidden');
       unlockedView.classList.remove('hidden');
 
-      // Welcome Banner details
       const welcomeTitle = document.getElementById('adminWelcomeTitle');
       const unlockSub = document.getElementById('adminUnlockMethodSub');
       if (state.unlockMethod === 'faceid') {
@@ -1732,7 +1728,20 @@
           : (state.lang === 'ar' ? 'سجل بصمة الوجه ديالك لتحت باش تولي تدخل بها مباشرة.' : 'Enroll your Face ID below for one-tap biometric unlock.');
       }
 
-      // Face ID status pill & buttons
+      // Gemini Key Status Badge
+      const savedGeminiKey = safeGet(STORAGE_KEYS.geminiKey, '');
+      const keyBadge = document.getElementById('geminiKeyStatusBadge');
+      if (keyBadge) {
+        if (savedGeminiKey && String(savedGeminiKey).trim().length > 10) {
+          const k = String(savedGeminiKey).trim();
+          keyBadge.textContent = `✓ مفعّل (${k.slice(0, 6)}...${k.slice(-4)})`;
+          keyBadge.className = 'font-bold text-emerald-300';
+        } else {
+          keyBadge.textContent = 'غير مضاف بعد';
+          keyBadge.className = 'font-bold text-amber-300';
+        }
+      }
+
       const pill = document.getElementById('faceStatusPill');
       const testBtn = document.getElementById('testFaceIdBtn');
       const removeBtn = document.getElementById('removeFaceIdBtn');
@@ -1748,7 +1757,6 @@
         removeBtn.classList.add('hidden');
       }
 
-      // Pending suggestions inside admin panel
       const pendingList = document.getElementById('adminPendingList');
       const pending = state.comments.filter(c => !c.approved);
       pendingList.innerHTML = '';
@@ -1828,9 +1836,10 @@
       div.textContent = text;
       box.appendChild(div);
       box.scrollTop = box.scrollHeight;
+      return div;
     }
 
-    function answerAiQuestion(qRaw) {
+    async function answerAiQuestion(qRaw) {
       const norm = normalizeQuery(qRaw);
       const q = norm.corrected.toLowerCase();
       const tokens = q.split(/\s+/).filter(w => w.length >= 2);
@@ -1839,14 +1848,46 @@
         return tokens.some(tok => hay.includes(tok));
       }).slice(0, 4);
 
-      if (matches.length === 0) {
-        return state.lang === 'ar'
-          ? 'ما لقيتش هاد الموديل بالضبط فالقاعدة دابا. جرب تكتب غير الرقم (مثلاً: A12، 9A، Hot 10) أو زيدو من لوحة المدير!'
-          : 'No exact match found. Try a shorter model code (e.g. A12, 9A, Hot 10).';
+      if (matches.length > 0) {
+        return matches.map(m =>
+          `• [${I18N[state.lang].typeLabels[m.type]}] ${m.brand}:\n  ${m.models.join(' ⟷ ')}\n  📝 ${m.note}`
+        ).join('\n\n');
       }
-      return matches.map(m =>
-        `• [${I18N[state.lang].typeLabels[m.type]}] ${m.brand}:\n  ${m.models.join(' ⟷ ')}\n  📝 ${m.note}`
-      ).join('\n\n');
+
+      // If not found locally, query Gemini 2.5 Flash directly in Darija
+      const geminiKey = safeGet(STORAGE_KEYS.geminiKey, '');
+      if (!geminiKey || typeof geminiKey !== 'string' || geminiKey.trim().length < 10) {
+        return state.lang === 'ar'
+          ? 'ما لقيتش هاد الموديل فالقاعدة المحلية، ومفتاح Gemini API ما مضافش بعد فلوحة المدير.'
+          : 'No local match found, and no Gemini API key is configured in Admin.';
+      }
+
+      const keyClean = geminiKey.trim();
+      const chatPrompt = `أنت تقني مغربي خبير في إصلاح الهواتف وتوافق قطع الغيار (الشاشات Afficheurs، البوشيط Pochettes، والزاج Incassable).
+أجب بالدارجة المغربية وبشكل تقني دقيق ومباشر (بدون تخمين عشوائي؛ إذا لم تكن متأكداً 100% من التوافق اذكر ذلك بوضوح) على سؤال الحرفي التالي:
+"${qRaw}"`;
+
+      for (const modelName of ['gemini-2.5-flash', 'gemini-flash-latest']) {
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(keyClean)}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: chatPrompt }] }],
+                generationConfig: { temperature: 0.2 }
+              })
+            }
+          );
+          if (!res.ok) continue;
+          const data = await res.json();
+          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (reply && reply.trim()) return reply.trim();
+        } catch (e) {}
+      }
+
+      return 'تعذر الاتصال بـ Gemini AI حالياً — تأكد من صحة المفتاح فلوحة المدير أو اتصال الإنترنت.';
     }
 
     // ==============================
@@ -1854,8 +1895,8 @@
     // ==============================
     let selectedAiType = 'screen';
     let lastAiResultEntry = null;
+    let lastGeminiErrorMsg = '';
 
-    // Extended verified Moroccan repair AI knowledge bank (loaded on demand & auto-saved to site cards!)
     const AI_KNOWLEDGE_BANK = [
       // Samsung Screens
       { type: 'screen', brand: 'Samsung', models: ['Galaxy A14 4G (A145)', 'Galaxy A14 5G (A146P فقط)'], note: 'انتبه لنسخة A146B مقابل A146P فالفليكس' },
@@ -1950,39 +1991,77 @@
     }
 
     async function queryLiveAiForCompat(modelQuery, partType) {
-      const partName = partType === 'screen' ? 'LCD/OLED Screen (Afficheur)' : (partType === 'case' ? 'Phone Case (Pochette/Coque)' : 'Tempered Glass Screen Protector (Incassable 5D/9D/21D)');
-      const prompt = `You are a Moroccan smartphone repair technician expert. A technician asks for compatible ${partName} models for "${modelQuery}". Return ONLY a valid JSON object (no markdown, no explanation) with keys: "brand" (one of Samsung, Xiaomi, Infinix, Apple, Oppo, Huawei, Other), "models" (array of 2 to 8 exact compatible phone model names including "${modelQuery}"), and "note" (one short technical note in Arabic/Darija, max 12 words).`;
+      lastGeminiErrorMsg = '';
+      const partName = partType === 'screen'
+        ? 'LCD/OLED Display Screen (Afficheur)'
+        : (partType === 'case'
+          ? 'Phone Case / Cover (Pochette / Coque)'
+          : 'Tempered Glass Screen Protector (Incassable 5D/9D/21D)');
 
-      // 1) Try Admin's Gemini API Key if configured
+      const prompt = `You are an expert mobile phone repair technician in Morocco.
+A technician is asking for exact physically compatible ${partName} models for: "${modelQuery}".
+Rules:
+1. Only include phone models that physically share the exact same ${partName} (exact dimensions, flex cable/connector or camera cutouts). Never guess incompatible models.
+2. Include "${modelQuery}" itself as the first item in the list. If no other phone model shares the exact same ${partName}, list ONLY "${modelQuery}" and explain in the note that it is standalone/unique.
+3. Return ONLY valid JSON with these exact keys:
+{
+  "brand": "Samsung" | "Xiaomi" | "Infinix" | "Apple" | "Oppo" | "Huawei" | "Other",
+  "models": ["Model 1", "Model 2"],
+  "note": "ملاحظة تقنية قصيرة ومفيدة بالدارجة المغربية للحرفيين (أقل من 15 كلمة)"
+}`;
+
       const geminiKey = safeGet(STORAGE_KEYS.geminiKey, '');
-      if (geminiKey && typeof geminiKey === 'string' && geminiKey.trim().length > 10) {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(geminiKey.trim())}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-        if (res.ok) {
+      if (!geminiKey || typeof geminiKey !== 'string' || geminiKey.trim().length < 10) {
+        lastGeminiErrorMsg = 'NO_KEY';
+        return null;
+      }
+
+      const keyClean = geminiKey.trim();
+      const modelsToTry = ['gemini-2.5-flash', 'gemini-flash-latest'];
+
+      for (const modelName of modelsToTry) {
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(keyClean)}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                  temperature: 0.1,
+                  responseMimeType: 'application/json'
+                }
+              })
+            }
+          );
+
+          if (!res.ok) {
+            let errDetail = `HTTP ${res.status}`;
+            try {
+              const errJson = await res.json();
+              if (errJson?.error?.message) errDetail = errJson.error.message;
+            } catch (_) {}
+            lastGeminiErrorMsg = errDetail;
+            continue;
+          }
+
           const data = await res.json();
-          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          let txt = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          txt = txt.replace(/```json/gi, '').replace(/```/g, '').trim();
           const match = txt.match(/\{[\s\S]*\}/);
-          if (match) return JSON.parse(match[0]);
+          if (match) {
+            const parsed = JSON.parse(match[0]);
+            if (parsed && Array.isArray(parsed.models) && parsed.models.length > 0) {
+              return parsed;
+            }
+          }
+          lastGeminiErrorMsg = 'تنسيق رد غير متوقع من Gemini';
+        } catch (e) {
+          lastGeminiErrorMsg = e?.message || 'خطأ في الاتصال بالشبكة';
         }
       }
 
-      // 2) Public CORS-enabled AI text endpoint fallback
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 9000);
-      try {
-        const res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}?json=true`, { signal: controller.signal });
-        clearTimeout(timer);
-        if (res.ok) {
-          const txt = await res.text();
-          const match = txt.match(/\{[\s\S]*\}/);
-          if (match) return JSON.parse(match[0]);
-        }
-      } catch (e) {
-        clearTimeout(timer);
-      }
       return null;
     }
 
@@ -1998,7 +2077,7 @@
         srcBadge.textContent = state.lang === 'ar' ? '⚡ من قاعدة الموقع (بدون استهلاك AI)' : (state.lang === 'fr' ? '⚡ Déjà dans la base du site' : '⚡ Instant from Site DB');
         srcBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-500/20 border border-blue-400/35 text-blue-200';
       } else {
-        srcBadge.textContent = state.lang === 'ar' ? '🤖 تم الجلب بـ AI وحفظه تلقائياً فالموقع ✓' : (state.lang === 'fr' ? '🤖 Trouvé par IA & enregistré ✓' : '🤖 Found by AI & Auto-Saved ✓');
+        srcBadge.textContent = state.lang === 'ar' ? '🤖 تم الجلب بـ Gemini 2.5 وحفظه تلقائياً ✓' : (state.lang === 'fr' ? '🤖 Trouvé par Gemini & enregistré ✓' : '🤖 Found by Gemini & Auto-Saved ✓');
         srcBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/35 text-emerald-200';
       }
 
@@ -2023,7 +2102,6 @@
       const existing = findMatchingEntryInList(state.entries, cleanQuery, selectedAiType);
       if (existing) {
         displayAiFinderResult(existing, 'cached');
-        // Also filter the main grid to highlight it
         state.searchQuery = cleanQuery;
         document.getElementById('searchInput').value = cleanQuery;
         document.getElementById('clearSearchBtn').classList.remove('hidden');
@@ -2031,13 +2109,13 @@
         return;
       }
 
-      // STAGE 2: AI Auto-Research (Local Knowledge Bank -> Live AI API) + AUTO-SAVE TO SITE DB!
+      // STAGE 2: AI Auto-Research (Local Knowledge Bank -> Gemini 2.5 Flash) + AUTO-SAVE TO SITE DB!
       btn.disabled = true;
       btnText.textContent = state.lang === 'ar' ? 'الذكاء الاصطناعي كيبحث...' : 'AI searching...';
 
       let found = findMatchingEntryInList(AI_KNOWLEDGE_BANK, cleanQuery, selectedAiType);
       if (found) {
-        await new Promise(r => setTimeout(r, 420));
+        await new Promise(r => setTimeout(r, 380));
       } else {
         try {
           const live = await queryLiveAiForCompat(cleanQuery, selectedAiType);
@@ -2060,11 +2138,15 @@
       btnText.textContent = I18N[state.lang].aiFinderBtn;
 
       if (!found) {
-        showToast(state.lang === 'ar' ? 'ما قدرش AI يجيب نتيجة دقيقة — تأكد من اسم الموديل أو زيد مفتاح Gemini فلوحة المدير' : 'Could not verify exact models — check spelling or add Gemini API key in Admin');
+        const savedKey = safeGet(STORAGE_KEYS.geminiKey, '');
+        if (!savedKey || typeof savedKey !== 'string' || savedKey.trim().length < 10 || lastGeminiErrorMsg === 'NO_KEY') {
+          showToast('المرجو إضافة مفتاح Gemini API أولاً في لوحة المدير (الزر الأخضر حفظ AI)', 4200);
+        } else {
+          showToast(`خطأ من Gemini API: ${lastGeminiErrorMsg || 'تأكد من صحة المفتاح أو اسم الموديل'}`, 4500);
+        }
         return;
       }
 
-      // AUTO-SAVE into the site's permanent compatibility database so future visitors find it immediately!
       const newEntry = {
         id: 'ai_' + Date.now(),
         type: found.type,
@@ -2075,7 +2157,6 @@
       state.entries.unshift(newEntry);
       safeSet(STORAGE_KEYS.entries, state.entries);
 
-      // Update UI & Grid immediately
       renderBrands();
       state.searchQuery = cleanQuery;
       document.getElementById('searchInput').value = cleanQuery;
@@ -2122,7 +2203,6 @@
       }
     });
 
-    // Search & Cmd+K
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', () => {
       state.searchQuery = searchInput.value;
@@ -2161,7 +2241,6 @@
       }
     });
 
-    // Comments submission
     document.getElementById('commentForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const models = document.getElementById('cModels').value.split(',').map(s => s.trim()).filter(Boolean);
@@ -2183,7 +2262,6 @@
       showToast(state.lang === 'ar' ? 'تم إرسال اقتراحك بنجاح!' : 'Suggestion submitted!');
     });
 
-    // Admin PIN Login
     document.getElementById('pinLoginForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const entered = document.getElementById('adminPinInput').value.trim();
@@ -2204,7 +2282,6 @@
       }
     });
 
-    // Face ID Triggers
     document.getElementById('startFaceIdLoginBtn').addEventListener('click', () => openFaceIdSheet({ mode: 'login' }));
     document.getElementById('enrollFaceIdBtn').addEventListener('click', () => openFaceIdSheet({ mode: 'enroll' }));
     document.getElementById('testFaceIdBtn').addEventListener('click', () => openFaceIdSheet({ mode: 'test' }));
@@ -2222,7 +2299,6 @@
       document.getElementById('adminPinInput').focus();
     });
 
-    // Admin Logout
     document.getElementById('adminLogoutBtn').addEventListener('click', () => {
       state.isAdminUnlocked = false;
       renderAdminView();
@@ -2232,7 +2308,6 @@
       showToast(state.lang === 'ar' ? 'تم تسجيل الخروج' : 'Signed out');
     });
 
-    // Change PIN
     document.getElementById('changePinForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const np = document.getElementById('newPinInput').value.trim();
@@ -2243,7 +2318,6 @@
       showToast(state.lang === 'ar' ? 'تم تحديث الكود السري بنجاح!' : 'PIN updated!');
     });
 
-    // Add Compatibility Entry
     document.getElementById('addEntryForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const models = document.getElementById('aModels').value.split(',').map(s => s.trim()).filter(Boolean);
@@ -2262,7 +2336,6 @@
       showToast(state.lang === 'ar' ? 'تمت إضافة المجموعة للقاعدة!' : 'Entry added!');
     });
 
-    // Export / Import JSON Backup
     document.getElementById('exportJsonBtn').addEventListener('click', () => {
       const payload = { entries: state.entries, comments: state.comments, faceIdData: state.faceIdData, exportedAt: new Date().toISOString() };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -2306,21 +2379,21 @@
       reader.readAsText(file);
     });
 
-    // AI Drawer
     document.getElementById('openAiDrawerBtn').addEventListener('click', openAiDrawer);
     document.getElementById('closeAiDrawerBtn').addEventListener('click', closeAiDrawer);
     document.getElementById('aiDrawerBackdrop').addEventListener('click', closeAiDrawer);
-    document.getElementById('aiForm').addEventListener('submit', (e) => {
+    document.getElementById('aiForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const inp = document.getElementById('aiInput');
       const q = inp.value.trim();
       if (!q) return;
       addAiMessage('user', q);
       inp.value = '';
-      setTimeout(() => addAiMessage('ai', answerAiQuestion(q)), 250);
+      const loadingBubble = addAiMessage('ai', '⏳ جاري التحقق...');
+      const reply = await answerAiQuestion(q);
+      loadingBubble.textContent = reply;
     });
 
-    // Front-Page AI Finder Listeners
     document.querySelectorAll('.ai-type-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         selectedAiType = btn.dataset.aitype;
@@ -2344,12 +2417,12 @@
       copyText(msg);
     });
 
-    // Admin Gemini API Key Save
     document.getElementById('geminiKeyForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const key = document.getElementById('geminiKeyInput').value.trim();
       safeSet(STORAGE_KEYS.geminiKey, key);
       document.getElementById('geminiKeyInput').value = '';
+      renderAdminView();
       showToast(key ? (state.lang === 'ar' ? 'تم حفظ مفتاح Gemini AI بنجاح!' : 'Gemini API key saved!') : (state.lang === 'ar' ? 'تم مسح مفتاح API' : 'API key cleared'));
     });
 
