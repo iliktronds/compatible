@@ -1,1028 +1,975 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NourTech Compatibility • Glassy V10</title>
+  <title>Glassy Compat V10 — توافق الشاشات والقطع + Face ID</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/dist/face-api.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --glass-bg: rgba(15, 28, 60, 0.58);
-      --glass-border: rgba(255, 255, 255, 0.14);
-      --glass-hover: rgba(255, 255, 255, 0.09);
-      --panel-bg: rgba(14, 24, 52, 0.66);
+      --bg-deep: #060913;
+      --glass-bg: rgba(15, 23, 42, 0.58);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --accent-purple: #8b5cf6;
+      --accent-blue: #3b82f6;
+      --accent-cyan: #06b6d4;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at 18% 18%, #162b5c 0%, #09132e 48%, #050917 100%);
-      color: #f8fafc;
-      font-family: 'Inter', 'Cairo', system-ui, sans-serif;
+      background-color: var(--bg-deep);
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(139, 92, 246, 0.22), transparent 36%),
+        radial-gradient(circle at 86% 12%, rgba(59, 130, 246, 0.2), transparent 34%),
+        radial-gradient(circle at 50% 95%, rgba(6, 182, 212, 0.14), transparent 40%);
+      color: #f1f5f9;
+      font-family: 'Cairo', 'Inter', system-ui, -apple-system, sans-serif;
       overflow-x: hidden;
     }
-    html[dir="rtl"] body {
-      font-family: 'Cairo', 'Inter', system-ui, sans-serif;
-    }
-    /* Subtle starry & electronic circuit-board background */
-    .bg-circuit {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      background-image:
-        radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px),
-        linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
-      background-size: 36px 36px, 72px 72px, 72px 72px;
-      mask-image: radial-gradient(ellipse at center, black 45%, transparent 95%);
-    }
-    .ambient-orb {
-      position: fixed;
-      border-radius: 9999px;
-      filter: blur(85px);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.42;
-    }
-    /* Glassmorphism V10 Sidebar Shell */
-    .glass-sidebar-wrap {
+
+    /* Glassmorphism panels */
+    .glass-panel {
       background: var(--glass-bg);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--glass-border);
-      box-shadow: 0 24px 60px rgba(2, 6, 23, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-      transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
     }
+
     .glass-card {
-      background: var(--panel-bg);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.11);
-      box-shadow: 0 12px 36px rgba(2, 6, 23, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.32s ease;
+      background: rgba(17, 25, 45, 0.62);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
     }
     .glass-card:hover {
-      border-color: rgba(125, 211, 252, 0.32);
-      transform: translateY(-2px);
-      box-shadow: 0 18px 42px rgba(2, 6, 23, 0.5), 0 0 22px rgba(56, 189, 248, 0.12);
+      transform: translateY(-3px);
+      border-color: rgba(139, 92, 246, 0.42);
+      box-shadow: 0 14px 36px -12px rgba(59, 130, 246, 0.25);
     }
-    /* Connected Active Pill + White Vertical Action Strip (Code XR V10 signature) */
-    .nav-item {
-      position: relative;
-      overflow: hidden;
-      transition:
-        background 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-        color 0.28s ease,
-        transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.34s ease,
-        padding 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-        margin 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Glassy Sidebar V10 transitions & shimmer */
+    .sidebar-shell {
+      transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1), transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .nav-item::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent 20%, rgba(125, 211, 252, 0.16) 50%, transparent 80%);
-      transform: translateX(-120%);
-      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-      pointer-events: none;
+    .sidebar-collapsed {
+      width: 82px !important;
     }
-    .nav-item:hover:not(.nav-active)::before {
-      transform: translateX(120%);
-    }
-    .nav-item svg, .brand-dot-btn svg, .action-strip button svg {
-      transition: transform 0.36s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease, filter 0.28s ease;
-    }
-    .nav-item:hover:not(.nav-active) {
-      background: rgba(255, 255, 255, 0.11);
-      color: #ffffff;
-      box-shadow: 0 0 22px rgba(56, 189, 248, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-    }
-    html[dir="ltr"] .nav-item:hover:not(.nav-active) { transform: translateX(4px); }
-    html[dir="rtl"] .nav-item:hover:not(.nav-active) { transform: translateX(-4px); }
-    .nav-item:hover:not(.nav-active) svg {
-      transform: scale(1.22) rotate(-8deg);
-      color: #38bdf8;
-      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.85));
-    }
-    .brand-dot-btn {
-      transition: background 0.28s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
-    }
-    .brand-dot-btn span.rounded-full {
-      transition: transform 0.36s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-    }
-    .brand-dot-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-    }
-    html[dir="ltr"] .brand-dot-btn:hover { transform: translateX(4px); }
-    html[dir="rtl"] .brand-dot-btn:hover { transform: translateX(-4px); }
-    .brand-dot-btn:hover span.rounded-full {
-      transform: scale(1.45);
-    }
-    @keyframes activePillPop {
-      0% { transform: scale(0.96); opacity: 0.85; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .nav-active {
-      background: #ffffff;
-      color: #0f172a !important;
-      font-weight: 700;
-      box-shadow: 0 10px 28px rgba(255, 255, 255, 0.22);
-      animation: activePillPop 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .nav-active svg {
-      color: #0284c7;
-      transform: scale(1.12);
-    }
-    html[dir="ltr"] .nav-active {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      margin-right: -15px;
-      padding-right: 22px;
-    }
-    html[dir="rtl"] .nav-active {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      margin-left: -15px;
-      padding-left: 22px;
-    }
-    .action-strip {
-      background: #ffffff;
-      color: #0f172a;
-      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .action-strip button {
-      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, box-shadow 0.25s ease;
-    }
-    .action-strip button:hover {
-      transform: scale(1.16) translateY(-2px);
-    }
-    .action-strip button:hover svg {
-      transform: rotate(10deg) scale(1.12);
-    }
-    #collapseIcon {
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .sidebar-collapsed #collapseIcon {
-      transform: rotate(180deg);
-    }
-    .vertical-label {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      letter-spacing: 0.14em;
-    }
-    html[dir="ltr"] .vertical-label {
-      transform: rotate(180deg);
-    }
-    /* Collapsed Mini Sidebar */
     .sidebar-collapsed .hide-when-collapsed {
       display: none !important;
     }
-    .sidebar-collapsed .nav-active {
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      padding-left: 10px !important;
-      padding-right: 10px !important;
-      border-radius: 14px !important;
+    .sidebar-collapsed .nav-item {
+      justify-content: center;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
     }
-    .sidebar-collapsed .center-when-collapsed {
-      justify-content: center !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
+
+    .nav-item {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    /* Custom scrollbar */
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.14) 50%, transparent 80%);
+      transform: translateX(-130%);
+      transition: transform 0.65s ease;
+      pointer-events: none;
+    }
+    .nav-item:hover::after {
+      transform: translateX(130%);
+    }
+    .nav-item .nav-icon {
+      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.28s ease;
+    }
+    .nav-item:hover .nav-icon {
+      transform: scale(1.18) rotate(-7deg);
+      filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.85));
+    }
+
+    /* Connected Active Pill + Vertical Bar (Glassy V10 signature) */
+    .nav-item.active-pill {
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 700;
+      box-shadow: 0 10px 28px -6px rgba(255, 255, 255, 0.35);
+    }
+    .nav-item.active-pill .nav-icon {
+      color: #4f46e5;
+      filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.35));
+    }
+    [dir="rtl"] .nav-item.active-pill {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 16px;
+      border-bottom-right-radius: 16px;
+      margin-left: -12px;
+      padding-left: 20px;
+    }
+    [dir="ltr"] .nav-item.active-pill {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+      margin-right: -12px;
+      padding-right: 20px;
+    }
+
+    .brand-dot-btn {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease;
+    }
+    .brand-dot-btn:hover {
+      transform: translateX(-3px);
+    }
+    [dir="ltr"] .brand-dot-btn:hover {
+      transform: translateX(3px);
+    }
+    .brand-dot-btn:hover .brand-dot {
+      transform: scale(1.45);
+      box-shadow: 0 0 12px currentColor;
+    }
+    .brand-dot {
+      transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease;
+    }
+
+    /* Face ID Sheet & Glowing Scanner Animation (Inspired by Flutter Face ID Reel) */
+    @keyframes faceGlowPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 24px rgba(139, 92, 246, 0.55),
+          0 0 56px rgba(59, 130, 246, 0.32),
+          inset 0 0 22px rgba(139, 92, 246, 0.28);
+        border-color: rgba(167, 139, 250, 0.9);
+      }
+      50% {
+        box-shadow:
+          0 0 38px rgba(59, 130, 246, 0.72),
+          0 0 76px rgba(139, 92, 246, 0.45),
+          inset 0 0 32px rgba(59, 130, 246, 0.35);
+        border-color: rgba(96, 165, 250, 0.95);
+      }
+    }
+
+    @keyframes scanLineSweep {
+      0% { transform: translateY(10px); opacity: 0.25; }
+      15% { opacity: 1; }
+      50% { transform: translateY(194px); opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translateY(10px); opacity: 0.25; }
+    }
+
+    @keyframes dotTwinkle {
+      0%, 100% { opacity: 0.25; transform: scale(0.7); }
+      50% { opacity: 1; transform: scale(1.35); }
+    }
+
+    @keyframes successPop {
+      0% { transform: scale(0.65); opacity: 0; }
+      70% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .faceid-scanner-frame {
+      position: relative;
+      width: 216px;
+      height: 216px;
+      border-radius: 40px;
+      border: 2.5px solid rgba(167, 139, 250, 0.85);
+      background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.2), rgba(15, 23, 42, 0.88));
+      animation: faceGlowPulse 2.1s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .faceid-scanner-frame.state-success {
+      animation: none;
+      border-color: #34d399;
+      box-shadow: 0 0 42px rgba(52, 211, 153, 0.55), inset 0 0 28px rgba(52, 211, 153, 0.25);
+      background: radial-gradient(circle at 50% 40%, rgba(52, 211, 153, 0.22), rgba(15, 23, 42, 0.9));
+    }
+
+    .faceid-scanner-frame.state-error {
+      animation: none;
+      border-color: #f87171;
+      box-shadow: 0 0 36px rgba(248, 113, 113, 0.45), inset 0 0 24px rgba(248, 113, 113, 0.2);
+    }
+
+    .scan-laser {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, #a78bfa, #38bdf8, #a78bfa, transparent);
+      box-shadow: 0 0 16px #38bdf8, 0 0 24px #8b5cf6;
+      animation: scanLineSweep 1.85s ease-in-out infinite;
+    }
+
+    .scan-dot {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 9999px;
+      background: #c4b5fd;
+      box-shadow: 0 0 10px #38bdf8, 0 0 14px #a78bfa;
+      animation: dotTwinkle 1.4s ease-in-out infinite;
+    }
+
+    .success-badge-pop {
+      animation: successPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Custom subtle scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.28); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 999px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.45); }
   </style>
 </head>
-<body class="antialiased selection:bg-sky-500/30 selection:text-sky-100">
-  <!-- Background Effects -->
-  <div class="bg-circuit"></div>
-  <div class="ambient-orb w-96 h-96 bg-sky-500/30 -top-24 -left-20"></div>
-  <div class="ambient-orb w-80 h-80 bg-indigo-500/30 bottom-0 right-10"></div>
-
-  <!-- Main App Shell -->
-  <div class="relative z-10 min-h-screen flex flex-col lg:flex-row gap-4 p-3 sm:p-5 max-w-[1600px] mx-auto">
+<body class="antialiased selection:bg-violet-500/30 selection:text-white">
+  <div class="min-h-screen flex flex-col lg:flex-row">
 
     <!-- Mobile Top Bar -->
-    <div class="flex lg:hidden items-center justify-between glass-card rounded-2xl px-4 py-3">
+    <header class="lg:hidden glass-panel sticky top-0 z-30 px-4 py-3 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2.5">
-        <button id="mobileMenuBtn" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white" aria-label="Menu">
-          <i data-lucide="menu" class="w-5 h-5"></i>
+        <button id="mobileMenuBtn" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition" aria-label="Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <div class="flex items-center gap-2">
-          <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg">N</span>
-          <div>
-            <div class="text-sm font-bold leading-tight">NourTech</div>
-            <div class="text-[11px] text-sky-300/80" data-i18n="brandSub">Compatibility Lab</div>
-          </div>
+        <div>
+          <div class="font-extrabold text-sm tracking-tight text-white">Glassy Compat <span class="text-violet-400">V10</span></div>
+          <div class="text-[11px] text-slate-400" id="mobileSubTitle">توافق الشاشات • Face ID</div>
         </div>
       </div>
-      <div class="flex items-center gap-1.5" id="mobileLangBar"></div>
-    </div>
+      <div class="flex items-center gap-1.5">
+        <button id="mobileAdminFaceBtn" class="px-2.5 py-1.5 rounded-xl bg-violet-500/20 border border-violet-400/40 text-violet-200 text-xs font-bold flex items-center gap-1.5 hover:bg-violet-500/30 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2M9 9v2m6-2v2m-3 0v2m-3 3c1.5 1.2 4.5 1.2 6 0"/></svg>
+          <span data-i18n="adminShort">المدير</span>
+        </button>
+        <div class="flex bg-white/5 rounded-xl p-0.5 border border-white/10 text-[11px] font-bold">
+          <button class="lang-btn px-2 py-1 rounded-lg transition" data-lang="ar">AR</button>
+          <button class="lang-btn px-2 py-1 rounded-lg transition" data-lang="fr">FR</button>
+          <button class="lang-btn px-2 py-1 rounded-lg transition" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
 
-    <!-- Glassy Sidebar V10 + Connected White Action Strip -->
-    <aside id="sidebarContainer" class="fixed lg:sticky lg:top-5 inset-y-3 z-40 hidden lg:flex items-stretch transition-all duration-300 lg:h-[calc(100vh-2.5rem)]">
-      <div id="glassSidebar" class="glass-sidebar-wrap rounded-3xl w-72 flex flex-col justify-between p-3.5 overflow-y-auto overflow-x-hidden">
-        <div class="space-y-4">
-          <!-- Header: Logo + Collapse Button -->
-          <div class="flex items-center justify-between gap-2 px-1">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-lg shadow-sky-500/25">
-                <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
-              </div>
-              <div class="hide-when-collapsed truncate">
-                <div class="text-sm font-extrabold tracking-tight text-white truncate">NourTech</div>
-                <div class="text-[11px] text-sky-300/80 truncate" data-i18n="brandSub">Compatibility Lab</div>
-              </div>
+    <!-- Mobile Backdrop -->
+    <div id="mobileBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+    <!-- Glassy Sidebar V10 -->
+    <aside id="sidebar" class="sidebar-shell glass-panel fixed lg:sticky top-0 inset-y-0 z-50 w-72 h-screen flex flex-col justify-between p-3.5 transition-transform duration-300 translate-x-full lg:translate-x-0" style="right: 0;">
+      <!-- Top Brand & Collapse -->
+      <div class="flex flex-col gap-3 overflow-y-auto pr-0.5">
+        <div class="flex items-center justify-between gap-2 px-1.5 pt-1">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 via-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-violet-500/30 shrink-0">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
             </div>
-            <button id="collapseSidebarBtn" class="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 transition shrink-0" title="Collapse / Expand">
-              <i data-lucide="chevron-left" id="collapseIcon" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <!-- Search Input with ⌘K -->
-          <div class="hide-when-collapsed relative">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 start-3 pointer-events-none"></i>
-            <input id="sidebarSearchInput" type="text" class="w-full bg-white/10 border border-white/10 rounded-xl py-2 ps-9 pe-12 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400/60 focus:bg-white/15 transition" data-i18n-placeholder="searchPlaceholder" placeholder="Search model..." />
-            <span class="absolute top-1/2 -translate-y-1/2 end-2.5 text-[10px] font-semibold text-slate-300 bg-white/10 px-1.5 py-0.5 rounded-md border border-white/10">⌘K</span>
-          </div>
-
-          <!-- Main Navigation -->
-          <nav class="space-y-1">
-            <button data-view="home" class="nav-btn nav-item nav-active w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-200 center-when-collapsed">
-              <span class="flex items-center gap-2.5">
-                <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
-                <span class="hide-when-collapsed" data-i18n="navHome">Home</span>
-              </span>
-            </button>
-
-            <button data-view="screens" class="nav-btn nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-200 center-when-collapsed">
-              <span class="flex items-center gap-2.5">
-                <i data-lucide="smartphone" class="w-4 h-4 shrink-0"></i>
-                <span class="hide-when-collapsed" data-i18n="navScreens">Screens (LCD)</span>
-              </span>
-              <span class="hide-when-collapsed text-[10px] px-1.5 py-0.5 rounded-full bg-sky-400/20 text-sky-200" id="countScreens">0</span>
-            </button>
-
-            <!-- Dropdown Group: Glass & Cases -->
-            <div>
-              <button id="glassDropdownToggle" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-200 center-when-collapsed">
-                <span class="flex items-center gap-2.5">
-                  <i data-lucide="shield-check" class="w-4 h-4 shrink-0"></i>
-                  <span class="hide-when-collapsed" data-i18n="navGlassCases">Glass & Cases</span>
-                </span>
-                <i data-lucide="chevron-down" id="glassChevron" class="hide-when-collapsed w-3.5 h-3.5 text-slate-400 transition-transform"></i>
-              </button>
-              <div id="glassSubmenu" class="hide-when-collapsed ps-7 pe-1 pt-1 space-y-1">
-                <button data-view="glass" class="nav-btn nav-item w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-[11px] text-slate-300">
-                  <span data-i18n="navGlass">Tempered Glass (5D-21D)</span>
-                  <span class="text-[10px] text-slate-400" id="countGlass">0</span>
-                </button>
-                <button data-view="cases" class="nav-btn nav-item w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-[11px] text-slate-300">
-                  <span data-i18n="navCases">Cases (Pochettes)</span>
-                  <span class="text-[10px] text-slate-400" id="countCases">0</span>
-                </button>
-              </div>
-            </div>
-
-            <button id="openAiDrawerBtn" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-200 center-when-collapsed">
-              <span class="flex items-center gap-2.5">
-                <i data-lucide="sparkles" class="w-4 h-4 shrink-0 text-sky-300"></i>
-                <span class="hide-when-collapsed" data-i18n="navAI">AI Tech Assistant</span>
-              </span>
-            </button>
-
-            <button data-view="community" class="nav-btn nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-200 center-when-collapsed">
-              <span class="flex items-center gap-2.5">
-                <i data-lucide="message-square-plus" class="w-4 h-4 shrink-0"></i>
-                <span class="hide-when-collapsed" data-i18n="navCommunity">Suggestions</span>
-              </span>
-              <span id="pendingBadge" class="hide-when-collapsed text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-orange-500 text-white">0</span>
-            </button>
-
-            <button data-view="admin" class="nav-btn nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-200 center-when-collapsed">
-              <span class="flex items-center gap-2.5">
-                <i data-lucide="lock" class="w-4 h-4 shrink-0"></i>
-                <span class="hide-when-collapsed" data-i18n="navAdmin">Admin & Backup</span>
-              </span>
-            </button>
-          </nav>
-
-          <!-- Brands / Projects Section -->
-          <div class="pt-2 border-t border-white/10">
-            <div class="hide-when-collapsed flex items-center justify-between px-2 mb-2">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400" data-i18n="brandsTitle">BRANDS</span>
-              <button id="quickSuggestBtn" class="w-5 h-5 rounded-md bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300" title="Add">
-                <i data-lucide="plus" class="w-3 h-3"></i>
-              </button>
-            </div>
-            <div class="space-y-1" id="brandFilterList">
-              <button data-brand="Samsung" class="brand-dot-btn w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs text-slate-300 hover:bg-white/10 center-when-collapsed">
-                <span class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.7)] shrink-0"></span>
-                  <span class="hide-when-collapsed">Samsung</span>
-                </span>
-                <span class="hide-when-collapsed text-[10px] text-slate-400" id="brandCountSamsung">0</span>
-              </button>
-              <button data-brand="Xiaomi" class="brand-dot-btn w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs text-slate-300 hover:bg-white/10 center-when-collapsed">
-                <span class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.7)] shrink-0"></span>
-                  <span class="hide-when-collapsed">Xiaomi / Redmi</span>
-                </span>
-                <span class="hide-when-collapsed text-[10px] text-slate-400" id="brandCountXiaomi">0</span>
-              </button>
-              <button data-brand="Infinix" class="brand-dot-btn w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs text-slate-300 hover:bg-white/10 center-when-collapsed">
-                <span class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)] shrink-0"></span>
-                  <span class="hide-when-collapsed">Infinix / Tecno</span>
-                </span>
-                <span class="hide-when-collapsed text-[10px] text-slate-400" id="brandCountInfinix">0</span>
-              </button>
-              <button data-brand="Oppo" class="brand-dot-btn w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs text-slate-300 hover:bg-white/10 center-when-collapsed">
-                <span class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.7)] shrink-0"></span>
-                  <span class="hide-when-collapsed">Oppo / Realme / Vivo</span>
-                </span>
-                <span class="hide-when-collapsed text-[10px] text-slate-400" id="brandCountOppo">0</span>
-              </button>
+            <div class="hide-when-collapsed min-w-0">
+              <h1 class="font-extrabold text-base text-white truncate">Glassy Compat</h1>
+              <p class="text-[11px] text-cyan-300 font-semibold truncate" data-i18n="brandTag">V10 • توافق الشاشات</p>
             </div>
           </div>
+          <button id="collapseSidebarBtn" class="hidden lg:flex w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-slate-200 transition" title="Collapse">
+            <svg id="collapseIcon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
         </div>
 
-        <!-- Bottom: Database Pro Card + User Profile -->
-        <div class="space-y-3 pt-4">
-          <div class="hide-when-collapsed rounded-2xl bg-white/10 border border-white/10 p-3 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="flex items-center gap-1.5 text-xs font-bold text-amber-300">
-                <i data-lucide="crown" class="w-3.5 h-3.5"></i>
-                <span data-i18n="proTitle">Workshop Pro</span>
-              </span>
-              <span class="text-[10px] text-slate-300" id="dbVerifiedPct">94%</span>
-            </div>
-            <div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-amber-400 to-sky-400 rounded-full" style="width: 94%"></div>
-            </div>
-            <button id="exportJsonSidebarBtn" class="w-full py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-[11px] font-bold transition" data-i18n="proBtn">
-              Backup JSON
-            </button>
-          </div>
+        <!-- Quick Search Trigger (Cmd+K) -->
+        <button id="cmdKBtn" class="hide-when-collapsed w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition">
+          <span class="flex items-center gap-2 truncate">
+            <svg class="w-4 h-4 text-violet-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
+            <span data-i18n="quickSearch">بحث سريع...</span>
+          </span>
+          <kbd class="px-1.5 py-0.5 rounded-md bg-white/10 text-[10px] font-mono text-slate-300">⌘K</kbd>
+        </button>
 
-          <div class="flex items-center justify-between gap-2 px-1.5 py-1.5 rounded-2xl bg-white/5 border border-white/10 center-when-collapsed">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <div class="relative shrink-0">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-200 to-rose-300 text-slate-900 font-extrabold text-xs flex items-center justify-center">EN</div>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0e1b3d] absolute -bottom-0.5 -end-0.5"></span>
-              </div>
-              <div class="hide-when-collapsed truncate">
-                <div class="text-xs font-bold text-white truncate">Electro Noureddine</div>
-                <div class="text-[10px] text-slate-400 truncate">Settat • Morocco</div>
-              </div>
-            </div>
-            <button id="openPinModalBtn" class="hide-when-collapsed p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white" title="Admin PIN">
-              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
-            </button>
-          </div>
+        <!-- Navigation Menu -->
+        <nav class="flex flex-col gap-1.5 mt-1" id="mainNav">
+          <button class="nav-item active-pill w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm" data-view="all">
+            <svg class="nav-icon w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            <span class="hide-when-collapsed truncate" data-i18n="navAll">الكل والبحث الذكي</span>
+          </button>
+
+          <button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm text-slate-300 hover:bg-white/10 hover:text-white" data-view="screen">
+            <svg class="nav-icon w-5 h-5 shrink-0 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path stroke-linecap="round" d="M12 18h.01"/></svg>
+            <span class="hide-when-collapsed truncate" data-i18n="navScreens">الشاشات (Afficheurs)</span>
+          </button>
+
+          <button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm text-slate-300 hover:bg-white/10 hover:text-white" data-view="case">
+            <svg class="nav-icon w-5 h-5 shrink-0 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2zm2 4h2v2H9V7z"/></svg>
+            <span class="hide-when-collapsed truncate" data-i18n="navCases">البوشيط (Pochettes)</span>
+          </button>
+
+          <button class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm text-slate-300 hover:bg-white/10 hover:text-white" data-view="glass">
+            <svg class="nav-icon w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span class="hide-when-collapsed truncate" data-i18n="navGlass">الزاج (5D / 9D / 21D)</span>
+          </button>
+
+          <button class="nav-item w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-2xl text-sm text-slate-300 hover:bg-white/10 hover:text-white" data-view="comments">
+            <span class="flex items-center gap-3 min-w-0">
+              <svg class="nav-icon w-5 h-5 shrink-0 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+              <span class="hide-when-collapsed truncate" data-i18n="navComments">اقتراحات الحرفيين</span>
+            </span>
+            <span id="commentsCountBadge" class="hide-when-collapsed px-2 py-0.5 rounded-full text-[11px] font-bold bg-pink-500/20 text-pink-300">0</span>
+          </button>
+
+          <button class="nav-item w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-2xl text-sm text-slate-300 hover:bg-white/10 hover:text-white" data-view="admin">
+            <span class="flex items-center gap-3 min-w-0">
+              <svg class="nav-icon w-5 h-5 shrink-0 text-violet-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2M9 9v2m6-2v2m-3 0v2m-3 3c1.5 1.2 4.5 1.2 6 0"/></svg>
+              <span class="hide-when-collapsed truncate" data-i18n="navAdmin">المدير و Face ID</span>
+            </span>
+            <span id="adminLockBadge" class="hide-when-collapsed px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-500/20 text-violet-300">🔒</span>
+          </button>
+        </nav>
+
+        <!-- Brand Filters -->
+        <div class="hide-when-collapsed mt-3 pt-3 border-t border-white/10">
+          <div class="px-2 mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400" data-i18n="brandsTitle">العلامات التجارية</div>
+          <div id="brandList" class="flex flex-col gap-1"></div>
         </div>
       </div>
 
-      <!-- Connected White Vertical Action Strip (V10 Signature) -->
-      <div class="action-strip hidden sm:flex flex-col items-center justify-between w-12 rounded-3xl py-3 px-1.5">
-        <div class="flex flex-col items-center gap-2.5">
-          <button id="stripExportBtn" class="w-9 h-9 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center shadow-md shadow-sky-500/30 transition" title="Export JSON">
-            <i data-lucide="folder-down" class="w-4 h-4"></i>
-          </button>
-          <button id="stripAddBtn" class="w-8 h-8 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center justify-center transition" title="Suggest">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-          </button>
-          <button id="stripAiBtn" class="w-8 h-8 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center justify-center transition" title="AI Assistant">
-            <i data-lucide="bot" class="w-4 h-4"></i>
-          </button>
-          <button id="stripShareBtn" class="w-8 h-8 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center justify-center transition" title="Share">
-            <i data-lucide="share-2" class="w-4 h-4"></i>
-          </button>
-        </div>
-        <div id="verticalActiveLabel" class="vertical-label text-[10px] font-extrabold tracking-widest text-slate-400 uppercase py-2 select-none">
-          HOME
+      <!-- Bottom Live Stats & AI Drawer Trigger -->
+      <div class="pt-3 border-t border-white/10 flex flex-col gap-2">
+        <button id="openAiDrawerBtn" class="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-violet-600/30 transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span class="hide-when-collapsed" data-i18n="aiBtn">المساعد الذكي AI</span>
+        </button>
+
+        <div class="hide-when-collapsed rounded-2xl bg-white/5 border border-white/10 p-2.5 flex items-center justify-between text-[11px]">
+          <div class="flex items-center gap-1.5 text-emerald-400 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="onlineCount">14</span>
+            <span class="text-slate-400" data-i18n="onlineNow">متصل</span>
+          </div>
+          <div class="text-slate-400">
+            <span data-i18n="visitsLabel">الزيارات:</span>
+            <span id="visitorCount" class="text-white font-bold">1,248</span>
+          </div>
         </div>
       </div>
     </aside>
 
-    <!-- Mobile Drawer Backdrop -->
-    <div id="mobileBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 hidden lg:hidden"></div>
-
     <!-- Main Content Area -->
-    <main class="flex-1 min-w-0 space-y-5">
-      <!-- Top Header Bar -->
-      <header class="glass-card rounded-3xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="space-y-1">
-          <div class="flex items-center gap-2.5 flex-wrap">
-            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white" id="pageTitle" data-i18n="heroTitle">
-              منصة توافق الشاشات والزجاج الواقي
-            </h1>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-400/20">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span id="onlineTechCount">18</span> <span data-i18n="onlineTechs">تقني متصل الآن</span>
-            </span>
-          </div>
-          <p class="text-xs text-slate-300/85" data-i18n="heroSubtitle">
-            ابحث بسرعة عن بدائل الشاشات (Afficheurs)، الزجاج الواقي (5D/9D/21D)، والأغطية مع تصحيح تلقائي للأخطاء والدارجة.
-          </p>
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 flex flex-col gap-6">
+      <!-- Desktop Top Header -->
+      <div class="hidden lg:flex items-center justify-between gap-4">
+        <div>
+          <h2 id="pageTitle" class="text-2xl font-extrabold text-white tracking-tight">قاعدة توافق الشاشات والقطع</h2>
+          <p id="pageSubtitle" class="text-sm text-slate-400 mt-0.5">ابحث بأي موديل أو بالدارجة (مثلاً: afichor a12، not 8، ifone 11)</p>
         </div>
 
-        <!-- Trilingual Language Switcher (AR / FR / EN) -->
-        <div class="flex items-center gap-2 self-start md:self-center">
-          <div class="inline-flex p-1 rounded-2xl bg-white/10 border border-white/10" id="desktopLangBar">
-            <button data-lang="ar" class="lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition">العربية</button>
-            <button data-lang="fr" class="lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition">FR</button>
-            <button data-lang="en" class="lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition">EN</button>
-          </div>
-        </div>
-      </header>
+        <div class="flex items-center gap-3">
+          <!-- Face ID Quick Admin Status Pill -->
+          <button id="topAdminBtn" class="px-3.5 py-2 rounded-2xl glass-panel hover:bg-white/10 border border-violet-400/30 flex items-center gap-2 text-xs font-bold text-violet-200 transition">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2M9 9v2m6-2v2m-3 0v2m-3 3c1.5 1.2 4.5 1.2 6 0"/></svg>
+            <span id="topAdminBtnLabel">دخول المدير (Face ID / كود)</span>
+          </button>
 
-      <!-- Smart Search & Filter Bar -->
-      <section class="glass-card rounded-3xl p-4 space-y-3">
-        <div class="flex flex-col sm:flex-row gap-3">
-          <div class="relative flex-1">
-            <i data-lucide="search" class="w-4 h-4 text-sky-300 absolute top-1/2 -translate-y-1/2 start-3.5 pointer-events-none"></i>
-            <input id="mainSearchInput" type="text" class="w-full bg-slate-950/50 border border-white/15 rounded-2xl py-2.5 ps-10 pe-24 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition" data-i18n-placeholder="mainSearchPlaceholder" placeholder="مثال: A12, afichor a03s, redmi note 11, hot 40..." />
-            <button id="clearSearchBtn" class="hidden absolute top-1/2 -translate-y-1/2 end-3 text-xs text-slate-400 hover:text-white px-2 py-1 rounded-lg bg-white/10" data-i18n="clearBtn">مسح</button>
+          <!-- Language Switcher -->
+          <div class="flex bg-white/5 rounded-2xl p-1 border border-white/10 text-xs font-bold">
+            <button class="lang-btn px-3 py-1.5 rounded-xl transition" data-lang="ar">العربية</button>
+            <button class="lang-btn px-3 py-1.5 rounded-xl transition" data-lang="fr">FR</button>
+            <button class="lang-btn px-3 py-1.5 rounded-xl transition" data-lang="en">EN</button>
           </div>
-          <select id="brandSelect" class="bg-slate-950/50 border border-white/15 rounded-2xl px-4 py-2.5 text-xs font-semibold text-white focus:outline-none focus:border-sky-400">
-            <option value="ALL" data-i18n="allBrands">كل العلامات</option>
-            <option value="Samsung">Samsung</option>
-            <option value="Xiaomi">Xiaomi / Redmi</option>
-            <option value="Infinix">Infinix / Tecno</option>
-            <option value="Oppo">Oppo / Realme / Vivo</option>
-          </select>
-          <select id="typeSelect" class="bg-slate-950/50 border border-white/15 rounded-2xl px-4 py-2.5 text-xs font-semibold text-white focus:outline-none focus:border-sky-400">
-            <option value="ALL" data-i18n="allTypes">كل القطع</option>
-            <option value="screen" data-i18n="typeScreen">شاشات (Afficheur)</option>
-            <option value="glass" data-i18n="typeGlass">زجاج واقي (5D/9D/21D)</option>
-            <option value="case" data-i18n="typeCase">أغطية (Pochette)</option>
-          </select>
         </div>
-        <!-- Darija / Typo Auto-Correction Banner -->
-        <div id="autoCorrectBanner" class="hidden flex items-center gap-2 text-xs text-sky-200 bg-sky-500/15 border border-sky-400/25 rounded-xl px-3 py-2">
-          <i data-lucide="wand-2" class="w-4 h-4 text-sky-300 shrink-0"></i>
-          <span id="autoCorrectText"></span>
+      </div>
+
+      <!-- Search View Section -->
+      <section id="catalogSection" class="flex flex-col gap-5">
+        <!-- Smart Search Bar -->
+        <div class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col gap-3">
+          <div class="relative flex items-center">
+            <svg class="w-5 h-5 text-violet-400 absolute right-4 rtl:right-4 ltr:left-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
+            <input id="searchInput" type="text" autocomplete="off"
+              class="w-full bg-slate-950/70 border border-white/15 focus:border-violet-400 focus:ring-2 focus:ring-violet-500/30 rounded-2xl py-3.5 px-12 text-white placeholder-slate-400 text-sm sm:text-base outline-none transition"
+              placeholder="كتب اسم الهاتف... مثلاً: A12، afichor a03s، Redmi 9A، iPhone 11، Hot 10 Play" />
+            <button id="clearSearchBtn" class="hidden absolute left-3 rtl:left-3 ltr:right-3 px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-xs text-slate-300 transition">✕</button>
+          </div>
+
+          <!-- AI Typo / Darija Correction Banner -->
+          <div id="aiCorrectionBanner" class="hidden rounded-2xl bg-violet-500/15 border border-violet-400/35 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+            <div class="flex items-center gap-2 text-violet-200">
+              <span class="px-2 py-0.5 rounded-lg bg-violet-500/30 font-bold text-[11px]">AI</span>
+              <span id="aiCorrectionText"></span>
+            </div>
+            <button id="applyAiCorrectionBtn" class="px-3 py-1 rounded-xl bg-violet-500 hover:bg-violet-400 text-white font-bold text-xs transition"></button>
+          </div>
+
+          <!-- Quick Filter Chips -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap gap-1.5" id="quickChipRow">
+              <button class="quick-chip px-3 py-1 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs text-slate-300 transition" data-q="A12">Samsung A12</button>
+              <button class="quick-chip px-3 py-1 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs text-slate-300 transition" data-q="A03s">A03s</button>
+              <button class="quick-chip px-3 py-1 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs text-slate-300 transition" data-q="Redmi 9A">Redmi 9A</button>
+              <button class="quick-chip px-3 py-1 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs text-slate-300 transition" data-q="Hot 10 Play">Hot 10 Play</button>
+              <button class="quick-chip px-3 py-1 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs text-slate-300 transition" data-q="iPhone 11">iPhone 11</button>
+              <button class="quick-chip px-3 py-1 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs text-slate-300 transition" data-q="A15">Oppo A15</button>
+            </div>
+            <div class="text-xs text-slate-400">
+              <span id="resultsCount">0</span> <span data-i18n="resultsWord">مجموعة متوافقة</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Compatibility Cards Grid -->
+        <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
       </section>
 
-      <!-- VIEW: HOME / DASHBOARD -->
-      <section id="viewHome" class="space-y-5">
-        <!-- KPI Row -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-[11px] text-slate-400 font-medium" data-i18n="kpiTotal">إجمالي التوافقات</div>
-            <div class="text-2xl font-extrabold text-white mt-1" id="kpiTotalCount">0</div>
-            <div class="text-[11px] text-emerald-300 mt-1" data-i18n="kpiVerified">موثقة ومجربة</div>
-          </div>
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-[11px] text-slate-400 font-medium" data-i18n="kpiScreens">مجموعات الشاشات</div>
-            <div class="text-2xl font-extrabold text-sky-300 mt-1" id="kpiScreensCount">0</div>
-            <div class="text-[11px] text-slate-400 mt-1">LCD / OLED / Incell</div>
-          </div>
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-[11px] text-slate-400 font-medium" data-i18n="kpiGlass">الزجاج والأغطية</div>
-            <div class="text-2xl font-extrabold text-amber-300 mt-1" id="kpiGlassCount">0</div>
-            <div class="text-[11px] text-slate-400 mt-1">5D / 9D / 11D / 21D</div>
-          </div>
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-[11px] text-slate-400 font-medium" data-i18n="kpiPending">اقتراحات قيد المراجعة</div>
-            <div class="text-2xl font-extrabold text-orange-300 mt-1" id="kpiPendingCount">0</div>
-            <div class="text-[11px] text-slate-400 mt-1" data-i18n="kpiCommunity">مساهمات التقنيين</div>
-          </div>
-        </div>
-
-        <!-- Chart + Quick Results -->
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
-          <div class="glass-card rounded-3xl p-4 sm:p-5 xl:col-span-1">
-            <div class="flex items-center justify-between mb-3">
-              <h2 class="text-sm font-bold text-white" data-i18n="chartTitle">توزيع قاعدة البيانات</h2>
-              <span class="text-[11px] text-sky-300">Live</span>
-            </div>
-            <div class="relative h-64">
-              <canvas id="compatChart"></canvas>
-            </div>
-          </div>
-          <div class="xl:col-span-2 space-y-3">
-            <div class="flex items-center justify-between px-1">
-              <h2 class="text-sm font-bold text-white" data-i18n="resultsTitle">نتائج التوافق</h2>
-              <span class="text-xs text-slate-400" id="resultsCountLabel">0</span>
-            </div>
-            <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- VIEW: COMMUNITY SUGGESTIONS -->
-      <section id="viewCommunity" class="hidden space-y-4">
-        <div class="glass-card rounded-3xl p-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <form id="suggestForm" class="space-y-3">
-            <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <i data-lucide="plus-circle" class="w-4 h-4 text-sky-400"></i>
-              <span data-i18n="suggestFormTitle">أضف توافقاً جديداً من تجربتك</span>
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <select id="sugBrand" class="bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2 text-xs text-white" required>
-                <option value="Samsung">Samsung</option>
-                <option value="Xiaomi">Xiaomi / Redmi</option>
-                <option value="Infinix">Infinix / Tecno</option>
-                <option value="Oppo">Oppo / Realme / Vivo</option>
-              </select>
-              <select id="sugType" class="bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2 text-xs text-white" required>
-                <option value="screen" data-i18n="typeScreen">شاشات (Afficheur)</option>
-                <option value="glass" data-i18n="typeGlass">زجاج واقي (5D/9D/21D)</option>
-                <option value="case" data-i18n="typeCase">أغطية (Pochette)</option>
-              </select>
-            </div>
-            <input id="sugMain" type="text" required class="w-full bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400" data-i18n-placeholder="sugMainPh" placeholder="الموديل الرئيسي (مثال: Samsung A03s)" />
-            <input id="sugCompat" type="text" required class="w-full bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400" data-i18n-placeholder="sugCompatPh" placeholder="الموديلات المتوافقة (افصل بفاصلة: A02s, M02s)" />
-            <input id="sugNote" type="text" class="w-full bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400" data-i18n-placeholder="sugNotePh" placeholder="ملاحظة تقنية (مثلاً: فرق بسيط في إطار الشاشة)" />
-            <button type="submit" class="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition" data-i18n="sugSubmitBtn">إرسال للمراجعة</button>
+      <!-- Technician Comments / Suggestions Section -->
+      <section id="commentsSection" class="hidden flex flex-col gap-5">
+        <div class="glass-panel rounded-3xl p-5">
+          <h3 class="text-lg font-extrabold text-white mb-1" data-i18n="suggestTitle">شارك توافق جديد مع الحرفيين</h3>
+          <p class="text-xs text-slate-400 mb-4" data-i18n="suggestDesc">إلا جربتي شي أفشور أو بوشيط أو زاج وركب مزيان، شاركو هنا والمدير غادي يوافق عليه ويزيدو فالقاعدة.</p>
+          <form id="commentForm" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input id="cName" type="text" required class="bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="الاسم / اسم المحل" />
+            <input id="cCity" type="text" required class="bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="المدينة (مثلاً: البروج، سطات...)" />
+            <select id="cType" class="bg-slate-950/90 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white outline-none focus:border-violet-400">
+              <option value="screen">شاشة (Afficheur)</option>
+              <option value="case">بوشيط (Pochette)</option>
+              <option value="glass">زاج (Incassable 5D/9D/21D)</option>
+            </select>
+            <input id="cBrand" type="text" required class="bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="العلامة (Samsung, Xiaomi, Infinix...)" />
+            <input id="cModels" type="text" required class="sm:col-span-2 bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="الموديلات المتوافقة (مفصولة بفاصلة: مثلاً A04e, A04, M04)" />
+            <input id="cNote" type="text" class="sm:col-span-2 bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="ملاحظة تقنية (مثلاً: نفس الفليكس والكاميرا)" />
+            <button type="submit" class="sm:col-span-2 py-3 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-bold text-sm transition" data-i18n="submitSuggestion">إرسال الاقتراح</button>
           </form>
-
-          <div class="space-y-3">
-            <h2 class="text-base font-bold text-white" data-i18n="pendingListTitle">اقتراحات التقنيين (قيد المراجعة)</h2>
-            <div id="communityPendingList" class="space-y-2.5 max-h-80 overflow-y-auto pe-1"></div>
-          </div>
         </div>
+
+        <div id="commentsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </section>
 
-      <!-- VIEW: ADMIN & BACKUP -->
-      <section id="viewAdmin" class="hidden space-y-4">
-        <div id="adminLockedBox" class="glass-card rounded-3xl p-6 max-w-md mx-auto text-center space-y-3">
-          <div class="w-12 h-12 rounded-2xl bg-amber-400/20 text-amber-300 flex items-center justify-center mx-auto">
-            <i data-lucide="shield-alert" class="w-6 h-6"></i>
+      <!-- Admin & Face ID Dashboard Section -->
+      <section id="adminSection" class="hidden flex flex-col gap-5">
+        <!-- Locked State (Login Card with Face ID + PIN) -->
+        <div id="adminLockedView" class="max-w-md mx-auto w-full glass-panel rounded-3xl p-6 sm:p-7 text-center flex flex-col items-center gap-4">
+          <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-violet-500/30 to-blue-500/30 border border-violet-400/40 flex items-center justify-center shadow-lg shadow-violet-500/20">
+            <svg class="w-8 h-8 text-violet-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2M9 9v2m6-2v2m-3 0v2m-3 3c1.5 1.2 4.5 1.2 6 0"/></svg>
           </div>
-          <h2 class="text-base font-bold text-white" data-i18n="adminLockedTitle">لوحة الإدارة محمية برمز PIN</h2>
-          <p class="text-xs text-slate-400" data-i18n="adminPinHint">أدخل رمز الإدارة (الرمز الافتراضي للتجربة: 1234)</p>
-          <div class="flex gap-2">
-            <input id="adminPinInput" type="password" maxlength="8" class="flex-1 bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2 text-sm text-center text-white tracking-widest" placeholder="••••" />
-            <button id="adminUnlockBtn" class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs" data-i18n="unlockBtn">فتح</button>
+          <div>
+            <h3 class="text-xl font-extrabold text-white" data-i18n="adminLoginTitle">تسجيل دخول المدير</h3>
+            <p class="text-xs text-slate-400 mt-1" id="adminLoginHint" data-i18n="adminLoginHint">ادخل بالكود السري أول مرة باش تسجل بصمة الوجه (Face ID)، ومن بعد تقدر تدخل بالوجه مباشرة.</p>
           </div>
-        </div>
 
-        <div id="adminUnlockedBox" class="hidden glass-card rounded-3xl p-5 space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-base font-bold text-white" data-i18n="adminPanelTitle">إدارة التوافقات والنسخ الاحتياطي</h2>
-            <div class="flex flex-wrap gap-2">
-              <button id="adminExportBtn" class="px-3 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs" data-i18n="exportJsonBtn">تصدير JSON</button>
-              <label class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs cursor-pointer">
-                <span data-i18n="importJsonBtn">استيراد JSON</span>
-                <input id="adminImportInput" type="file" accept=".json" class="hidden" />
-              </label>
-              <button id="adminLockBtn" class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-bold text-xs" data-i18n="lockBtn">قفل</button>
+          <!-- Face ID Login Button (Shown prominently when Face ID is enrolled) -->
+          <div id="faceIdLoginBox" class="hidden w-full flex flex-col gap-2">
+            <button id="startFaceIdLoginBtn" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-extrabold text-sm shadow-lg shadow-violet-600/35 flex items-center justify-center gap-2.5 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2M9 9v2m6-2v2m-3 0v2m-3 3c1.5 1.2 4.5 1.2 6 0"/></svg>
+              <span data-i18n="loginWithFaceId">الدخول ببصمة الوجه (Face ID)</span>
+            </button>
+            <div class="text-[11px] text-emerald-400 font-semibold" id="enrolledFaceLabel">✓ بصمة وجه المدير مسجلة ومفعّلة</div>
+            <div class="flex items-center gap-2 my-1">
+              <div class="h-px flex-1 bg-white/10"></div>
+              <span class="text-[11px] text-slate-500" data-i18n="orUsePin">أو بالكود السري</span>
+              <div class="h-px flex-1 bg-white/10"></div>
             </div>
           </div>
-          <div id="adminPendingList" class="space-y-2.5"></div>
+
+          <!-- PIN Login Form -->
+          <form id="pinLoginForm" class="w-full flex flex-col gap-3">
+            <input id="adminPinInput" type="password" inputmode="numeric" maxlength="12"
+              class="w-full text-center tracking-[0.35em] font-bold text-lg bg-slate-950/75 border border-white/15 focus:border-violet-400 rounded-2xl py-3 px-4 text-white placeholder-slate-500 outline-none transition"
+              placeholder="••••" />
+            <div id="pinErrorMsg" class="hidden text-xs text-rose-400 font-semibold"></div>
+            <button type="submit" class="w-full py-3 rounded-2xl bg-white text-slate-950 hover:bg-slate-200 font-extrabold text-sm transition" data-i18n="loginWithPin">الدخول بالكود (PIN)</button>
+            <p class="text-[11px] text-slate-500" data-i18n="defaultPinNote">الكود الافتراضي: <span class="font-mono text-slate-300">1234</span></p>
+          </form>
+        </div>
+
+        <!-- Unlocked Admin Dashboard -->
+        <div id="adminUnlockedView" class="hidden flex flex-col gap-5">
+          <!-- Face ID Welcome Banner (inspired by Dashboard success screen in the video) -->
+          <div class="rounded-3xl bg-gradient-to-r from-violet-600/25 via-indigo-600/20 to-blue-600/25 border border-violet-400/35 p-5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-white text-violet-600 flex items-center justify-center shadow-lg shadow-violet-500/25 shrink-0">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2M9 9v2m6-2v2m-3 0v2m-3 3c1.5 1.2 4.5 1.2 6 0"/></svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-extrabold text-white" id="adminWelcomeTitle">مرحباً أيها المدير</h3>
+                <p class="text-xs text-slate-300 mt-0.5" id="adminUnlockMethodSub">تم فتح لوحة تحكم توافق الشاشات بنجاح.</p>
+              </div>
+            </div>
+            <button id="adminLogoutBtn" class="px-4 py-2 rounded-2xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/40 text-rose-200 text-xs font-bold transition" data-i18n="signOut">تسجيل الخروج</button>
+          </div>
+
+          <!-- Face ID Enrollment & Security Settings Card -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="glass-panel rounded-3xl p-5 flex flex-col justify-between gap-4">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <h4 class="font-extrabold text-base text-white flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-violet-400"></span>
+                    <span data-i18n="faceIdSettingsTitle">إعداد بصمة الوجه (Face ID)</span>
+                  </h4>
+                  <span id="faceStatusPill" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300">غير مسجلة</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed" id="faceModeDesc">
+                  تعرف حقيقي على الوجه بالكاميرا وبالذكاء الاصطناعي (128 نقطة بيومترية). سجّل وجهك هنا، وأي شخص آخر غادي يترفض دخولو نهائياً ما لم تكن بصمة وجهو مسجلة فالموقع.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button id="enrollFaceIdBtn" class="flex-1 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-violet-600/25 transition" data-i18n="enrollFaceBtn">تسجيل / تحديث بصمة الوجه</button>
+                <button id="testFaceIdBtn" class="hidden py-2.5 px-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition" data-i18n="testFaceBtn">تجربة المسح</button>
+                <button id="removeFaceIdBtn" class="hidden py-2.5 px-4 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-400/30 text-rose-300 font-bold text-xs transition" data-i18n="removeFaceBtn">حذف البصمة</button>
+              </div>
+            </div>
+
+            <!-- Change PIN & JSON Backup Card -->
+            <div class="glass-panel rounded-3xl p-5 flex flex-col justify-between gap-4">
+              <div>
+                <h4 class="font-extrabold text-base text-white mb-2" data-i18n="pinAndBackupTitle">تغيير الكود السري والنسخ الاحتياطي</h4>
+                <form id="changePinForm" class="flex gap-2">
+                  <input id="newPinInput" type="password" inputmode="numeric" minlength="4" maxlength="12" required
+                    class="flex-1 bg-slate-950/70 border border-white/15 rounded-2xl px-3.5 py-2 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400"
+                    placeholder="كود PIN جديد (4 أرقام على الأقل)" />
+                  <button type="submit" class="px-4 py-2 rounded-2xl bg-white text-slate-950 hover:bg-slate-200 font-bold text-xs transition" data-i18n="savePinBtn">حفظ الكود</button>
+                </form>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-2 border-t border-white/10">
+                <button id="exportJsonBtn" class="flex-1 py-2.5 px-3 rounded-2xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/35 text-emerald-200 font-bold text-xs transition" data-i18n="exportJson">تصدير نسخة JSON</button>
+                <label class="flex-1 py-2.5 px-3 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/35 text-cyan-200 font-bold text-xs text-center cursor-pointer transition">
+                  <span data-i18n="importJson">استيراد نسخة JSON</span>
+                  <input id="importJsonInput" type="file" accept=".json" class="hidden" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add New Compatibility Entry Form -->
+          <div class="glass-panel rounded-3xl p-5">
+            <h4 class="font-extrabold text-base text-white mb-3" data-i18n="addEntryTitle">إضافة مجموعة توافق جديدة للقاعدة</h4>
+            <form id="addEntryForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <select id="aType" class="bg-slate-950/90 border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white outline-none focus:border-violet-400">
+                <option value="screen">شاشة (Afficheur)</option>
+                <option value="case">بوشيط (Pochette)</option>
+                <option value="glass">زاج (Incassable)</option>
+              </select>
+              <select id="aBrand" class="bg-slate-950/90 border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white outline-none focus:border-violet-400">
+                <option value="Samsung">Samsung</option>
+                <option value="Xiaomi">Xiaomi / Redmi / Poco</option>
+                <option value="Infinix">Infinix / Tecno / Itel</option>
+                <option value="Apple">Apple iPhone</option>
+                <option value="Oppo">Oppo / Realme</option>
+                <option value="Huawei">Huawei / Honor</option>
+              </select>
+              <input id="aModels" type="text" required class="sm:col-span-2 bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="الموديلات مفصولة بفاصلة: A12, A02, M12" />
+              <input id="aNote" type="text" class="sm:col-span-3 bg-slate-950/70 border border-white/15 rounded-2xl px-4 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="ملاحظة تقنية (مثال: نفس الكونيكتور، فرق بسيط في الكادر)" />
+              <button type="submit" class="py-2.5 px-4 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-bold text-sm transition" data-i18n="addEntryBtn">إضافة للقاعدة</button>
+            </form>
+          </div>
+
+          <!-- Pending Suggestions Approval List -->
+          <div class="glass-panel rounded-3xl p-5">
+            <h4 class="font-extrabold text-base text-white mb-3" data-i18n="pendingTitle">اقتراحات الحرفيين بانتظار الموافقة</h4>
+            <div id="adminPendingList" class="flex flex-col gap-2.5"></div>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- AI Technical Assistant Slide-Over Drawer -->
-  <div id="aiDrawer" class="fixed inset-y-0 end-0 w-full max-w-md z-50 hidden">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="aiDrawerBackdrop"></div>
-    <div class="relative ms-auto h-full w-full max-w-md glass-sidebar-wrap rounded-none sm:rounded-s-3xl p-5 flex flex-col justify-between">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center">
-            <i data-lucide="sparkles" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-bold text-white" data-i18n="aiDrawerTitle">المساعد التقني الذكي</h3>
-            <p class="text-[11px] text-slate-400" data-i18n="aiDrawerSub">اسأل عن توافق الشاشات، الفريم، أو الزجاج</p>
-          </div>
-        </div>
-        <button id="closeAiDrawerBtn" class="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
+  <!-- REAL CAMERA AI FACE ID MODAL SHEET -->
+  <div id="faceIdModal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+    <div class="relative w-full max-w-sm rounded-[36px] bg-[#0b1020] border border-white/15 shadow-2xl shadow-violet-950/60 p-6 sm:p-7 flex flex-col items-center text-center overflow-hidden">
+      <div class="pointer-events-none absolute -top-20 inset-x-0 h-44 bg-gradient-to-b from-violet-600/30 via-blue-600/15 to-transparent blur-2xl"></div>
+
+      <!-- Top-Right Close X Button -->
+      <button id="closeFaceModalBtn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition z-20" aria-label="Close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Live Match / Status Pill -->
+      <div id="faceMatchPill" class="mt-1 px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/35 text-[11px] font-bold text-violet-200 z-10">
+        AI Face ID 128D
       </div>
 
-      <div id="aiChatMessages" class="flex-1 overflow-y-auto py-4 space-y-3 text-xs"></div>
+      <!-- Glowing Scanner Frame with Live Mirrored Camera + Landmarks Canvas -->
+      <div id="faceScannerFrame" class="faceid-scanner-frame mt-4 mb-5 flex items-center justify-center">
+        <video id="faceVideo" autoplay muted playsinline class="hidden absolute inset-0 w-full h-full object-cover scale-x-[-1]"></video>
+        <canvas id="faceOverlayCanvas" class="hidden absolute inset-0 w-full h-full pointer-events-none z-10 scale-x-[-1]"></canvas>
 
-      <form id="aiChatForm" class="pt-3 border-t border-white/10 flex gap-2">
-        <input id="aiChatInput" type="text" class="flex-1 bg-slate-950/60 border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400" data-i18n-placeholder="aiInputPh" placeholder="مثال: واش شاشة A02s كتخدم لـ A03s؟" />
-        <button type="submit" class="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs" data-i18n="sendBtn">إرسال</button>
-      </form>
+        <!-- Animated Laser Line -->
+        <div id="faceScanLaser" class="scan-laser z-20"></div>
+
+        <!-- Face Icon (shown while camera/AI loads) -->
+        <svg id="faceIconSvg" class="w-20 h-20 text-violet-200 relative z-10 drop-shadow-[0_0_16px_rgba(167,139,250,0.8)]" fill="none" stroke="currentColor" stroke-width="1.65" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 3H5a2 2 0 00-2 2v2m14-4h2a2 2 0 012 2v2M7 21H5a2 2 0 01-2-2v-2m14 4h2a2 2 0 002-2v-2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5v1.5m6-1.5v1.5"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9.5v3.2a.8.8 0 01-.8.8h-.5"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.8 15.6c.9.95 2.05 1.4 3.2 1.4s2.3-.45 3.2-1.4"/>
+        </svg>
+
+        <!-- Checkmark Icon (Success) -->
+        <div id="faceSuccessSvg" class="hidden absolute inset-0 bg-emerald-950/75 backdrop-blur-sm z-30 flex items-center justify-center">
+          <svg class="w-24 h-24 text-emerald-300 success-badge-pop drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+
+        <!-- Rejected Icon (Stranger / No Match) -->
+        <div id="faceErrorSvg" class="hidden absolute inset-0 bg-rose-950/80 backdrop-blur-sm z-30 flex items-center justify-center">
+          <svg class="w-24 h-24 text-rose-400 success-badge-pop drop-shadow-[0_0_18px_rgba(248,113,113,0.9)]" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Status Title & Subtitle -->
+      <h3 id="faceModalTitle" class="text-lg sm:text-xl font-extrabold text-white tracking-tight">جاري تشغيل الكاميرا...</h3>
+      <p id="faceModalSub" class="text-xs text-slate-300 mt-1.5 min-h-[2.4rem] max-w-[280px] leading-relaxed">
+        وجّه وجهك أمام الكاميرا في إضاءة واضحة
+      </p>
+
+      <!-- Progress Bar -->
+      <div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mt-3 mb-4">
+        <div id="faceProgressBar" class="h-full w-0 bg-gradient-to-r from-violet-500 via-blue-400 to-cyan-300 rounded-full transition-all duration-300"></div>
+      </div>
+
+      <!-- Retry Button (shown on rejection or camera error) -->
+      <button id="retryFaceBtn" class="hidden w-full mb-3 py-2.5 rounded-2xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition">
+        إعادة المحاولة
+      </button>
+
+      <!-- Fallback Button: Use Password / PIN Instead -->
+      <button id="usePinInsteadBtn" class="text-xs font-bold text-violet-300 hover:text-white underline underline-offset-4 transition" data-i18n="usePinInstead">
+        استعمل الكود السري عوضاً عن ذلك
+      </button>
     </div>
   </div>
 
+  <!-- AI Technical Assistant Drawer -->
+  <div id="aiDrawerBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden"></div>
+  <aside id="aiDrawer" class="fixed top-0 bottom-0 left-0 rtl:left-0 ltr:right-0 w-full max-w-md glass-panel z-[65] flex flex-col transform -translate-x-full rtl:-translate-x-full ltr:translate-x-full transition-transform duration-300">
+    <div class="p-4 border-b border-white/10 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white font-bold">AI</div>
+        <div>
+          <div class="font-extrabold text-sm text-white" data-i18n="aiDrawerTitle">المساعد التقني الذكي</div>
+          <div class="text-[11px] text-cyan-300" data-i18n="aiDrawerSub">سولو بالدارجة أو الفرنسية على أي توافق</div>
+        </div>
+      </div>
+      <button id="closeAiDrawerBtn" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center">✕</button>
+    </div>
+    <div id="aiMessages" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3 text-sm"></div>
+    <form id="aiForm" class="p-3 border-t border-white/10 flex gap-2">
+      <input id="aiInput" type="text" required class="flex-1 bg-slate-950/75 border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white placeholder-slate-400 outline-none focus:border-violet-400" placeholder="مثلاً: واش أفشور A12 كيركب لـ A02؟" />
+      <button type="submit" class="px-4 py-2.5 rounded-2xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition" data-i18n="sendBtn">إرسال</button>
+    </form>
+  </aside>
+
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 start-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-2xl bg-white text-slate-900 font-bold text-xs shadow-2xl"></div>
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[80] hidden px-4 py-2.5 rounded-2xl bg-slate-900/95 border border-violet-400/40 text-white text-xs sm:text-sm font-bold shadow-2xl"></div>
 
   <script>
-    // ---------- 1. TRILINGUAL DICTIONARY (AR / FR / EN) ----------
+    // ==============================
+    // 1. SAFE STORAGE HELPERS
+    // ==============================
+    const STORAGE_KEYS = {
+      entries: 'glassy_compat_entries_v10',
+      comments: 'glassy_compat_comments_v10',
+      visits: 'glassy_compat_visits_v10',
+      pin: 'glassy_compat_admin_pin_v10',
+      faceId: 'glassy_compat_faceid_v10',
+      lang: 'glassy_compat_lang_v10'
+    };
+
+    function safeGet(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+    function safeSet(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch (e) {}
+    }
+
+    // ==============================
+    // 2. TRILINGUAL DICTIONARY (AR / FR / EN)
+    // ==============================
     const I18N = {
       ar: {
-        brandSub: "مختبر توافق القطع",
-        searchPlaceholder: "بحث سريع...",
-        mainSearchPlaceholder: "مثال: A12, afichor a03s, redmi note 11, hot 40...",
-        clearBtn: "مسح",
-        navHome: "الرئيسية",
-        navScreens: "الشاشات (LCD)",
-        navGlassCases: "الزجاج والأغطية",
-        navGlass: "الزجاج الواقي (5D-21D)",
-        navCases: "الأغطية (Pochettes)",
-        navAI: "المساعد التقني AI",
-        navCommunity: "اقتراحات التقنيين",
-        navAdmin: "الإدارة والنسخ",
-        brandsTitle: "العلامات",
-        proTitle: "نسخة الورشة Pro",
-        proBtn: "نسخة احتياطية JSON",
-        heroTitle: "منصة توافق الشاشات والزجاج الواقي",
-        heroSubtitle: "ابحث بسرعة عن بدائل الشاشات (Afficheurs)، الزجاج الواقي (5D/9D/21D)، والأغطية مع تصحيح تلقائي للأخطاء والدارجة.",
-        onlineTechs: "تقني متصل الآن",
-        allBrands: "كل العلامات",
-        allTypes: "كل القطع",
-        typeScreen: "شاشات (Afficheur)",
-        typeGlass: "زجاج واقي (5D/9D/21D)",
-        typeCase: "أغطية (Pochette)",
-        kpiTotal: "إجمالي التوافقات",
-        kpiVerified: "موثقة ومجربة",
-        kpiScreens: "مجموعات الشاشات",
-        kpiGlass: "الزجاج والأغطية",
-        kpiPending: "اقتراحات قيد المراجعة",
-        kpiCommunity: "مساهمات التقنيين",
-        chartTitle: "توزيع قاعدة البيانات",
-        resultsTitle: "نتائج التوافق",
-        copyWa: "نسخ للواتساب",
-        copiedToast: "تم النسخ للواتساب بنجاح!",
-        suggestFormTitle: "أضف توافقاً جديداً من تجربتك",
-        sugMainPh: "الموديل الرئيسي (مثال: Samsung A03s)",
-        sugCompatPh: "الموديلات المتوافقة (افصل بفاصلة: A02s, M02s)",
-        sugNotePh: "ملاحظة تقنية (مثلاً: فرق بسيط في إطار الشاشة)",
-        sugSubmitBtn: "إرسال للمراجعة",
-        pendingListTitle: "اقتراحات التقنيين (قيد المراجعة)",
-        adminLockedTitle: "لوحة الإدارة محمية برمز PIN",
-        adminPinHint: "أدخل رمز الإدارة (الرمز الافتراضي للتجربة: 1234)",
-        unlockBtn: "فتح",
-        adminPanelTitle: "إدارة التوافقات والنسخ الاحتياطي",
-        exportJsonBtn: "تصدير JSON",
-        importJsonBtn: "استيراد JSON",
-        lockBtn: "قفل",
-        aiDrawerTitle: "المساعد التقني الذكي",
-        aiDrawerSub: "اسأل عن توافق الشاشات، الفريم، أو الزجاج",
-        aiInputPh: "مثال: واش شاشة A02s كتخدم لـ A03s؟",
-        sendBtn: "إرسال",
-        approveBtn: "قبول وإضافة",
-        rejectBtn: "حذف",
-        noPending: "لا توجد اقتراحات قيد المراجعة حالياً.",
-        noResults: "لم يتم العثور على نتائج مطابقة.",
-        autoCorrected: "تصحيح تلقائي للبحث:",
-        aiWelcome: "مرحباً! أنا المساعد التقني. سولني على أي موديل (مثلاً: A02s, Redmi Note 11, Hot 40) وغادي نعطيك البدائل المتوافقة.",
-        stripLabels: { home: "الرئيسية", screens: "الشاشات", glass: "الزجاج", cases: "الأغطية", community: "اقتراحات", admin: "الإدارة" }
+        dir: 'rtl',
+        brandTag: 'V10 • توافق الشاشات',
+        quickSearch: 'بحث سريع...',
+        navAll: 'الكل والبحث الذكي',
+        navScreens: 'الشاشات (Afficheurs)',
+        navCases: 'البوشيط (Pochettes)',
+        navGlass: 'الزاج (5D / 9D / 21D)',
+        navComments: 'اقتراحات الحرفيين',
+        navAdmin: 'المدير و Face ID',
+        brandsTitle: 'العلامات التجارية',
+        aiBtn: 'المساعد الذكي AI',
+        onlineNow: 'متصل',
+        visitsLabel: 'الزيارات:',
+        adminShort: 'المدير',
+        pageTitle: 'قاعدة توافق الشاشات والقطع',
+        pageSubtitle: 'ابحث بأي موديل أو بالدارجة (مثلاً: afichor a12، not 8، ifone 11)',
+        searchPlaceholder: 'كتب اسم الهاتف... مثلاً: A12، afichor a03s، Redmi 9A، iPhone 11، Hot 10 Play',
+        resultsWord: 'مجموعة متوافقة',
+        copyWa: 'نسخ للواتساب',
+        copiedToast: 'تم النسخ بنجاح وجاهز للواتساب!',
+        suggestTitle: 'شارك توافق جديد مع الحرفيين',
+        suggestDesc: 'إلا جربتي شي أفشور أو بوشيط أو زاج وركب مزيان، شاركو هنا والمدير غادي يوافق عليه ويزيدو فالقاعدة.',
+        submitSuggestion: 'إرسال الاقتراح',
+        adminLoginTitle: 'تسجيل دخول المدير',
+        adminLoginHint: 'ادخل بالكود السري أول مرة باش تسجل بصمة الوجه (Face ID)، ومن بعد تقدر تدخل بالوجه مباشرة.',
+        loginWithFaceId: 'الدخول ببصمة الوجه (Face ID)',
+        orUsePin: 'أو بالكود السري',
+        loginWithPin: 'الدخول بالكود (PIN)',
+        defaultPinNote: 'الكود الافتراضي: 1234',
+        signOut: 'تسجيل الخروج',
+        faceIdSettingsTitle: 'إعداد بصمة الوجه (Face ID)',
+        enrollFaceBtn: 'تسجيل / تحديث بصمة الوجه',
+        testFaceBtn: 'تجربة المسح',
+        removeFaceBtn: 'حذف البصمة',
+        pinAndBackupTitle: 'تغيير الكود السري والنسخ الاحتياطي',
+        savePinBtn: 'حفظ الكود',
+        exportJson: 'تصدير نسخة JSON',
+        importJson: 'استيراد نسخة JSON',
+        addEntryTitle: 'إضافة مجموعة توافق جديدة للقاعدة',
+        addEntryBtn: 'إضافة للقاعدة',
+        pendingTitle: 'اقتراحات الحرفيين بانتظار الموافقة',
+        usePinInstead: 'استعمل الكود السري عوضاً عن ذلك',
+        aiDrawerTitle: 'المساعد التقني الذكي',
+        aiDrawerSub: 'سولو بالدارجة أو الفرنسية على أي توافق',
+        sendBtn: 'إرسال',
+        scanning: 'جاري مسح الوجه...',
+        enrolling: 'جاري تسجيل بصمة الوجه...',
+        simSub: 'مسح محاكى — لا توجد بصمة Face ID مسجلة على النظام',
+        webauthnSub: 'يرجى تأكيد بصمة الوجه / البصمة على جهازك...',
+        scanSuccess: 'تم التحقق ببصمة الوجه بنجاح!',
+        enrollSuccess: 'تم تسجيل بصمة الوجه للمدير بنجاح!',
+        typeLabels: { screen: 'شاشة / Afficheur', case: 'بوشيط / Pochette', glass: 'زاج / Incassable' }
       },
       fr: {
-        brandSub: "Labo Compatibilité",
-        searchPlaceholder: "Recherche...",
-        mainSearchPlaceholder: "Ex: A12, afichor a03s, redmi note 11, hot 40...",
-        clearBtn: "Effacer",
-        navHome: "Accueil",
-        navScreens: "Écrans (LCD)",
-        navGlassCases: "Verres & Coques",
-        navGlass: "Verre Trempé (5D-21D)",
-        navCases: "Pochettes / Coques",
-        navAI: "Assistant IA Tech",
-        navCommunity: "Suggestions",
-        navAdmin: "Admin & Backup",
-        brandsTitle: "MARQUES",
-        proTitle: "Atelier Pro",
-        proBtn: "Sauvegarde JSON",
-        heroTitle: "Plateforme de Compatibilité Écrans & Verres",
-        heroSubtitle: "Trouvez instantanément les équivalences d'afficheurs, verres trempés (5D/9D/21D) et pochettes avec correction automatique.",
-        onlineTechs: "techniciens en ligne",
-        allBrands: "Toutes les marques",
-        allTypes: "Toutes les pièces",
-        typeScreen: "Écrans (Afficheur)",
-        typeGlass: "Verre Trempé (5D-21D)",
-        typeCase: "Pochettes (Coque)",
-        kpiTotal: "Total Compatibilités",
-        kpiVerified: "Vérifiées en atelier",
-        kpiScreens: "Groupes d'Écrans",
-        kpiGlass: "Verres & Coques",
-        kpiPending: "En attente",
-        kpiCommunity: "Contributions",
-        chartTitle: "Répartition Base de Données",
-        resultsTitle: "Résultats de Compatibilité",
-        copyWa: "Copier WhatsApp",
-        copiedToast: "Copié pour WhatsApp !",
-        suggestFormTitle: "Proposer une nouvelle compatibilité",
-        sugMainPh: "Modèle principal (ex: Samsung A03s)",
-        sugCompatPh: "Modèles compatibles (séparés par virgule)",
-        sugNotePh: "Note technique (ex: légère différence de châssis)",
-        sugSubmitBtn: "Envoyer pour validation",
-        pendingListTitle: "Suggestions en attente",
-        adminLockedTitle: "Panneau Admin protégé par PIN",
-        adminPinHint: "Entrez le code PIN (Démo par défaut : 1234)",
-        unlockBtn: "Déverrouiller",
-        adminPanelTitle: "Gestion & Sauvegarde JSON",
-        exportJsonBtn: "Exporter JSON",
-        importJsonBtn: "Importer JSON",
-        lockBtn: "Verrouiller",
-        aiDrawerTitle: "Assistant Technique IA",
-        aiDrawerSub: "Posez une question sur les écrans ou verres",
-        aiInputPh: "Ex: L'écran A02s est-il compatible A03s ?",
-        sendBtn: "Envoyer",
-        approveBtn: "Approuver",
-        rejectBtn: "Supprimer",
-        noPending: "Aucune suggestion en attente.",
-        noResults: "Aucun résultat trouvé.",
-        autoCorrected: "Recherche corrigée :",
-        aiWelcome: "Bonjour ! Posez-moi une question sur la compatibilité d'un modèle (ex: A02s, Redmi Note 11, Hot 40).",
-        stripLabels: { home: "ACCUEIL", screens: "ÉCRANS", glass: "VERRES", cases: "COQUES", community: "AVIS", admin: "ADMIN" }
+        dir: 'ltr',
+        brandTag: 'V10 • Compatibilité',
+        quickSearch: 'Recherche rapide...',
+        navAll: 'Tout & Recherche IA',
+        navScreens: 'Écrans (Afficheurs)',
+        navCases: 'Pochettes / Coques',
+        navGlass: 'Verre Trempé (5D/9D/21D)',
+        navComments: 'Avis Techniciens',
+        navAdmin: 'Admin & Face ID',
+        brandsTitle: 'Marques',
+        aiBtn: 'Assistant IA',
+        onlineNow: 'en ligne',
+        visitsLabel: 'Visites :',
+        adminShort: 'Admin',
+        pageTitle: 'Base de Compatibilité Pièces & Écrans',
+        pageSubtitle: 'Recherchez un modèle (ex : afichor a12, not 8, ifone 11)',
+        searchPlaceholder: 'Tapez un modèle... ex : A12, A03s, Redmi 9A, iPhone 11, Hot 10 Play',
+        resultsWord: 'groupes compatibles',
+        copyWa: 'Copier WhatsApp',
+        copiedToast: 'Copié pour WhatsApp !',
+        suggestTitle: 'Partager une nouvelle compatibilité',
+        suggestDesc: 'Vous avez testé un afficheur, une coque ou un verre ? Partagez-le pour validation admin.',
+        submitSuggestion: 'Envoyer la suggestion',
+        adminLoginTitle: 'Connexion Administrateur',
+        adminLoginHint: 'Connectez-vous avec le code PIN pour enregistrer votre Face ID, puis déverrouillez par visage.',
+        loginWithFaceId: 'Connexion avec Face ID',
+        orUsePin: 'ou avec code PIN',
+        loginWithPin: 'Connexion par PIN',
+        defaultPinNote: 'Code par défaut : 1234',
+        signOut: 'Déconnexion',
+        faceIdSettingsTitle: 'Configuration Face ID',
+        enrollFaceBtn: 'Enregistrer / Mettre à jour Face ID',
+        testFaceBtn: 'Tester le scan',
+        removeFaceBtn: 'Supprimer Face ID',
+        pinAndBackupTitle: 'Code PIN & Sauvegarde JSON',
+        savePinBtn: 'Enregistrer',
+        exportJson: 'Exporter JSON',
+        importJson: 'Importer JSON',
+        addEntryTitle: 'Ajouter un groupe de compatibilité',
+        addEntryBtn: 'Ajouter à la base',
+        pendingTitle: 'Suggestions en attente de validation',
+        usePinInstead: 'Utiliser le code PIN à la place',
+        aiDrawerTitle: 'Assistant Technique IA',
+        aiDrawerSub: 'Posez vos questions en FR, AR ou Darija',
+        sendBtn: 'Envoyer',
+        scanning: 'Analyse faciale...',
+        enrolling: 'Enregistrement Face ID...',
+        simSub: 'Scan simulé — aucun Face ID natif détecté sur cet appareil',
+        webauthnSub: 'Confirmez avec Face ID / empreinte sur votre appareil...',
+        scanSuccess: 'Identité vérifiée par Face ID !',
+        enrollSuccess: 'Face ID administrateur enregistré !',
+        typeLabels: { screen: 'Afficheur', case: 'Pochette', glass: 'Verre 5D/9D' }
       },
       en: {
-        brandSub: "Compatibility Lab",
-        searchPlaceholder: "Quick search...",
-        mainSearchPlaceholder: "e.g. A12, afichor a03s, redmi note 11, hot 40...",
-        clearBtn: "Clear",
-        navHome: "Home",
-        navScreens: "Screens (LCD)",
-        navGlassCases: "Glass & Cases",
-        navGlass: "Tempered Glass (5D-21D)",
-        navCases: "Phone Cases",
-        navAI: "AI Tech Assistant",
-        navCommunity: "Suggestions",
-        navAdmin: "Admin & Backup",
-        brandsTitle: "BRANDS",
-        proTitle: "Workshop Pro",
-        proBtn: "Backup JSON",
-        heroTitle: "Screen, Glass & Case Compatibility Hub",
-        heroSubtitle: "Instantly look up interchangeable LCD screens, 5D/9D/21D tempered glass, and cases with smart typo & Darija auto-correction.",
-        onlineTechs: "technicians online",
-        allBrands: "All Brands",
-        allTypes: "All Parts",
-        typeScreen: "Screens (LCD)",
-        typeGlass: "Tempered Glass (5D-21D)",
-        typeCase: "Cases (Pochette)",
-        kpiTotal: "Total Records",
-        kpiVerified: "Workshop Verified",
-        kpiScreens: "Screen Groups",
-        kpiGlass: "Glass & Cases",
-        kpiPending: "Pending Review",
-        kpiCommunity: "Tech Contributions",
-        chartTitle: "Database Breakdown",
-        resultsTitle: "Compatibility Results",
-        copyWa: "Copy WhatsApp",
-        copiedToast: "Copied for WhatsApp!",
-        suggestFormTitle: "Submit a New Compatibility",
-        sugMainPh: "Main Model (e.g. Samsung A03s)",
-        sugCompatPh: "Compatible Models (comma-separated)",
-        sugNotePh: "Technical note (e.g. slight bezel difference)",
-        sugSubmitBtn: "Submit for Review",
-        pendingListTitle: "Pending Technician Suggestions",
-        adminLockedTitle: "Admin Panel Protected by PIN",
-        adminPinHint: "Enter Admin PIN (Default demo PIN: 1234)",
-        unlockBtn: "Unlock",
-        adminPanelTitle: "Compatibility Manager & Backup",
-        exportJsonBtn: "Export JSON",
-        importJsonBtn: "Import JSON",
-        lockBtn: "Lock",
-        aiDrawerTitle: "AI Technical Assistant",
-        aiDrawerSub: "Ask about screen, frame, or glass fitment",
-        aiInputPh: "e.g. Does A02s LCD fit A03s?",
-        sendBtn: "Send",
-        approveBtn: "Approve",
-        rejectBtn: "Delete",
-        noPending: "No pending suggestions right now.",
-        noResults: "No matching compatibility records found.",
-        autoCorrected: "Auto-corrected query:",
-        aiWelcome: "Hello! Ask me about any phone model (e.g., A02s, Redmi Note 11, Hot 40) and I'll check compatible parts.",
-        stripLabels: { home: "HOME", screens: "SCREENS", glass: "GLASS", cases: "CASES", community: "COMMUNITY", admin: "ADMIN" }
+        dir: 'ltr',
+        brandTag: 'V10 • Parts Compat',
+        quickSearch: 'Quick search...',
+        navAll: 'All & Smart Search',
+        navScreens: 'Screens (Afficheurs)',
+        navCases: 'Cases (Pochettes)',
+        navGlass: 'Tempered Glass',
+        navComments: 'Tech Suggestions',
+        navAdmin: 'Admin & Face ID',
+        brandsTitle: 'Brands',
+        aiBtn: 'AI Assistant',
+        onlineNow: 'online',
+        visitsLabel: 'Visits:',
+        adminShort: 'Admin',
+        pageTitle: 'Phone Parts & Screen Compatibility',
+        pageSubtitle: 'Search any model or typo (e.g. afichor a12, not 8, ifone 11)',
+        searchPlaceholder: 'Type model... e.g. A12, A03s, Redmi 9A, iPhone 11, Hot 10 Play',
+        resultsWord: 'compatible groups',
+        copyWa: 'Copy WhatsApp',
+        copiedToast: 'Copied for WhatsApp!',
+        suggestTitle: 'Share a New Compatibility Tip',
+        suggestDesc: 'Tested a compatible screen, case, or glass? Submit it for admin approval.',
+        submitSuggestion: 'Submit Suggestion',
+        adminLoginTitle: 'Admin Sign In',
+        adminLoginHint: 'Sign in with your PIN first to enroll Face ID, then unlock instantly with Face ID.',
+        loginWithFaceId: 'Sign in with Face ID',
+        orUsePin: 'or use PIN code',
+        loginWithPin: 'Sign in with PIN',
+        defaultPinNote: 'Default PIN: 1234',
+        signOut: 'Sign out',
+        faceIdSettingsTitle: 'Face ID Authentication',
+        enrollFaceBtn: 'Enroll / Update Face ID',
+        testFaceBtn: 'Test Scan',
+        removeFaceBtn: 'Remove Face ID',
+        pinAndBackupTitle: 'Change PIN & JSON Backup',
+        savePinBtn: 'Save PIN',
+        exportJson: 'Export JSON',
+        importJson: 'Import JSON',
+        addEntryTitle: 'Add New Compatibility Group',
+        addEntryBtn: 'Add to Database',
+        pendingTitle: 'Pending Technician Suggestions',
+        usePinInstead: 'Use PIN instead',
+        aiDrawerTitle: 'AI Technical Assistant',
+        aiDrawerSub: 'Ask in English, French, or Darija',
+        sendBtn: 'Send',
+        scanning: 'Scanning...',
+        enrolling: 'Enrolling Face ID...',
+        simSub: 'Simulated scan — no enrolled Face ID on this device',
+        webauthnSub: 'Verify with Face ID / Biometrics on your device...',
+        scanSuccess: 'Face ID Verified!',
+        enrollSuccess: 'Admin Face ID Enrolled!',
+        typeLabels: { screen: 'Screen', case: 'Case', glass: 'Glass' }
       }
     };
 
-    // ---------- 2. GROUNDED COMPATIBILITY DATABASE ----------
-    const DEFAULT_DB = [
-      {
-        id: "sam-a02s-lcd",
-        brand: "Samsung",
-        type: "screen",
-        main: "Samsung Galaxy A02s / A03s",
-        compatible: ["Samsung A02s (A025)", "Samsung A03s (A037)", "Samsung M02s"],
-        note: {
-          ar: "نفس الشاشة والكونيكتور، مع فرق بسيط جداً في سمك إطار الفريم (Bezel) بين A02s و A03s.",
-          fr: "Même afficheur et nappe FPC ; légère différence d'épaisseur de bordure entre châssis A02s et A03s.",
-          en: "Identical LCD & FPC; slight bezel border thickness difference between A02s and A03s frames."
-        }
-      },
-      {
-        id: "sam-a12-lcd",
-        brand: "Samsung",
-        type: "screen",
-        main: "Samsung Galaxy A12 / A02",
-        compatible: ["Samsung A12 (A125)", "Samsung A02 (A022)", "Samsung M12", "Samsung F12", "Samsung A32 5G"],
-        note: {
-          ar: "شاشة 6.5 إنش LCD متطابقة بين هذه الموديلات (تأكد من نسخة الكابل في A127 Nacho).",
-          fr: "Écran 6.5\" LCD interchangeable sur ces modèles (vérifier la révision FPC sur A127 Nacho).",
-          en: "6.5\" LCD screen shared across these models (check FPC revision on A127 Nacho)."
-        }
-      },
-      {
-        id: "sam-a12-glass",
-        brand: "Samsung",
-        type: "glass",
-        main: "Samsung A12 / A03 / A04 / A13 (Glass 9D/21D)",
-        compatible: ["A12", "A02", "A02s", "A03", "A03s", "A03 Core", "A04", "A04s", "A04e", "A13 4G", "A23", "M12"],
-        note: {
-          ar: "زجاج 6.5 إنش (قطرة ماء V-Notch) يركب بامتياز على كل هذه السلسلة.",
-          fr: "Verre trempé 6.5\" encoche V compatible avec toute cette série.",
-          en: "6.5\" V-notch tempered glass fits this entire series cleanly."
-        }
-      },
-      {
-        id: "xia-note11pro-glass",
-        brand: "Xiaomi",
-        type: "glass",
-        main: "Redmi Note 11 Pro / 12 Pro (Glass 21D)",
-        compatible: ["Redmi Note 10 Pro", "Redmi Note 11 Pro 4G", "Redmi Note 11 Pro 5G", "Redmi Note 12 Pro 4G", "Redmi Note 12 Pro 5G"],
-        note: {
-          ar: "زجاج مسطح 6.67 إنش بثقب كاميرا علوي متطابق في الحجم والفتحة.",
-          fr: "Verre plat 6.67\" avec poinçon caméra identique.",
-          en: "Flat 6.67\" tempered glass with matching center punch-hole."
-        }
-      },
-      {
-        id: "xia-12c-lcd",
-        brand: "Xiaomi",
-        type: "screen",
-        main: "Redmi 12C / 13C / 10C",
-        compatible: ["Redmi 12C (22120RN86G)", "Redmi 13C", "Poco C55", "Redmi 10C (مراجعة الفريم)"],
-        note: {
-          ar: "توافق شاشة عالي بين 12C و Poco C55، يُنصح بتجربة التاتش قبل التثبيت النهائي.",
-          fr: "Compatibilité élevée entre 12C et Poco C55 ; tester le tactile avant collage.",
-          en: "High compatibility between 12C and Poco C55; test touch before final assembly."
-        }
-      },
-      {
-        id: "inf-hot40-lcd",
-        brand: "Infinix",
-        type: "screen",
-        main: "Infinix Hot 40 / Tecno Spark 20 Pro",
-        compatible: ["Infinix Hot 40 (X6836)", "Infinix Hot 40 Pro (X6837)", "Tecno Spark 20 Pro (KJ6)"],
-        note: {
-          ar: "نفس الشاشة 100% بين Infinix Hot 40/Pro و Tecno Spark 20 Pro.",
-          fr: "Écran 100% identique entre Infinix Hot 40/Pro et Tecno Spark 20 Pro.",
-          en: "100% identical display across Infinix Hot 40/Pro and Tecno Spark 20 Pro."
-        }
-      },
-      {
-        id: "inf-hot30-lcd",
-        brand: "Infinix",
-        type: "screen",
-        main: "Infinix Hot 30 / Note 30 / Spark 10 Pro",
-        compatible: ["Infinix Hot 30", "Infinix Note 30 (X6833)", "Tecno Spark 10 Pro (KI7)", "Tecno Pova 5 (LH7n)"],
-        note: {
-          ar: "توافق كامل بدون تعديل في الكونيكتور أو الإضاءة.",
-          fr: "Compatibilité totale sans modification de nappe ni rétroéclairage.",
-          en: "Full plug-and-play compatibility with matching connector."
-        }
-      },
-      {
-        id: "inf-smart8-lcd",
-        brand: "Infinix",
-        type: "screen",
-        main: "Infinix Smart 8 / Hot 40i / Spark 20C",
-        compatible: ["Infinix Smart 8 (X6525)", "Infinix Hot 40i (X6528)", "Tecno Spark 20C", "Tecno Pop 8"],
-        note: {
-          ar: "نفس البانيل (Panel) والأبعاد، متوفر بكثرة في السوق المغربي.",
-          fr: "Même dalle LCD et dimensions, très répandu.",
-          en: "Shared LCD panel and dimensions across all four models."
-        }
-      },
-      {
-        id: "inf-hot10-lcd",
-        brand: "Infinix",
-        type: "screen",
-        main: "Infinix Hot 10 / Tecno Spark 6",
-        compatible: ["Infinix Hot 10 (X682)", "Infinix Note 8i (X683)", "Tecno Spark 6 (KE7)", "Tecno Camon 16 (CE7)"],
-        note: {
-          ar: "شاشة 6.8 إنش متوافقة بين عائلة Infinix و Tecno.",
-          fr: "Écran 6.8\" compatible entre les séries Infinix et Tecno.",
-          en: "6.8\" LCD interchangeable between Infinix and Tecno models."
-        }
-      },
-      {
-        id: "opp-8i-lcd",
-        brand: "Oppo",
-        type: "screen",
-        main: "Realme 8i / 9i (RMX3151)",
-        compatible: ["Realme 8i", "Realme 9i (RMX3491)", "Oppo A96 4G (مراجعة الكابل)"],
-        note: {
-          ar: "يركب لـ Realme 8i و 9i بنفس الألوان والإضاءة.",
-          fr: "Compatible Realme 8i et 9i avec même luminosité.",
-          en: "Fits Realme 8i and 9i with matching brightness and flex."
-        }
-      },
-      {
-        id: "sam-a14-case",
-        brand: "Samsung",
-        type: "case",
-        main: "Samsung A14 / A24 / A34 (Pochettes)",
-        compatible: ["Samsung A14 4G", "Samsung A14 5G", "A04s (اختلاف طفيف في الكاميرا)"],
-        note: {
-          ar: "أغطية A14 4G و 5G متطابقة تماماً في الأزرار والكاميرا.",
-          fr: "Les coques A14 4G et 5G sont parfaitement identiques.",
-          en: "A14 4G and 5G cases share identical camera and button cutouts."
-        }
-      }
+    // ==============================
+    // 3. INITIAL COMPATIBILITY DATABASE
+    // ==============================
+    const DEFAULT_ENTRIES = [
+      { id: 'e1', type: 'screen', brand: 'Samsung', models: ['Galaxy A12', 'Galaxy A02', 'Galaxy M12', 'Galaxy A12s', 'Galaxy A32 5G (A326)'], note: 'نفس الشاشة والفليكس (تأكد من نسخة A125 vs A127 في الفريم)' },
+      { id: 'e2', type: 'screen', brand: 'Samsung', models: ['Galaxy A03s', 'Galaxy A02s', 'Galaxy A03', 'Galaxy A03 Core', 'Galaxy M02s'], note: 'شاشة متوافقة 100% — A03 Core بدون بصمة في الزر' },
+      { id: 'e3', type: 'screen', brand: 'Samsung', models: ['Galaxy A10', 'Galaxy M10', 'Galaxy A10s (مع تعديل الفليكس)'], note: 'A10 و M10 نفس الشاشة بالضبط' },
+      { id: 'e4', type: 'screen', brand: 'Samsung', models: ['Galaxy A30', 'Galaxy A50', 'Galaxy A50s', 'Galaxy A30s'], note: 'نفس قياس الشاشة OLED/TFT — انتبه لمكان البصمة تحت الشاشة' },
+      { id: 'e5', type: 'screen', brand: 'Samsung', models: ['Galaxy A13 4G', 'Galaxy A23 4G', 'Galaxy A13 5G (مختلفة)'], note: 'A13 4G (A135) و A23 4G يركبو لبعضهم' },
+      { id: 'e6', type: 'screen', brand: 'Samsung', models: ['Galaxy A04', 'Galaxy A04e', 'Galaxy M04', 'Galaxy F04'], note: 'نفس الشاشة والكونيكتور بالكامل' },
+      { id: 'e7', type: 'screen', brand: 'Xiaomi', models: ['Redmi 9A', 'Redmi 9C', 'Redmi 9AT', 'Redmi 10A', 'Poco C3', 'Poco C31'], note: 'عائلة كاملة بنفس الشاشة 6.53 إنش ونفس الفليكس' },
+      { id: 'e8', type: 'screen', brand: 'Xiaomi', models: ['Redmi Note 11', 'Redmi Note 11S', 'Redmi Note 12S', 'Poco M4 Pro 4G'], note: 'شاشة AMOLED 6.43 إنش متوافقة تماماً' },
+      { id: 'e9', type: 'screen', brand: 'Xiaomi', models: ['Redmi 12C', 'Redmi 11A', 'Poco C55'], note: 'نفس الأفشور 6.71 إنش ونفس التوصيلة' },
+      { id: 'e10', type: 'screen', brand: 'Xiaomi', models: ['Redmi 13C', 'Poco C65'], note: 'نفس الشاشة 6.74 إنش 90Hz' },
+      { id: 'e11', type: 'screen', brand: 'Infinix', models: ['Infinix Hot 10 Play', 'Infinix Hot 9 Play', 'Infinix Hot 11 Play', 'Tecno Pouvoir 4', 'Tecno Spark 6 Air'], note: 'عائلة 6.82 إنش — متوافقة مع التأكد من إصدار الفليكس' },
+      { id: 'e12', type: 'screen', brand: 'Infinix', models: ['Infinix Smart 5', 'Infinix Hot 10 Lite', 'Tecno Spark Go 2020', 'Tecno Spark 6 Go', 'Itel Vision 1 Pro'], note: 'أشهر عائلة شاشات اقتصادية متوافقة فالمغرب' },
+      { id: 'e13', type: 'screen', brand: 'Infinix', models: ['Infinix Smart 6', 'Infinix Smart 6 HD', 'Tecno Spark 8C', 'Tecno Pop 5 LTE'], note: 'نفس المقاس 6.6 إنش — تحقق من عدد البينات في الفليكس' },
+      { id: 'e14', type: 'screen', brand: 'Apple', models: ['iPhone 12', 'iPhone 12 Pro'], note: 'شاشة OLED متوافقة 100% (نفس الفليكس ونقل True Tone)' },
+      { id: 'e15', type: 'screen', brand: 'Apple', models: ['iPhone 7', 'iPhone 8 (مختلف الفليكس)', 'iPhone SE 2020', 'iPhone SE 2022'], note: 'iPhone 8 و SE 2020 و SE 2022 نفس الشاشة بالضبط' },
+      { id: 'e16', type: 'screen', brand: 'Oppo', models: ['Oppo A15', 'Oppo A15s', 'Oppo A16k', 'Realme C11', 'Realme C12', 'Realme C15'], note: 'نفس الشاشة 6.52 إنش (تحقق من كود الفليكس FPC)' },
+      { id: 'e17', type: 'screen', brand: 'Oppo', models: ['Oppo A53', 'Oppo A32', 'Oppo A33 2020', 'Realme 7i', 'Realme C17'], note: 'شاشة 90Hz متوافقة بين هاد الموديلات' },
+      { id: 'e18', type: 'screen', brand: 'Huawei', models: ['Huawei Y6 2019', 'Huawei Y6 Prime 2019', 'Honor 8A'], note: 'نفس الشاشة والقياس بالضبط' },
+      { id: 'e19', type: 'case', brand: 'Samsung', models: ['Galaxy A12', 'Galaxy M12', 'Galaxy A12s'], note: 'نفس البوشيط ومكان الكاميرا المربعة وبصمة الجنب' },
+      { id: 'e20', type: 'case', brand: 'Xiaomi', models: ['Redmi Note 11', 'Redmi Note 11S'], note: 'نفس البوشيط تماماً بنفس فتحات الكاميرا' },
+      { id: 'e21', type: 'case', brand: 'Apple', models: ['iPhone 7', 'iPhone 8', 'iPhone SE 2020', 'iPhone SE 2022'], note: 'نفس الكفر/البوشيط 100%' },
+      { id: 'e22', type: 'case', brand: 'Apple', models: ['iPhone 12', 'iPhone 12 Pro'], note: 'نفس القياس وفتحة الكاميرا في أغلب البوشيطات' },
+      { id: 'e23', type: 'glass', brand: 'Samsung', models: ['Galaxy A10', 'A20', 'A30', 'A30s', 'A50', 'A50s', 'M10', 'M20', 'M30'], note: 'عائلة الزاج الواقي 5D/9D/21D الشاملة — كتركب لكل هاد الموديلات' },
+      { id: 'e24', type: 'glass', brand: 'Samsung', models: ['Galaxy A12', 'A02', 'A02s', 'A03', 'A03s', 'A04', 'A04e', 'A13', 'A14', 'M12'], note: 'نفس زاج النوتش V/U مقاس 6.5 إنش' },
+      { id: 'e25', type: 'glass', brand: 'Apple', models: ['iPhone XR', 'iPhone 11'], note: 'نفس الزاج الواقي 6.1 إنش بالضبط' },
+      { id: 'e26', type: 'glass', brand: 'Apple', models: ['iPhone X', 'iPhone XS', 'iPhone 11 Pro'], note: 'نفس الزاج الواقي 5.8 إنش' },
+      { id: 'e27', type: 'glass', brand: 'Xiaomi', models: ['Redmi 9A', 'Redmi 9C', 'Redmi 10A', 'Redmi 9', 'Poco C3', 'Oppo A15', 'Realme C11'], note: 'نفس زاج Waterdrop 6.53 إنش' }
     ];
 
-    const DEFAULT_PENDING = [
-      {
-        id: "sug-1",
-        brand: "Infinix",
-        type: "screen",
-        main: "Infinix Hot 50 Pro (X6881)",
-        compatible: ["Tecno Spark 30 Pro (KL7)"],
-        note: { ar: "تم التجريب في الورشة، شغال 100%.", fr: "Testé en atelier, fonctionne à 100%.", en: "Tested in workshop, 100% working." }
-      }
+    const DEFAULT_COMMENTS = [
+      { id: 'c1', name: 'يوسف — تقني سطات', city: 'سطات', type: 'screen', brand: 'Samsung', models: ['Galaxy A14 4G', 'Galaxy A14 5G (تأكد من الكابل)'], note: 'جربتها فالورشة، النسخة 4G و 5G مختلفين فبعض الإصدارات خاص التأكد من الفليكس', likes: 9, approved: false },
+      { id: 'c2', name: 'أمين موبايل', city: 'البروج', type: 'glass', brand: 'Xiaomi', models: ['Redmi Note 12 4G', 'Redmi Note 13 4G'], note: 'نفس الزاج 21D كيركب مزيان بدون فراغات', likes: 6, approved: false }
     ];
 
-    // ---------- 3. STATE & STORAGE (Try/Catch Safe) ----------
-    const LS_DB_KEY = "nourtech_compat_db_v1";
-    const LS_PENDING_KEY = "nourtech_compat_pending_v1";
-    const LS_LANG_KEY = "nourtech_compat_lang_v1";
-
-    let state = {
-      lang: "ar",
-      view: "home",
-      brand: "ALL",
-      type: "ALL",
-      query: "",
-      collapsed: false,
-      adminUnlocked: false,
-      db: [...DEFAULT_DB],
-      pending: [...DEFAULT_PENDING]
+    const BRAND_COLORS = {
+      Samsung: '#3b82f6',
+      Xiaomi: '#f97316',
+      Infinix: '#10b981',
+      Apple: '#e2e8f0',
+      Oppo: '#22c55e',
+      Huawei: '#ef4444'
     };
 
-    function loadStorage() {
-      try {
-        const savedDb = localStorage.getItem(LS_DB_KEY);
-        const savedPending = localStorage.getItem(LS_PENDING_KEY);
-        const savedLang = localStorage.getItem(LS_LANG_KEY);
-        if (savedDb) state.db = JSON.parse(savedDb);
-        if (savedPending) state.pending = JSON.parse(savedPending);
-        if (savedLang && I18N[savedLang]) state.lang = savedLang;
-      } catch (e) {}
-    }
+    // ==============================
+    // 4. APP STATE
+    // ==============================
+    const state = {
+      lang: safeGet(STORAGE_KEYS.lang, 'ar'),
+      view: 'all', // all, screen, case, glass, comments, admin
+      brandFilter: 'ALL',
+      searchQuery: '',
+      entries: safeGet(STORAGE_KEYS.entries, DEFAULT_ENTRIES),
+      comments: safeGet(STORAGE_KEYS.comments, DEFAULT_COMMENTS),
+      adminPin: safeGet(STORAGE_KEYS.pin, '1234'),
+      faceIdData: safeGet(STORAGE_KEYS.faceId, null), // { enrolled: true, mode: 'webauthn'|'simulated', credId: '...', enrolledAt: '...' }
+      isAdminUnlocked: false,
+      unlockMethod: 'pin', // 'pin' | 'faceid'
+      sidebarCollapsed: false
+    };
 
-    function saveStorage() {
-      try {
-        localStorage.setItem(LS_DB_KEY, JSON.stringify(state.db));
-        localStorage.setItem(LS_PENDING_KEY, JSON.stringify(state.pending));
-        localStorage.setItem(LS_LANG_KEY, state.lang);
-      } catch (e) {}
-    }
+    // Increment real browser visit counter
+    let visits = safeGet(STORAGE_KEYS.visits, 1247);
+    visits = Number(visits) + 1;
+    safeSet(STORAGE_KEYS.visits, visits);
 
-    // ---------- 4. DARIJA / TYPO AUTO-CORRECTION ----------
+    // ==============================
+    // 5. DARIJA / TYPO AI CORRECTION
+    // ==============================
     const TYPO_MAP = {
-      "afichor": "screen", "aficheur": "screen", "afficheur": "screen", "chacha": "screen", "شاشة": "screen",
-      "glas": "glass", "glace": "glass", "antichoc": "glass", "زاج": "glass", "سكرين": "glass",
-      "pochet": "case", "pochette": "case", "كاش": "case",
-      "samsong": "samsung", "sam": "samsung", "سامسونج": "samsung",
-      "redme": "redmi", "xiami": "xiaomi", "شاومي": "xiaomi",
-      "infinx": "infinix", "tikno": "tecno", "ريل مي": "realme"
+      'afichor': '', 'afficheur': '', 'afishor': '', 'chacha': '', 'shasha': '', 'ecran': '',
+      'poshit': '', 'pochette': '', 'boshit': '', 'zaj': '', 'zaje': '', 'incassable': '',
+      'ifone': 'iPhone', 'ayfon': 'iPhone', 'iphon': 'iPhone',
+      'samrt': 'Smart', 'smrt': 'Smart', 'infnx': 'Infinix',
+      'redm': 'Redmi', 'not': 'Note', 'opo': 'Oppo', 'sam': 'Samsung',
+      'a 12': 'A12', 'a 03s': 'A03s', 'a 02': 'A02', 'note 8': 'Note 8', 'not 11': 'Note 11'
     };
 
-    function normalizeSearch(raw) {
-      if (!raw) return { clean: "", correctedFrom: null };
-      let lower = raw.toLowerCase().trim();
-      let corrected = false;
-      const tokens = lower.split(/\s+/).map(t => {
-        if (TYPO_MAP[t]) {
-          corrected = true;
-          return TYPO_MAP[t];
+    function normalizeQuery(raw) {
+      let q = raw.trim().toLowerCase();
+      let corrected = q;
+      let changed = false;
+      Object.keys(TYPO_MAP).forEach(k => {
+        const re = new RegExp('\\b' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+        if (re.test(corrected)) {
+          corrected = corrected.replace(re, TYPO_MAP[k]);
+          changed = true;
         }
-        return t;
       });
-      const clean = tokens.join(" ");
-      return { clean, correctedFrom: corrected ? clean : null };
+      corrected = corrected.replace(/\s+/g, ' ').trim();
+      return { original: raw.trim(), corrected, changed: changed && corrected.length > 0 && corrected.toLowerCase() !== raw.trim().toLowerCase() };
     }
 
-    // ---------- 5. RENDERING & CHART ----------
-    let chartInstance = null;
-
+    // ==============================
+    // 6. DOM HELPERS & TOAST
+    // ==============================
+    let toastTimer = null;
     function showToast(msg) {
-      const el = document.getElementById("toast");
+      const el = document.getElementById('toast');
       el.textContent = msg;
-      el.classList.remove("hidden");
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => el.classList.add("hidden"), 2500);
+      el.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add('hidden'), 2600);
     }
 
     function copyText(text) {
@@ -1032,453 +979,1032 @@
         fallbackCopy(text);
       }
     }
-
     function fallbackCopy(text) {
-      const ta = document.createElement("textarea");
+      const ta = document.createElement('textarea');
       ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand("copy"); } catch (e) {}
+      try { document.execCommand('copy'); showToast(I18N[state.lang].copiedToast); } catch (e) {}
       document.body.removeChild(ta);
-      showToast(I18N[state.lang].copiedToast);
     }
 
+    // ==============================
+    // 7. REAL CAMERA AI FACE ID ENGINE (128D face-api.js)
+    // ==============================
+    const FACE_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/model';
+    const STRICT_MATCH_THRESHOLD = 0.46; // Strict Euclidean distance: <=0.46 same person, >0.46 rejected!
+    let faceModelsLoaded = false;
+    let faceModalActive = false;
+    let activeFaceMode = 'login';
+    let activeMediaStream = null;
+    let faceLoopTimer = null;
+
+    function stopFaceCamera() {
+      clearTimeout(faceLoopTimer);
+      faceLoopTimer = null;
+      if (activeMediaStream) {
+        activeMediaStream.getTracks().forEach(track => {
+          try { track.stop(); } catch (e) {}
+        });
+        activeMediaStream = null;
+      }
+      const video = document.getElementById('faceVideo');
+      if (video) {
+        video.pause();
+        video.srcObject = null;
+        video.classList.add('hidden');
+      }
+      const canvas = document.getElementById('faceOverlayCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.classList.add('hidden');
+      }
+    }
+
+    function closeFaceIdSheet() {
+      faceModalActive = false;
+      stopFaceCamera();
+      const modal = document.getElementById('faceIdModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function ensureFaceModelsLoaded(setStatus) {
+      if (faceModelsLoaded) return true;
+      if (typeof faceapi === 'undefined') {
+        throw new Error('LIB_NOT_LOADED');
+      }
+      setStatus(
+        state.lang === 'ar' ? 'جاري تحميل ذكاء التعرف على الوجه...' : (state.lang === 'fr' ? 'Chargement IA faciale...' : 'Loading Face AI models...'),
+        state.lang === 'ar' ? 'أول مرة فقط (ثواني قليلة)...' : 'First time only (a few seconds)...',
+        22
+      );
+      await faceapi.nets.tinyFaceDetector.loadFromUri(FACE_MODEL_URL);
+      setStatus(null, null, 45);
+      await faceapi.nets.faceLandmark68Net.loadFromUri(FACE_MODEL_URL);
+      setStatus(null, null, 68);
+      await faceapi.nets.faceRecognitionNet.loadFromUri(FACE_MODEL_URL);
+      faceModelsLoaded = true;
+      return true;
+    }
+
+    function showFaceErrorState(titleText, subText, pillText) {
+      stopFaceCamera();
+      const frame = document.getElementById('faceScannerFrame');
+      const laser = document.getElementById('faceScanLaser');
+      const errSvg = document.getElementById('faceErrorSvg');
+      const retryBtn = document.getElementById('retryFaceBtn');
+      const pill = document.getElementById('faceMatchPill');
+
+      frame.classList.add('state-error');
+      laser.classList.add('hidden');
+      errSvg.classList.remove('hidden');
+      retryBtn.classList.remove('hidden');
+      retryBtn.textContent = state.lang === 'ar' ? 'إعادة المحاولة' : (state.lang === 'fr' ? 'Réessayer' : 'Try Again');
+      document.getElementById('faceModalTitle').textContent = titleText;
+      document.getElementById('faceModalSub').textContent = subText;
+      if (pillText) {
+        pill.textContent = pillText;
+        pill.className = 'mt-1 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-[11px] font-bold text-rose-200 z-10';
+      }
+    }
+
+    function showFaceSuccessState(titleText, subText, pillText, onDone) {
+      stopFaceCamera();
+      const frame = document.getElementById('faceScannerFrame');
+      const laser = document.getElementById('faceScanLaser');
+      const okSvg = document.getElementById('faceSuccessSvg');
+      const pill = document.getElementById('faceMatchPill');
+
+      frame.classList.add('state-success');
+      laser.classList.add('hidden');
+      okSvg.classList.remove('hidden');
+      document.getElementById('faceProgressBar').style.width = '100%';
+      document.getElementById('faceModalTitle').textContent = titleText;
+      document.getElementById('faceModalSub').textContent = subText;
+      if (pillText) {
+        pill.textContent = pillText;
+        pill.className = 'mt-1 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-[11px] font-bold text-emerald-200 z-10';
+      }
+      setTimeout(() => {
+        if (!faceModalActive) return;
+        closeFaceIdSheet();
+        if (onDone) onDone();
+      }, 1150);
+    }
+
+    function openFaceIdSheet({ mode }) {
+      activeFaceMode = mode;
+      const modal = document.getElementById('faceIdModal');
+      const frame = document.getElementById('faceScannerFrame');
+      const laser = document.getElementById('faceScanLaser');
+      const faceSvg = document.getElementById('faceIconSvg');
+      const okSvg = document.getElementById('faceSuccessSvg');
+      const errSvg = document.getElementById('faceErrorSvg');
+      const retryBtn = document.getElementById('retryFaceBtn');
+      const pill = document.getElementById('faceMatchPill');
+      const usePinBtn = document.getElementById('usePinInsteadBtn');
+
+      faceModalActive = true;
+      frame.className = 'faceid-scanner-frame mt-4 mb-5 flex items-center justify-center';
+      laser.classList.remove('hidden');
+      faceSvg.classList.remove('hidden');
+      okSvg.classList.add('hidden');
+      errSvg.classList.add('hidden');
+      retryBtn.classList.add('hidden');
+      pill.textContent = 'AI Face ID 128D';
+      pill.className = 'mt-1 px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/35 text-[11px] font-bold text-violet-200 z-10';
+      document.getElementById('faceProgressBar').style.width = '8%';
+      usePinBtn.classList.toggle('hidden', mode !== 'login');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      runRealCameraFaceFlow(mode);
+    }
+
+    async function runRealCameraFaceFlow(mode) {
+      const setStatus = (title, sub, pct) => {
+        if (title !== null && title !== undefined) document.getElementById('faceModalTitle').textContent = title;
+        if (sub !== null && sub !== undefined) document.getElementById('faceModalSub').textContent = sub;
+        if (pct !== null && pct !== undefined) document.getElementById('faceProgressBar').style.width = pct + '%';
+      };
+
+      // Guard: Login/Test requires real enrolled descriptors
+      if ((mode === 'login' || mode === 'test') && (!state.faceIdData || !Array.isArray(state.faceIdData.descriptors) || state.faceIdData.descriptors.length === 0)) {
+        showFaceErrorState(
+          state.lang === 'ar' ? 'لا توجد بصمة وجه مسجلة' : 'No Face ID Enrolled',
+          state.lang === 'ar' ? 'خاص المدير يدخل بالكود السري أولاً ويسجّل بصمة وجهو الحقيقية.' : 'Admin must sign in with PIN first and enroll a real face.',
+          '0% — غير مسجل'
+        );
+        return;
+      }
+
+      // Step 1: Load AI neural network models
+      try {
+        await ensureFaceModelsLoaded(setStatus);
+      } catch (err) {
+        if (!faceModalActive) return;
+        showFaceErrorState(
+          state.lang === 'ar' ? 'تعذر تحميل نموذج الذكاء الاصطناعي' : 'AI Model Load Failed',
+          state.lang === 'ar' ? 'تأكد من اتصال الإنترنت وأعد المحاولة.' : 'Check your internet connection and retry.',
+          'خطأ في التحميل'
+        );
+        return;
+      }
+      if (!faceModalActive) return;
+
+      // Step 2: Open real front camera
+      setStatus(
+        state.lang === 'ar' ? 'جاري فتح الكاميرا الأمامية...' : (state.lang === 'fr' ? 'Ouverture de la caméra...' : 'Opening front camera...'),
+        state.lang === 'ar' ? 'امنح إذن الكاميرا للمتصفح باش يبدا المسح الحقيقي.' : 'Allow camera permission to start real face scan.',
+        78
+      );
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showFaceErrorState(
+          state.lang === 'ar' ? 'الكاميرا غير متاحة هنا' : 'Camera Unavailable',
+          state.lang === 'ar' ? 'افتح الموقع على متصفح الهاتف أو GitHub Pages عبر HTTPS باش تخدم الكاميرا.' : 'Open the site over HTTPS (e.g. GitHub Pages) to use the camera.',
+          'الكاميرا غير مدعومة'
+        );
+        return;
+      }
+
+      try {
+        activeMediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } },
+          audio: false
+        });
+      } catch (camErr) {
+        if (!faceModalActive) return;
+        showFaceErrorState(
+          state.lang === 'ar' ? 'تم رفض أو منع الوصول للكاميرا' : 'Camera Access Blocked',
+          state.lang === 'ar' ? 'بصمة الوجه حقيقية وكتحتاج الكاميرا: امنح الإذن أو ارفع الملف على GitHub Pages (HTTPS) باش تخدم مزيان.' : 'Real Face ID requires camera access. Allow camera permission or host on HTTPS (GitHub Pages).',
+          'إذن الكاميرا مطلوب'
+        );
+        return;
+      }
+
+      if (!faceModalActive) { stopFaceCamera(); return; }
+
+      const video = document.getElementById('faceVideo');
+      const canvas = document.getElementById('faceOverlayCanvas');
+      const faceSvg = document.getElementById('faceIconSvg');
+      video.srcObject = activeMediaStream;
+      await video.play();
+      video.classList.remove('hidden');
+      canvas.classList.remove('hidden');
+      faceSvg.classList.add('hidden');
+
+      const detectorOpts = new faceapi.TinyFaceDetectorOptions({ inputSize: 224, scoreThreshold: 0.5 });
+      const capturedDescriptors = [];
+      let matchStreak = 0;
+      let mismatchStreak = 0;
+      let noFaceFrames = 0;
+      const pill = document.getElementById('faceMatchPill');
+
+      setStatus(
+        mode === 'enroll'
+          ? (state.lang === 'ar' ? 'وجّه وجهك للكاميرا (0/3)' : 'Look at the camera (0/3)')
+          : (state.lang === 'ar' ? 'جاري التحقق من هوية وجهك...' : 'Verifying your face...'),
+        state.lang === 'ar' ? 'خلي وجهك واضح وثابت داخل الإطار' : 'Keep your face clearly centered inside the frame',
+        mode === 'enroll' ? 15 : 35
+      );
+
+      const scanStep = async () => {
+        if (!faceModalActive || !activeMediaStream) return;
+
+        if (video.readyState < 2) {
+          faceLoopTimer = setTimeout(scanStep, 200);
+          return;
+        }
+
+        canvas.width = video.videoWidth || 320;
+        canvas.height = video.videoHeight || 320;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let detection = null;
+        try {
+          detection = await faceapi
+            .detectSingleFace(video, detectorOpts)
+            .withFaceLandmarks()
+            .withFaceDescriptor();
+        } catch (e) {
+          detection = null;
+        }
+
+        if (!faceModalActive) return;
+
+        if (!detection) {
+          noFaceFrames += 1;
+          pill.textContent = state.lang === 'ar' ? 'لم يتم رصد وجه...' : 'No face detected...';
+          if (noFaceFrames >= 32) {
+            showFaceErrorState(
+              state.lang === 'ar' ? 'لم يتم رصد أي وجه' : 'No Face Detected',
+              state.lang === 'ar' ? 'قرّب وجهك للكاميرا وتأكد من وجود إضاءة كافية ثم أعد المحاولة.' : 'Center your face in good lighting and try again.',
+              'لا يوجد وجه'
+            );
+            return;
+          }
+          faceLoopTimer = setTimeout(scanStep, 320);
+          return;
+        }
+
+        noFaceFrames = 0;
+
+        // Draw subtle glowing biometric landmark dots on the live face
+        const pts = detection.landmarks.positions;
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.85)';
+        for (let i = 0; i < pts.length; i += 2) {
+          ctx.beginPath();
+          ctx.arc(pts[i].x, pts[i].y, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        const liveDesc = detection.descriptor;
+
+        if (mode === 'enroll') {
+          // Verify consistency between captured samples so nobody switches mid-enroll
+          if (capturedDescriptors.length > 0) {
+            const distToFirst = faceapi.euclideanDistance(liveDesc, capturedDescriptors[0]);
+            if (distToFirst > 0.45) {
+              faceLoopTimer = setTimeout(scanStep, 350);
+              return;
+            }
+          }
+          capturedDescriptors.push(liveDesc);
+          const count = capturedDescriptors.length;
+          pill.textContent = state.lang === 'ar' ? `تم التقاط البصمة ${count} / 3` : `Captured ${count} / 3`;
+          setStatus(
+            state.lang === 'ar' ? `جاري تسجيل بصمة وجهك (${count}/3)...` : `Enrolling your face (${count}/3)...`,
+            state.lang === 'ar' ? 'حافظ على ثبات وجهك لحظة...' : 'Hold still for a moment...',
+            30 + count * 23
+          );
+
+          if (count >= 3) {
+            state.faceIdData = {
+              enrolled: true,
+              mode: 'real_128d',
+              descriptors: capturedDescriptors.map(d => Array.from(d)),
+              enrolledAt: new Date().toLocaleString()
+            };
+            safeSet(STORAGE_KEYS.faceId, state.faceIdData);
+            showFaceSuccessState(
+              state.lang === 'ar' ? 'تم تسجيل بصمة وجهك الحقيقية!' : 'Real Face ID Enrolled!',
+              state.lang === 'ar' ? 'دابا غير وجهك نتا بوحدك اللي غادي يقبلو الموقع.' : 'Only your face will now unlock the admin panel.',
+              '✓ 128D محفوظة',
+              () => {
+                renderAdminView();
+                updateAdminBadges();
+                showToast(state.lang === 'ar' ? 'تم حفظ بصمة وجه المدير (128D) بنجاح!' : 'Real Face ID saved!');
+              }
+            );
+            return;
+          }
+          faceLoopTimer = setTimeout(scanStep, 520);
+          return;
+        }
+
+        // MODE: LOGIN or TEST — Strict 128D Euclidean distance check
+        const savedList = state.faceIdData.descriptors.map(arr => new Float32Array(arr));
+        let minDist = 999;
+        for (const saved of savedList) {
+          const d = faceapi.euclideanDistance(liveDesc, saved);
+          if (d < minDist) minDist = d;
+        }
+        const matchPct = Math.max(0, Math.min(99, Math.round((1 - minDist) * 100)));
+
+        if (minDist <= STRICT_MATCH_THRESHOLD) {
+          matchStreak += 1;
+          mismatchStreak = 0;
+          pill.textContent = state.lang === 'ar' ? `تطابق ${matchPct}% ✓` : `Match ${matchPct}% ✓`;
+          pill.className = 'mt-1 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-[11px] font-bold text-emerald-200 z-10';
+          setStatus(
+            state.lang === 'ar' ? 'تم التعرف على المدير...' : 'Admin recognized...',
+            state.lang === 'ar' ? `نسبة التطابق البيومتري: ${matchPct}%` : `Biometric match: ${matchPct}%`,
+            70 + matchStreak * 15
+          );
+
+          if (matchStreak >= 2) {
+            if (mode === 'login') {
+              state.isAdminUnlocked = true;
+              state.unlockMethod = 'faceid';
+            }
+            showFaceSuccessState(
+              state.lang === 'ar' ? 'مرحباً أيها المدير — تم التحقق!' : 'Verified — Welcome Admin!',
+              state.lang === 'ar' ? `نسبة تطابق وجهك: ${matchPct}%` : `Face match score: ${matchPct}%`,
+              `✓ تطابق ${matchPct}%`,
+              () => {
+                renderAdminView();
+                renderCards();
+                renderComments();
+                updateAdminBadges();
+                showToast(state.lang === 'ar' ? `تم الدخول ببصمة الوجه (${matchPct}%)` : `Unlocked via Face ID (${matchPct}%)`);
+              }
+            );
+            return;
+          }
+        } else {
+          mismatchStreak += 1;
+          matchStreak = 0;
+          pill.textContent = state.lang === 'ar' ? `غير مطابق (${matchPct}%)` : `No Match (${matchPct}%)`;
+          pill.className = 'mt-1 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-[11px] font-bold text-rose-200 z-10';
+          setStatus(
+            state.lang === 'ar' ? 'التحقق من الوجه...' : 'Checking face...',
+            state.lang === 'ar' ? `نسبة التطابق ضعيفة (${matchPct}%) — المحاولة ${mismatchStreak}/6` : `Low match (${matchPct}%) — check ${mismatchStreak}/6`,
+            Math.min(90, 30 + mismatchStreak * 10)
+          );
+
+          if (mismatchStreak >= 6) {
+            showFaceErrorState(
+              state.lang === 'ar' ? 'مرفوض! وجه غير مسجّل' : 'Access Denied — Face Mismatch',
+              state.lang === 'ar' ? `هذا الوجه غير مطابق لبصمة المدير المسجلة (التطابق ${matchPct}% فقط).` : `This face does not match the enrolled admin (${matchPct}%).`,
+              `✕ مرفوض (${matchPct}%)`
+            );
+            return;
+          }
+        }
+
+        faceLoopTimer = setTimeout(scanStep, 350);
+      };
+
+      faceLoopTimer = setTimeout(scanStep, 300);
+    }
+
+    // ==============================
+    // 8. RENDERING FUNCTIONS
+    // ==============================
     function applyLanguage() {
-      const dict = I18N[state.lang];
+      const t = I18N[state.lang];
       document.documentElement.lang = state.lang;
-      document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
+      document.documentElement.dir = t.dir;
 
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (dict[key]) el.textContent = dict[key];
-      });
-      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-        const key = el.getAttribute("data-i18n-placeholder");
-        if (dict[key]) el.placeholder = dict[key];
+      // Update sidebar anchor side for mobile drawer
+      const sidebar = document.getElementById('sidebar');
+      if (t.dir === 'rtl') {
+        sidebar.style.right = '0';
+        sidebar.style.left = 'auto';
+      } else {
+        sidebar.style.left = '0';
+        sidebar.style.right = 'auto';
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
       });
 
-      document.querySelectorAll(".lang-btn").forEach(btn => {
-        const active = btn.getAttribute("data-lang") === state.lang;
-        btn.className = `lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition ${
-          active ? "bg-white text-slate-950 shadow" : "text-slate-300 hover:text-white"
-        }`;
+      document.getElementById('pageTitle').textContent = t.pageTitle;
+      document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        const active = btn.dataset.lang === state.lang;
+        btn.className = 'lang-btn px-2.5 lg:px-3 py-1 lg:py-1.5 rounded-lg lg:rounded-xl transition ' +
+          (active ? 'bg-violet-600 text-white shadow' : 'text-slate-400 hover:text-white');
       });
 
-      const stripMap = dict.stripLabels;
-      document.getElementById("verticalActiveLabel").textContent = stripMap[state.view] || state.view.toUpperCase();
-      renderAll();
+      updateAdminBadges();
+      renderBrands();
+      renderCards();
+      renderComments();
+      renderAdminView();
     }
 
-    function renderCounts() {
-      const screens = state.db.filter(x => x.type === "screen").length;
-      const glass = state.db.filter(x => x.type === "glass").length;
-      const cases = state.db.filter(x => x.type === "case").length;
+    function updateAdminBadges() {
+      const lockBadge = document.getElementById('adminLockBadge');
+      const topLabel = document.getElementById('topAdminBtnLabel');
+      const hasFace = Boolean(state.faceIdData && state.faceIdData.enrolled);
 
-      document.getElementById("countScreens").textContent = screens;
-      document.getElementById("countGlass").textContent = glass;
-      document.getElementById("countCases").textContent = cases;
-      document.getElementById("pendingBadge").textContent = state.pending.length;
+      if (state.isAdminUnlocked) {
+        lockBadge.textContent = '🔓';
+        lockBadge.className = 'hide-when-collapsed px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300';
+        topLabel.textContent = state.lang === 'ar' ? 'المدير متصل ✓' : (state.lang === 'fr' ? 'Admin connecté ✓' : 'Admin Unlocked ✓');
+      } else if (hasFace) {
+        lockBadge.textContent = 'Face ID';
+        lockBadge.className = 'hide-when-collapsed px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-500/25 text-violet-200';
+        topLabel.textContent = state.lang === 'ar' ? 'دخول المدير بـ Face ID' : (state.lang === 'fr' ? 'Admin Face ID' : 'Admin Face ID');
+      } else {
+        lockBadge.textContent = '🔒';
+        lockBadge.className = 'hide-when-collapsed px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-slate-300';
+        topLabel.textContent = state.lang === 'ar' ? 'دخول المدير (Face ID / كود)' : (state.lang === 'fr' ? 'Admin (Face ID / PIN)' : 'Admin (Face ID / PIN)');
+      }
+    }
 
-      document.getElementById("brandCountSamsung").textContent = state.db.filter(x => x.brand === "Samsung").length;
-      document.getElementById("brandCountXiaomi").textContent = state.db.filter(x => x.brand === "Xiaomi").length;
-      document.getElementById("brandCountInfinix").textContent = state.db.filter(x => x.brand === "Infinix").length;
-      document.getElementById("brandCountOppo").textContent = state.db.filter(x => x.brand === "Oppo").length;
+    function renderBrands() {
+      const container = document.getElementById('brandList');
+      const brands = ['ALL', 'Samsung', 'Xiaomi', 'Infinix', 'Apple', 'Oppo', 'Huawei'];
+      container.innerHTML = '';
 
-      document.getElementById("kpiTotalCount").textContent = state.db.length;
-      document.getElementById("kpiScreensCount").textContent = screens;
-      document.getElementById("kpiGlassCount").textContent = glass + cases;
-      document.getElementById("kpiPendingCount").textContent = state.pending.length;
+      brands.forEach(b => {
+        const count = b === 'ALL' ? state.entries.length : state.entries.filter(e => e.brand === b).length;
+        const active = state.brandFilter === b;
+        const btn = document.createElement('button');
+        btn.className = `brand-dot-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition ${active ? 'bg-white/15 text-white font-bold' : 'text-slate-300 hover:bg-white/5 hover:text-white'}`;
+        const dotColor = BRAND_COLORS[b] || '#a78bfa';
+        const label = b === 'ALL' ? (state.lang === 'ar' ? 'جميع العلامات' : (state.lang === 'fr' ? 'Toutes marques' : 'All Brands')) : b;
+        btn.innerHTML = `
+          <span class="flex items-center gap-2.5 truncate">
+            <span class="brand-dot w-2.5 h-2.5 rounded-full shrink-0" style="background:${dotColor}; color:${dotColor};"></span>
+            <span class="truncate">${label}</span>
+          </span>
+          <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-slate-300">${count}</span>
+        `;
+        btn.addEventListener('click', () => {
+          state.brandFilter = b;
+          if (state.view === 'comments' || state.view === 'admin') switchView('all');
+          renderBrands();
+          renderCards();
+          closeMobileSidebar();
+        });
+        container.appendChild(btn);
+      });
     }
 
     function renderCards() {
-      const grid = document.getElementById("cardsGrid");
-      const { clean, correctedFrom } = normalizeSearch(state.query);
-      const banner = document.getElementById("autoCorrectBanner");
-      if (correctedFrom) {
-        banner.classList.remove("hidden");
-        document.getElementById("autoCorrectText").textContent = `${I18N[state.lang].autoCorrected} "${correctedFrom}"`;
+      const grid = document.getElementById('cardsGrid');
+      const t = I18N[state.lang];
+      const norm = normalizeQuery(state.searchQuery);
+      const q = norm.corrected.toLowerCase();
+
+      // AI Correction Banner
+      const banner = document.getElementById('aiCorrectionBanner');
+      if (norm.changed) {
+        banner.classList.remove('hidden');
+        document.getElementById('aiCorrectionText').textContent =
+          state.lang === 'ar' ? `الذكاء الاصطناعي فهم قصدك: "${norm.corrected}"` :
+          (state.lang === 'fr' ? `L'IA a corrigé votre recherche : "${norm.corrected}"` : `AI understood: "${norm.corrected}"`);
+        document.getElementById('applyAiCorrectionBtn').textContent = norm.corrected.toUpperCase();
       } else {
-        banner.classList.add("hidden");
+        banner.classList.add('hidden');
       }
 
-      const filtered = state.db.filter(item => {
-        if (state.brand !== "ALL" && item.brand !== state.brand) return false;
-        if (state.type !== "ALL" && item.type !== state.type) return false;
-        if (!clean) return true;
-        const hay = `${item.brand} ${item.type} ${item.main} ${item.compatible.join(" ")}`.toLowerCase();
-        return clean.split(/\s+/).every(tok => hay.includes(tok));
+      const filtered = state.entries.filter(item => {
+        if (['screen', 'case', 'glass'].includes(state.view) && item.type !== state.view) return false;
+        if (state.brandFilter !== 'ALL' && item.brand !== state.brandFilter) return false;
+        if (!q) return true;
+        const hay = (item.brand + ' ' + item.models.join(' ') + ' ' + item.note).toLowerCase();
+        return q.split(' ').every(tok => hay.includes(tok));
       });
 
-      document.getElementById("resultsCountLabel").textContent = filtered.length;
-      if (!filtered.length) {
-        grid.innerHTML = `<div class="col-span-full glass-card rounded-2xl p-6 text-center text-xs text-slate-400">${I18N[state.lang].noResults}</div>`;
+      document.getElementById('resultsCount').textContent = filtered.length;
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full glass-panel rounded-3xl p-8 text-center">
+            <div class="text-3xl mb-2">🔍</div>
+            <div class="font-bold text-white text-sm">${state.lang === 'ar' ? 'ما لقيناش نتيجة مطابقة — جرب تسول المساعد الذكي AI!' : 'No matching models found — try asking the AI Assistant!'}</div>
+          </div>
+        `;
         return;
       }
 
-      const typeBadgeColor = {
-        screen: "bg-sky-500/20 text-sky-300 border-sky-400/25",
-        glass: "bg-amber-500/20 text-amber-300 border-amber-400/25",
-        case: "bg-emerald-500/20 text-emerald-300 border-emerald-400/25"
-      };
+      filtered.forEach(item => {
+        const typeColor = item.type === 'screen' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30'
+          : item.type === 'case' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30'
+          : 'bg-amber-500/20 text-amber-300 border-amber-400/30';
 
-      grid.innerHTML = filtered.map(item => {
-        const noteText = typeof item.note === "string" ? item.note : (item.note[state.lang] || item.note.ar);
-        const typeLabel = item.type === "screen" ? I18N[state.lang].typeScreen : item.type === "glass" ? I18N[state.lang].typeGlass : I18N[state.lang].typeCase;
-        return `
-          <article class="glass-card rounded-2xl p-4 flex flex-col justify-between gap-3 transition">
-            <div class="space-y-2.5">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${typeBadgeColor[item.type] || typeBadgeColor.screen}">${typeLabel}</span>
-                <span class="text-[11px] font-semibold text-slate-400">${item.brand}</span>
-              </div>
-              <h3 class="text-sm font-extrabold text-white leading-snug">${item.main}</h3>
-              <div class="flex flex-wrap gap-1.5">
-                ${item.compatible.map(c => `<span class="text-[11px] px-2 py-0.5 rounded-lg bg-white/10 text-slate-100 border border-white/10">${c}</span>`).join("")}
-              </div>
-              <p class="text-[11px] text-slate-300/85 leading-relaxed">${noteText}</p>
+        const card = document.createElement('article');
+        card.className = 'glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3.5';
+        card.innerHTML = `
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-xl border text-[11px] font-bold ${typeColor}">${t.typeLabels[item.type] || item.type}</span>
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full" style="background:${BRAND_COLORS[item.brand] || '#a78bfa'}"></span>
+                ${item.brand}
+              </span>
             </div>
-            <div class="pt-2 border-t border-white/10 flex items-center justify-end">
-              <button data-copy-id="${item.id}" class="copy-wa-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[11px] font-bold transition">
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                <span>${I18N[state.lang].copyWa}</span>
-              </button>
+            <div class="flex flex-wrap gap-1.5">
+              ${item.models.map(m => `<span class="px-2.5 py-1 rounded-xl bg-white/10 text-white text-xs font-bold border border-white/10">${m}</span>`).join('')}
             </div>
-          </article>
+            ${item.note ? `<p class="text-xs text-slate-300 leading-relaxed bg-slate-950/50 rounded-2xl p-2.5 border border-white/5">${item.note}</p>` : ''}
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-white/10">
+            <button class="copy-wa-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 text-emerald-300 text-xs font-bold transition">
+              <span>📋</span><span>${t.copyWa}</span>
+            </button>
+            ${state.isAdminUnlocked ? `<button class="delete-entry-btn px-2.5 py-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-xs font-bold transition">🗑️</button>` : ''}
+          </div>
         `;
-      }).join("");
 
-      grid.querySelectorAll(".copy-wa-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const item = state.db.find(x => x.id === btn.getAttribute("data-copy-id"));
-          if (!item) return;
-          const noteText = typeof item.note === "string" ? item.note : (item.note[state.lang] || item.note.ar);
-          const msg = `📱 *${item.main}*\n✅ ${item.compatible.join(" | ")}\n💡 ${noteText}`;
+        card.querySelector('.copy-wa-btn').addEventListener('click', () => {
+          const msg = `📱 ${t.typeLabels[item.type]} (${item.brand})\n✅ المتوافقين: ${item.models.join(' / ')}\n📝 ${item.note || ''}`;
           copyText(msg);
         });
-      });
-      lucide.createIcons();
-    }
 
-    function renderChart() {
-      const ctx = document.getElementById("compatChart");
-      if (!ctx) return;
-      const brands = ["Samsung", "Xiaomi", "Infinix", "Oppo"];
-      const counts = brands.map(b => state.db.filter(x => x.brand === b).length);
-      if (chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: brands,
-          datasets: [{
-            data: counts,
-            backgroundColor: ["#fbbf24", "#f97316", "#34d399", "#fb7185"],
-            borderColor: "rgba(15, 23, 42, 0.8)",
-            borderWidth: 3
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: { color: "#cbd5e1", font: { size: 11 } }
-            }
-          }
+        const delBtn = card.querySelector('.delete-entry-btn');
+        if (delBtn) {
+          delBtn.addEventListener('click', () => {
+            state.entries = state.entries.filter(x => x.id !== item.id);
+            safeSet(STORAGE_KEYS.entries, state.entries);
+            renderBrands();
+            renderCards();
+            showToast(state.lang === 'ar' ? 'تم حذف المجموعة' : 'Deleted');
+          });
         }
+
+        grid.appendChild(card);
       });
     }
 
-    function renderPendingLists() {
-      const dict = I18N[state.lang];
-      const commEl = document.getElementById("communityPendingList");
-      const adminEl = document.getElementById("adminPendingList");
+    function renderComments() {
+      const list = document.getElementById('commentsList');
+      const pendingCount = state.comments.filter(c => !c.approved).length;
+      document.getElementById('commentsCountBadge').textContent = pendingCount;
+      list.innerHTML = '';
 
-      const emptyHtml = `<div class="text-xs text-slate-400 py-4 text-center">${dict.noPending}</div>`;
-      if (!state.pending.length) {
-        commEl.innerHTML = emptyHtml;
-        adminEl.innerHTML = emptyHtml;
+      state.comments.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'glass-card rounded-3xl p-4 flex flex-col justify-between gap-3';
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <div class="font-bold text-sm text-white">${c.name} <span class="text-xs text-slate-400 font-normal">• ${c.city}</span></div>
+              <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${c.approved ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${c.approved ? '✓ معتمد' : 'قيد المراجعة'}</span>
+            </div>
+            <div class="text-xs font-bold text-violet-300 mb-1.5">${c.brand} • ${I18N[state.lang].typeLabels[c.type] || c.type}</div>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              ${c.models.map(m => `<span class="px-2 py-0.5 rounded-lg bg-white/10 text-xs text-white font-semibold">${m}</span>`).join('')}
+            </div>
+            ${c.note ? `<p class="text-xs text-slate-300">${c.note}</p>` : ''}
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-white/10">
+            <button class="like-btn px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-slate-200 transition">👍 ${c.likes}</button>
+            ${state.isAdminUnlocked && !c.approved ? `<button class="approve-inline-btn px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">✅ إضافة للقاعدة</button>` : ''}
+          </div>
+        `;
+        card.querySelector('.like-btn').addEventListener('click', () => {
+          c.likes += 1;
+          safeSet(STORAGE_KEYS.comments, state.comments);
+          renderComments();
+        });
+        const appBtn = card.querySelector('.approve-inline-btn');
+        if (appBtn) {
+          appBtn.addEventListener('click', () => approveSuggestion(c.id));
+        }
+        list.appendChild(card);
+      });
+    }
+
+    function approveSuggestion(commentId) {
+      const c = state.comments.find(x => x.id === commentId);
+      if (!c || c.approved) return;
+      c.approved = true;
+      state.entries.unshift({
+        id: 'e_' + Date.now(),
+        type: c.type,
+        brand: c.brand || 'Samsung',
+        models: c.models,
+        note: c.note ? `${c.note} (${c.name})` : c.name
+      });
+      safeSet(STORAGE_KEYS.entries, state.entries);
+      safeSet(STORAGE_KEYS.comments, state.comments);
+      renderBrands();
+      renderCards();
+      renderComments();
+      renderAdminView();
+      showToast(state.lang === 'ar' ? 'تمت الموافقة وإضافة التوافق للقاعدة!' : 'Approved & added to database!');
+    }
+
+    function renderAdminView() {
+      const lockedView = document.getElementById('adminLockedView');
+      const unlockedView = document.getElementById('adminUnlockedView');
+      const faceBox = document.getElementById('faceIdLoginBox');
+      const hasFace = Boolean(state.faceIdData && state.faceIdData.enrolled);
+
+      if (!state.isAdminUnlocked) {
+        lockedView.classList.remove('hidden');
+        unlockedView.classList.add('hidden');
+        faceBox.classList.toggle('hidden', !hasFace);
+        if (hasFace) {
+          const modeTxt = state.faceIdData.mode === 'real_128d' ? 'AI 128D Real' : 'Face ID';
+          document.getElementById('enrolledFaceLabel').textContent =
+            state.lang === 'ar' ? `✓ بصمة وجه المدير مسجلة (${modeTxt})` :
+            (state.lang === 'fr' ? `✓ Face ID enregistré (${modeTxt})` : `✓ Admin Face ID enrolled (${modeTxt})`);
+        }
         return;
       }
 
-      commEl.innerHTML = state.pending.map(p => `
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-3 space-y-1">
-          <div class="flex items-center justify-between text-xs font-bold text-white">
-            <span>${p.main}</span>
-            <span class="text-[10px] text-amber-300">${p.brand}</span>
-          </div>
-          <div class="text-[11px] text-sky-200">${p.compatible.join(", ")}</div>
-        </div>
-      `).join("");
+      lockedView.classList.add('hidden');
+      unlockedView.classList.remove('hidden');
 
-      adminEl.innerHTML = state.pending.map(p => `
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <div class="text-xs font-bold text-white">${p.main} <span class="text-amber-300">(${p.brand})</span></div>
-            <div class="text-[11px] text-sky-200">${p.compatible.join(", ")}</div>
-          </div>
-          <div class="flex gap-2">
-            <button data-approve="${p.id}" class="approve-btn px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[11px]">${dict.approveBtn}</button>
-            <button data-reject="${p.id}" class="reject-btn px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-bold text-[11px]">${dict.rejectBtn}</button>
-          </div>
-        </div>
-      `).join("");
+      // Welcome Banner details
+      const welcomeTitle = document.getElementById('adminWelcomeTitle');
+      const unlockSub = document.getElementById('adminUnlockMethodSub');
+      if (state.unlockMethod === 'faceid') {
+        welcomeTitle.textContent = state.lang === 'ar' ? 'تم الدخول ببصمة الوجه — مرحباً أيها المدير' : (state.lang === 'fr' ? 'Connecté via Face ID — Admin' : 'Signed in as Admin via Face ID');
+        unlockSub.textContent = state.lang === 'ar' ? 'تم فتح لوحة تحكم توافق الشاشات ببصمة وجهك بنجاح.' : (state.lang === 'fr' ? 'Votre visage a déverrouillé le tableau de bord.' : 'Your face unlocked the compatibility dashboard.');
+      } else {
+        welcomeTitle.textContent = state.lang === 'ar' ? 'مرحباً أيها المدير (دخول بالكود)' : (state.lang === 'fr' ? 'Connecté par PIN — Admin' : 'Signed in as Admin (PIN)');
+        unlockSub.textContent = hasFace
+          ? (state.lang === 'ar' ? 'بصمة الوجه ديالك مسجلة وجاهزة للدخول السريع.' : 'Your Face ID is enrolled and ready.')
+          : (state.lang === 'ar' ? 'سجل بصمة الوجه ديالك لتحت باش تولي تدخل بها مباشرة.' : 'Enroll your Face ID below for one-tap biometric unlock.');
+      }
 
-      adminEl.querySelectorAll(".approve-btn").forEach(b => {
-        b.addEventListener("click", () => {
-          const id = b.getAttribute("data-approve");
-          const idx = state.pending.findIndex(x => x.id === id);
-          if (idx > -1) {
-            const item = state.pending.splice(idx, 1)[0];
-            state.db.unshift(item);
-            saveStorage();
-            renderAll();
-          }
+      // Face ID status pill & buttons
+      const pill = document.getElementById('faceStatusPill');
+      const testBtn = document.getElementById('testFaceIdBtn');
+      const removeBtn = document.getElementById('removeFaceIdBtn');
+      if (hasFace) {
+        pill.textContent = state.lang === 'ar' ? 'مفعّلة ✓' : (state.lang === 'fr' ? 'Actif ✓' : 'Enrolled ✓');
+        pill.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30';
+        testBtn.classList.remove('hidden');
+        removeBtn.classList.remove('hidden');
+      } else {
+        pill.textContent = state.lang === 'ar' ? 'غير مسجلة' : (state.lang === 'fr' ? 'Non enregistré' : 'Not enrolled');
+        pill.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300';
+        testBtn.classList.add('hidden');
+        removeBtn.classList.add('hidden');
+      }
+
+      // Pending suggestions inside admin panel
+      const pendingList = document.getElementById('adminPendingList');
+      const pending = state.comments.filter(c => !c.approved);
+      pendingList.innerHTML = '';
+      if (pending.length === 0) {
+        pendingList.innerHTML = `<div class="text-xs text-slate-400">${state.lang === 'ar' ? 'لا توجد اقتراحات جديدة حالياً.' : 'No pending suggestions.'}</div>`;
+      } else {
+        pending.forEach(c => {
+          const row = document.createElement('div');
+          row.className = 'rounded-2xl bg-slate-950/60 border border-white/10 p-3 flex flex-wrap items-center justify-between gap-2';
+          row.innerHTML = `
+            <div class="text-xs">
+              <div class="font-bold text-white">${c.brand}: ${c.models.join(' / ')}</div>
+              <div class="text-slate-400 mt-0.5">${c.name} (${c.city}) — ${c.note || ''}</div>
+            </div>
+            <button class="approve-btn px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">✅ موافقة وإضافة</button>
+          `;
+          row.querySelector('.approve-btn').addEventListener('click', () => approveSuggestion(c.id));
+          pendingList.appendChild(row);
         });
-      });
-
-      adminEl.querySelectorAll(".reject-btn").forEach(b => {
-        b.addEventListener("click", () => {
-          const id = b.getAttribute("data-reject");
-          state.pending = state.pending.filter(x => x.id !== id);
-          saveStorage();
-          renderAll();
-        });
-      });
+      }
     }
 
     function switchView(viewName) {
       state.view = viewName;
-      if (viewName === "screens") state.type = "screen";
-      else if (viewName === "glass") state.type = "glass";
-      else if (viewName === "cases") state.type = "case";
-      else if (viewName === "home") state.type = "ALL";
-      document.getElementById("typeSelect").value = state.type;
-
-      document.getElementById("viewHome").classList.toggle("hidden", !["home", "screens", "glass", "cases"].includes(viewName));
-      document.getElementById("viewCommunity").classList.toggle("hidden", viewName !== "community");
-      document.getElementById("viewAdmin").classList.toggle("hidden", viewName !== "admin");
-
-      document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.classList.toggle("nav-active", btn.getAttribute("data-view") === viewName);
-      });
-
-      document.getElementById("verticalActiveLabel").textContent = I18N[state.lang].stripLabels[viewName] || viewName.toUpperCase();
-      renderCards();
-    }
-
-    function renderAll() {
-      renderCounts();
-      renderCards();
-      renderChart();
-      renderPendingLists();
-      lucide.createIcons();
-    }
-
-    // ---------- 6. EVENT LISTENERS ----------
-    function initEvents() {
-      // Clone lang buttons for mobile
-      document.getElementById("mobileLangBar").innerHTML = document.getElementById("desktopLangBar").innerHTML;
-      document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          state.lang = btn.getAttribute("data-lang");
-          saveStorage();
-          applyLanguage();
-        });
-      });
-
-      // Sidebar collapse
-      document.getElementById("collapseSidebarBtn").addEventListener("click", () => {
-        state.collapsed = !state.collapsed;
-        const sb = document.getElementById("glassSidebar");
-        sb.classList.toggle("sidebar-collapsed", state.collapsed);
-        sb.classList.toggle("w-72", !state.collapsed);
-        sb.classList.toggle("w-20", state.collapsed);
-      });
-
-      // Mobile drawer
-      const sidebarCont = document.getElementById("sidebarContainer");
-      const backdrop = document.getElementById("mobileBackdrop");
-      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
-        sidebarCont.classList.remove("hidden");
-        sidebarCont.classList.add("flex");
-        backdrop.classList.remove("hidden");
-      });
-      backdrop.addEventListener("click", () => {
-        sidebarCont.classList.add("hidden");
-        sidebarCont.classList.remove("flex");
-        backdrop.classList.add("hidden");
-      });
-
-      // Nav buttons
-      document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          switchView(btn.getAttribute("data-view"));
-          if (window.innerWidth < 1024) backdrop.click();
-        });
-      });
-
-      // Submenu toggle
-      document.getElementById("glassDropdownToggle").addEventListener("click", () => {
-        document.getElementById("glassSubmenu").classList.toggle("hidden");
-        document.getElementById("glassChevron").classList.toggle("rotate-180");
-      });
-
-      // Brand quick filter dots
-      document.querySelectorAll(".brand-dot-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const b = btn.getAttribute("data-brand");
-          state.brand = state.brand === b ? "ALL" : b;
-          document.getElementById("brandSelect").value = state.brand;
-          switchView("home");
-        });
-      });
-
-      // Search inputs sync + Cmd/Ctrl+K
-      const mainSearch = document.getElementById("mainSearchInput");
-      const sideSearch = document.getElementById("sidebarSearchInput");
-      const clearBtn = document.getElementById("clearSearchBtn");
-
-      function handleSearchInput(val) {
-        state.query = val;
-        mainSearch.value = val;
-        sideSearch.value = val;
-        clearBtn.classList.toggle("hidden", !val);
-        if (!["home", "screens", "glass", "cases"].includes(state.view)) switchView("home");
-        else renderCards();
-      }
-      mainSearch.addEventListener("input", e => handleSearchInput(e.target.value));
-      sideSearch.addEventListener("input", e => handleSearchInput(e.target.value));
-      clearBtn.addEventListener("click", () => handleSearchInput(""));
-
-      document.addEventListener("keydown", e => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-          e.preventDefault();
-          mainSearch.focus();
-        }
-      });
-
-      document.getElementById("brandSelect").addEventListener("change", e => {
-        state.brand = e.target.value;
-        renderCards();
-      });
-      document.getElementById("typeSelect").addEventListener("change", e => {
-        state.type = e.target.value;
-        renderCards();
-      });
-
-      // Community Suggestion Submit
-      document.getElementById("suggestForm").addEventListener("submit", e => {
-        e.preventDefault();
-        const item = {
-          id: "sug-" + Date.now(),
-          brand: document.getElementById("sugBrand").value,
-          type: document.getElementById("sugType").value,
-          main: document.getElementById("sugMain").value.trim(),
-          compatible: document.getElementById("sugCompat").value.split(",").map(s => s.trim()).filter(Boolean),
-          note: document.getElementById("sugNote").value.trim() || "Verified by technician"
-        };
-        state.pending.unshift(item);
-        saveStorage();
-        e.target.reset();
-        renderAll();
-        showToast("OK!");
-      });
-
-      // Admin PIN & Backup
-      document.getElementById("adminUnlockBtn").addEventListener("click", () => {
-        if (document.getElementById("adminPinInput").value === "1234") {
-          state.adminUnlocked = true;
-          document.getElementById("adminLockedBox").classList.add("hidden");
-          document.getElementById("adminUnlockedBox").classList.remove("hidden");
+      document.querySelectorAll('#mainNav .nav-item').forEach(btn => {
+        const isActive = btn.dataset.view === viewName;
+        btn.classList.toggle('active-pill', isActive);
+        if (!isActive) {
+          btn.classList.add('text-slate-300');
         } else {
-          showToast("PIN incorrect (1234)");
+          btn.classList.remove('text-slate-300');
         }
       });
-      document.getElementById("adminLockBtn").addEventListener("click", () => {
-        state.adminUnlocked = false;
-        document.getElementById("adminPinInput").value = "";
-        document.getElementById("adminLockedBox").classList.remove("hidden");
-        document.getElementById("adminUnlockedBox").classList.add("hidden");
-      });
 
-      function downloadBackup() {
-        const blob = new Blob([JSON.stringify({ db: state.db, pending: state.pending }, null, 2)], { type: "application/json" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "nourtech-compatibility-backup.json";
-        a.click();
-      }
-      document.getElementById("adminExportBtn").addEventListener("click", downloadBackup);
-      document.getElementById("exportJsonSidebarBtn").addEventListener("click", downloadBackup);
-      document.getElementById("stripExportBtn").addEventListener("click", downloadBackup);
+      document.getElementById('catalogSection').classList.toggle('hidden', viewName === 'comments' || viewName === 'admin');
+      document.getElementById('commentsSection').classList.toggle('hidden', viewName !== 'comments');
+      document.getElementById('adminSection').classList.toggle('hidden', viewName !== 'admin');
 
-      document.getElementById("adminImportInput").addEventListener("change", e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => {
-          try {
-            const parsed = JSON.parse(ev.target.result);
-            if (Array.isArray(parsed.db)) state.db = parsed.db;
-            if (Array.isArray(parsed.pending)) state.pending = parsed.pending;
-            saveStorage();
-            renderAll();
-            showToast("JSON Imported!");
-          } catch (err) { showToast("Invalid JSON"); }
-        };
-        reader.readAsText(file);
-      });
-
-      // Action strip & quick buttons
-      document.getElementById("quickSuggestBtn").addEventListener("click", () => switchView("community"));
-      document.getElementById("stripAddBtn").addEventListener("click", () => switchView("community"));
-      document.getElementById("openPinModalBtn").addEventListener("click", () => switchView("admin"));
-      document.getElementById("stripShareBtn").addEventListener("click", () => copyText(window.location.href));
-
-      // AI Drawer
-      const aiDrawer = document.getElementById("aiDrawer");
-      const aiMsgs = document.getElementById("aiChatMessages");
-      function openAi() {
-        aiDrawer.classList.remove("hidden");
-        if (!aiMsgs.innerHTML.trim()) {
-          aiMsgs.innerHTML = `<div class="p-3 rounded-2xl bg-white/10 text-slate-100">${I18N[state.lang].aiWelcome}</div>`;
-        }
-      }
-      document.getElementById("openAiDrawerBtn").addEventListener("click", openAi);
-      document.getElementById("stripAiBtn").addEventListener("click", openAi);
-      document.getElementById("closeAiDrawerBtn").addEventListener("click", () => aiDrawer.classList.add("hidden"));
-      document.getElementById("aiDrawerBackdrop").addEventListener("click", () => aiDrawer.classList.add("hidden"));
-
-      document.getElementById("aiChatForm").addEventListener("submit", e => {
-        e.preventDefault();
-        const inp = document.getElementById("aiChatInput");
-        const q = inp.value.trim();
-        if (!q) return;
-        inp.value = "";
-        aiMsgs.innerHTML += `<div class="p-3 rounded-2xl bg-sky-500/20 border border-sky-400/25 text-white ms-6">${q}</div>`;
-
-        const { clean } = normalizeSearch(q);
-        const matches = state.db.filter(item => {
-          const hay = `${item.brand} ${item.main} ${item.compatible.join(" ")}`.toLowerCase();
-          return clean.split(/\s+/).some(tok => tok.length > 1 && hay.includes(tok));
-        }).slice(0, 2);
-
-        let reply = I18N[state.lang].noResults;
-        if (matches.length) {
-          reply = matches.map(m => {
-            const nt = typeof m.note === "string" ? m.note : (m.note[state.lang] || m.note.ar);
-            return `<strong>${m.main}</strong><br/>✅ ${m.compatible.join(", ")}<br/>💡 ${nt}`;
-          }).join("<hr class='my-2 border-white/10'/>");
-        }
-        aiMsgs.innerHTML += `<div class="p-3 rounded-2xl bg-white/10 text-slate-100 me-6 leading-relaxed">${reply}</div>`;
-        aiMsgs.scrollTop = aiMsgs.scrollHeight;
-      });
+      if (['all', 'screen', 'case', 'glass'].includes(viewName)) renderCards();
+      if (viewName === 'comments') renderComments();
+      if (viewName === 'admin') renderAdminView();
+      closeMobileSidebar();
     }
 
-    // ---------- 7. BOOT ----------
-    loadStorage();
-    initEvents();
+    // ==============================
+    // 9. MOBILE SIDEBAR & AI DRAWER
+    // ==============================
+    function openMobileSidebar() {
+      const sb = document.getElementById('sidebar');
+      sb.classList.remove('translate-x-full', '-translate-x-full');
+      document.getElementById('mobileBackdrop').classList.remove('hidden');
+    }
+    function closeMobileSidebar() {
+      if (window.innerWidth >= 1024) return;
+      const sb = document.getElementById('sidebar');
+      sb.classList.add(I18N[state.lang].dir === 'rtl' ? 'translate-x-full' : '-translate-x-full');
+      document.getElementById('mobileBackdrop').classList.add('hidden');
+    }
+
+    function openAiDrawer() {
+      const d = document.getElementById('aiDrawer');
+      d.classList.remove('-translate-x-full', 'translate-x-full');
+      document.getElementById('aiDrawerBackdrop').classList.remove('hidden');
+    }
+    function closeAiDrawer() {
+      const d = document.getElementById('aiDrawer');
+      d.classList.add(I18N[state.lang].dir === 'rtl' ? '-translate-x-full' : 'translate-x-full');
+      document.getElementById('aiDrawerBackdrop').classList.add('hidden');
+    }
+
+    function addAiMessage(role, text) {
+      const box = document.getElementById('aiMessages');
+      const div = document.createElement('div');
+      div.className = role === 'user'
+        ? 'self-end max-w-[85%] rounded-2xl bg-violet-600 text-white px-3.5 py-2.5 text-xs sm:text-sm'
+        : 'self-start max-w-[90%] rounded-2xl bg-white/10 border border-white/10 text-slate-100 px-3.5 py-2.5 text-xs sm:text-sm whitespace-pre-line';
+      div.textContent = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function answerAiQuestion(qRaw) {
+      const norm = normalizeQuery(qRaw);
+      const q = norm.corrected.toLowerCase();
+      const tokens = q.split(/\s+/).filter(w => w.length >= 2);
+      const matches = state.entries.filter(item => {
+        const hay = (item.brand + ' ' + item.models.join(' ')).toLowerCase();
+        return tokens.some(tok => hay.includes(tok));
+      }).slice(0, 4);
+
+      if (matches.length === 0) {
+        return state.lang === 'ar'
+          ? 'ما لقيتش هاد الموديل بالضبط فالقاعدة دابا. جرب تكتب غير الرقم (مثلاً: A12، 9A، Hot 10) أو زيدو من لوحة المدير!'
+          : 'No exact match found. Try a shorter model code (e.g. A12, 9A, Hot 10).';
+      }
+      return matches.map(m =>
+        `• [${I18N[state.lang].typeLabels[m.type]}] ${m.brand}:\n  ${m.models.join(' ⟷ ')}\n  📝 ${m.note}`
+      ).join('\n\n');
+    }
+
+    // ==============================
+    // 10. EVENT LISTENERS
+    // ==============================
+    document.querySelectorAll('#mainNav .nav-item').forEach(btn => {
+      btn.addEventListener('click', () => switchView(btn.dataset.view));
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.lang = btn.dataset.lang;
+        safeSet(STORAGE_KEYS.lang, state.lang);
+        applyLanguage();
+      });
+    });
+
+    document.getElementById('collapseSidebarBtn').addEventListener('click', () => {
+      state.sidebarCollapsed = !state.sidebarCollapsed;
+      document.getElementById('sidebar').classList.toggle('sidebar-collapsed', state.sidebarCollapsed);
+      document.getElementById('collapseIcon').classList.toggle('rotate-180', state.sidebarCollapsed);
+    });
+
+    document.getElementById('mobileMenuBtn').addEventListener('click', openMobileSidebar);
+    document.getElementById('mobileBackdrop').addEventListener('click', closeMobileSidebar);
+
+    document.getElementById('topAdminBtn').addEventListener('click', () => {
+      switchView('admin');
+      if (!state.isAdminUnlocked && state.faceIdData && state.faceIdData.enrolled) {
+        openFaceIdSheet({ mode: 'login' });
+      }
+    });
+    document.getElementById('mobileAdminFaceBtn').addEventListener('click', () => {
+      switchView('admin');
+      if (!state.isAdminUnlocked && state.faceIdData && state.faceIdData.enrolled) {
+        openFaceIdSheet({ mode: 'login' });
+      }
+    });
+
+    // Search & Cmd+K
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      state.searchQuery = searchInput.value;
+      document.getElementById('clearSearchBtn').classList.toggle('hidden', !state.searchQuery);
+      renderCards();
+    });
+    document.getElementById('clearSearchBtn').addEventListener('click', () => {
+      searchInput.value = '';
+      state.searchQuery = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderCards();
+    });
+    document.getElementById('applyAiCorrectionBtn').addEventListener('click', () => {
+      const norm = normalizeQuery(state.searchQuery);
+      searchInput.value = norm.corrected;
+      state.searchQuery = norm.corrected;
+      renderCards();
+    });
+    document.querySelectorAll('.quick-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        searchInput.value = chip.dataset.q;
+        state.searchQuery = chip.dataset.q;
+        document.getElementById('clearSearchBtn').classList.remove('hidden');
+        renderCards();
+      });
+    });
+    document.getElementById('cmdKBtn').addEventListener('click', () => {
+      switchView('all');
+      searchInput.focus();
+    });
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        switchView('all');
+        searchInput.focus();
+      }
+    });
+
+    // Comments submission
+    document.getElementById('commentForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const models = document.getElementById('cModels').value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!models.length) return;
+      state.comments.unshift({
+        id: 'c_' + Date.now(),
+        name: document.getElementById('cName').value.trim(),
+        city: document.getElementById('cCity').value.trim(),
+        type: document.getElementById('cType').value,
+        brand: document.getElementById('cBrand').value.trim(),
+        models,
+        note: document.getElementById('cNote').value.trim(),
+        likes: 1,
+        approved: false
+      });
+      safeSet(STORAGE_KEYS.comments, state.comments);
+      e.target.reset();
+      renderComments();
+      showToast(state.lang === 'ar' ? 'تم إرسال اقتراحك بنجاح!' : 'Suggestion submitted!');
+    });
+
+    // Admin PIN Login
+    document.getElementById('pinLoginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entered = document.getElementById('adminPinInput').value.trim();
+      const errEl = document.getElementById('pinErrorMsg');
+      if (entered === String(state.adminPin)) {
+        errEl.classList.add('hidden');
+        document.getElementById('adminPinInput').value = '';
+        state.isAdminUnlocked = true;
+        state.unlockMethod = 'pin';
+        renderAdminView();
+        renderCards();
+        renderComments();
+        updateAdminBadges();
+        showToast(state.lang === 'ar' ? 'تم الدخول كمدير بنجاح!' : 'Admin unlocked!');
+      } else {
+        errEl.textContent = state.lang === 'ar' ? 'الكود السري غير صحيح! (الافتراضي 1234)' : 'Wrong PIN! (Default: 1234)';
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    // Face ID Triggers
+    document.getElementById('startFaceIdLoginBtn').addEventListener('click', () => openFaceIdSheet({ mode: 'login' }));
+    document.getElementById('enrollFaceIdBtn').addEventListener('click', () => openFaceIdSheet({ mode: 'enroll' }));
+    document.getElementById('testFaceIdBtn').addEventListener('click', () => openFaceIdSheet({ mode: 'test' }));
+    document.getElementById('removeFaceIdBtn').addEventListener('click', () => {
+      state.faceIdData = null;
+      safeSet(STORAGE_KEYS.faceId, null);
+      renderAdminView();
+      updateAdminBadges();
+      showToast(state.lang === 'ar' ? 'تم حذف بصمة الوجه المسجلة' : 'Face ID removed');
+    });
+    document.getElementById('closeFaceModalBtn').addEventListener('click', closeFaceIdSheet);
+    document.getElementById('retryFaceBtn').addEventListener('click', () => openFaceIdSheet({ mode: activeFaceMode }));
+    document.getElementById('usePinInsteadBtn').addEventListener('click', () => {
+      closeFaceIdSheet();
+      document.getElementById('adminPinInput').focus();
+    });
+
+    // Admin Logout
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      state.isAdminUnlocked = false;
+      renderAdminView();
+      renderCards();
+      renderComments();
+      updateAdminBadges();
+      showToast(state.lang === 'ar' ? 'تم تسجيل الخروج' : 'Signed out');
+    });
+
+    // Change PIN
+    document.getElementById('changePinForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const np = document.getElementById('newPinInput').value.trim();
+      if (np.length < 4) return;
+      state.adminPin = np;
+      safeSet(STORAGE_KEYS.pin, np);
+      document.getElementById('newPinInput').value = '';
+      showToast(state.lang === 'ar' ? 'تم تحديث الكود السري بنجاح!' : 'PIN updated!');
+    });
+
+    // Add Compatibility Entry
+    document.getElementById('addEntryForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const models = document.getElementById('aModels').value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!models.length) return;
+      state.entries.unshift({
+        id: 'e_' + Date.now(),
+        type: document.getElementById('aType').value,
+        brand: document.getElementById('aBrand').value,
+        models,
+        note: document.getElementById('aNote').value.trim()
+      });
+      safeSet(STORAGE_KEYS.entries, state.entries);
+      e.target.reset();
+      renderBrands();
+      renderCards();
+      showToast(state.lang === 'ar' ? 'تمت إضافة المجموعة للقاعدة!' : 'Entry added!');
+    });
+
+    // Export / Import JSON Backup
+    document.getElementById('exportJsonBtn').addEventListener('click', () => {
+      const payload = { entries: state.entries, comments: state.comments, faceIdData: state.faceIdData, exportedAt: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'glassy-compat-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(state.lang === 'ar' ? 'تم تحميل النسخة الاحتياطية JSON' : 'JSON backup downloaded');
+    });
+
+    document.getElementById('importJsonInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (Array.isArray(parsed.entries)) {
+            state.entries = parsed.entries;
+            safeSet(STORAGE_KEYS.entries, state.entries);
+          }
+          if (Array.isArray(parsed.comments)) {
+            state.comments = parsed.comments;
+            safeSet(STORAGE_KEYS.comments, state.comments);
+          }
+          if (parsed.faceIdData && Array.isArray(parsed.faceIdData.descriptors)) {
+            state.faceIdData = parsed.faceIdData;
+            safeSet(STORAGE_KEYS.faceId, state.faceIdData);
+          }
+          renderBrands();
+          renderCards();
+          renderComments();
+          renderAdminView();
+          showToast(state.lang === 'ar' ? 'تم استيراد البيانات بنجاح!' : 'Backup imported!');
+        } catch (err) {
+          showToast(state.lang === 'ar' ? 'ملف JSON غير صالح' : 'Invalid JSON file');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // AI Drawer
+    document.getElementById('openAiDrawerBtn').addEventListener('click', openAiDrawer);
+    document.getElementById('closeAiDrawerBtn').addEventListener('click', closeAiDrawer);
+    document.getElementById('aiDrawerBackdrop').addEventListener('click', closeAiDrawer);
+    document.getElementById('aiForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const inp = document.getElementById('aiInput');
+      const q = inp.value.trim();
+      if (!q) return;
+      addAiMessage('user', q);
+      inp.value = '';
+      setTimeout(() => addAiMessage('ai', answerAiQuestion(q)), 250);
+    });
+
+    // ==============================
+    // 11. INIT
+    // ==============================
+    document.getElementById('visitorCount').textContent = visits.toLocaleString();
+    document.getElementById('onlineCount').textContent = 12 + (visits % 9);
+    addAiMessage('ai', 'مرحباً بك! سولني على أي موديل (مثلاً: واش أفشور A12 كيركب لـ A02؟) وغادي نجبد ليك التوافق فوراً.');
     applyLanguage();
   </script>
 </body>
